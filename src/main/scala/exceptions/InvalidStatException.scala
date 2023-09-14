@@ -17,10 +17,10 @@ package exceptions
  *
  * @param details A descriptive message detailing the nature of the invalid stat.
  *
+ * @author [[https://github.com/Dagt07/ David García T.]]
  * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
  * @author [[https://github.com/joelriquelme/ Joel Riquelme P.]]
  * @author [[https://github.com/r8vnhill/ Ignacio Slater M.]]
  * @author [[https://github.com/Seivier/ Vicente González B.]]
- * @author [[https://github.com/~Your github account~/ ~Your Name~]]
  */
 class InvalidStatException(details: String) extends Exception(s"An invalid stat was found -- $details")

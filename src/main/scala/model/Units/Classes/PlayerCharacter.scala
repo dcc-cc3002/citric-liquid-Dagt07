@@ -1,6 +1,7 @@
 package cl.uchile.dcc.citric
-package model
+package model.Units.Classes
 
+import model.Norm.Traits.normTrait
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -31,18 +32,33 @@ import scala.util.Random
   * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random`
   *                              instance.
   *
+  * @author [[https://github.com/Dagt07/ David García T.]]
   * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
   * @author [[https://github.com/joelriquelme/ Joel Riquelme P.]]
   * @author [[https://github.com/r8vnhill/ Ignacio Slater M.]]
   * @author [[https://github.com/Seivier/ Vicente González B.]]
-  * @author [[https://github.com/~Your github account~/ ~Your Name~]]
   */
 class PlayerCharacter(val name: String,
               val maxHp: Int,
               val attack: Int,
               val defense: Int,
               val evasion: Int,
-              val randomNumberGenerator: Random = new Random()) {
+              val randomNumberGenerator: Random = new Random(),
+              var stars: Int,
+              var wins: Int,
+              var currentHP: Int,
+              val defaultNorm: Int = 1, var currentNorm: Int, var normObjective: String) extends normTrait{
+/*
+  var stars: Int
+  var wins: Int
+  var currentHP: Int = maxHp
+*/
+
+/*
+var stars :Int = this.stars
+var wins :Int = this.wins
+var currentHP :Int = this.maxHp
+*/
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {

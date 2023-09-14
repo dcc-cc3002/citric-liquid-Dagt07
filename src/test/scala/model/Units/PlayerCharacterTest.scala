@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package model
+package model.Units
 
 import scala.util.Random
 
@@ -16,7 +16,12 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val evasion = 1
   private val randomNumberGenerator = new Random(11)
   /* Add any other constants you need here... */
-
+  private val stars = 0
+  private val wins = 0
+  private val currentHP = maxHp
+  private val defaultNorm = 1
+  private val currentNorm = 1
+  private val normObjective = "stars"
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -34,7 +39,13 @@ class PlayerCharacterTest extends munit.FunSuite {
       attack,
       defense,
       evasion,
-      randomNumberGenerator
+      randomNumberGenerator,
+      stars,
+      wins,
+      currentHP,
+      defaultNorm,
+      currentNorm,
+      normObjective
     )
   }
 
@@ -44,6 +55,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.attack, attack)
     assertEquals(character.defense, defense)
     assertEquals(character.evasion, evasion)
+    assertEquals(character.randomNumberGenerator, randomNumberGenerator)
+    assertEquals(character.stars, stars)
+    assertEquals(character.wins, wins)
+    assertEquals(character.currentHP, currentHP)
+    assertEquals(character.defaultNorm, defaultNorm)
+    assertEquals(character.currentNorm, currentNorm)
+    assertEquals(character.normObjective, normObjective)
   }
 
   // Two ways to test randomness (you can use any of them):
