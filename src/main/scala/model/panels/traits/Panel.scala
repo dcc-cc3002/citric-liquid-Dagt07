@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.Panels.Traits
+package model.panels.traits
 
-import model.Units.Classes.PlayerCharacter
+import model.units.classes.PlayerCharacter
 import scala.collection.mutable.ArrayBuffer
 
 /** Represents a single cell on a board, known as a Panel.

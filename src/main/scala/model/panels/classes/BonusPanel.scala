@@ -1,13 +1,12 @@
 package cl.uchile.dcc.citric
-package model.Panels.Classes
+package model.panels.classes
 
-import model.Units.Classes.PlayerCharacter
-import model.Panels.Traits.Panel
-import model.Panels.AbstractClasses.AbstractPanel
+import model.units.classes.PlayerCharacter
+import model.panels.traits.Panel
+import model.panels.abstractClasses.AbstractPanel
 
 import scala.collection.mutable.ArrayBuffer
 import scala.math.min
-import scala.util.Random
 
 /** A class that represents a bonus panel in the board.
  *
@@ -34,8 +33,7 @@ class BonusPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuff
    * @param player a player from the player characters array currently in the panel
    */
   def giveStars (player: PlayerCharacter): Unit = {
-    if (player in characters){ // revisar sintaxis, no estoy seguro si así es en Scala pero la idea de diseño es esa
-      //PROBAR CON CONTAINS para ver si esta en el array
+    if (characters.contains(player)){
       player.stars += min(player.rollDice() * player.currentNorm, player.rollDice * 3)
     }
   }

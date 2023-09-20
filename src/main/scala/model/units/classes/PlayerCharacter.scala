@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.Units.Classes
+package model.units.classes
 
-import model.Norm.Traits.normTrait
+import model.norm.traits.normTrait
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating

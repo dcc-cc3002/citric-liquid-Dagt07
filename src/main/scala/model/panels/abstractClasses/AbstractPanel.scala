@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
-package model.Panels.AbstractClasses
+package model.panels.abstractClasses
 
 import scala.collection.mutable.ArrayBuffer
-import model.Panels.Traits.Panel
-import model.Units.Classes.PlayerCharacter
+import model.panels.traits.Panel
+import model.units.classes.PlayerCharacter
 
 abstract class AbstractPanel(val characters: ArrayBuffer[PlayerCharacter], var nextPanels: ArrayBuffer[Panel])
   extends Panel{

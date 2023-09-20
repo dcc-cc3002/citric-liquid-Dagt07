@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package model.Norm.Traits
+package model.norm.traits
 
 /** Trait that defines the common attributes of a norm.
  *

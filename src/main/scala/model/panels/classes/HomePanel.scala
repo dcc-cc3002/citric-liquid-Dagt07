@@ -1,12 +1,11 @@
 package cl.uchile.dcc.citric
-package model.Panels.Classes
+package model.panels.classes
 
-import model.Panels.AbstractClasses.AbstractPanel
-import model.Panels.Traits.Panel
-import model.Units.Classes.PlayerCharacter
+import model.panels.abstractClasses.AbstractPanel
+import model.panels.traits.Panel
+import model.units.classes.PlayerCharacter
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
 /** A class that represents a home panel in the board.
  *  It is a special panel, necessary to level up the player's currentNorm level (condition to win)
@@ -38,7 +37,7 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    */
 
   def regenerateHP(player: PlayerCharacter): Unit = {
-    if (player in characters){
+    if (characters.contains(player)){
       player.currentHP += 10
     }
   }

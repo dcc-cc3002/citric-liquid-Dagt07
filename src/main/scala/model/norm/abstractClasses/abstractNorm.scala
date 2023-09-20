@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.Norm.AbstractClasses
+package model.norm.abstractClasses
 
-import model.Norm.Traits.normTrait
+import model.norm.traits.normTrait
 
 /* pensé en hacer una clase abstracta para las normas, pero no sé si es necesario,
 por ello la dejo de forma momentanea creada */

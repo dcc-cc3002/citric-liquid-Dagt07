@@ -1,12 +1,11 @@
 package cl.uchile.dcc.citric
-package model.Panels.Classes
+package model.panels.classes
 
-import model.Panels.AbstractClasses.AbstractPanel
-import model.Panels.Traits.Panel
-import model.Units.Classes.PlayerCharacter
+import model.panels.abstractClasses.AbstractPanel
+import model.panels.traits.Panel
+import model.units.classes.PlayerCharacter
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
 /** A class that represents a penalty panel in the board.
  *
@@ -33,7 +32,7 @@ class DropPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    * @param player a player from the player characters array currently in the panel
    */
   def dropStars(player: PlayerCharacter): Unit = {
-    if (player in characters){ //revisar sintaxis, no estoy seguro si así es en Scala pero la idea de diseño es esa
+    if (characters.contains(player)){
       player.stars -= player.rollDice() * player.currentNorm
     }
   }

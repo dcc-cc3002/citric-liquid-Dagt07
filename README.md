@@ -14,6 +14,21 @@ purpose is to serve as an educational tool, teaching foundational programming co
 The remainder of this README is yours to complete. Take this opportunity to describe your
 contributions, the design decisions you've made, and any other information you deem necessary.
 
+### Tarea 1
+
+- Tarea 1 EP1: Desing of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type assosiations and methods.
+
+- Tarea 1 EP2: Test driven develpment and Implementation of the trait, abstractClass and classes necessary to build the section 2.3 _Board_. And some additional implementations for the section 2.1 _Units_ and section 2.2 _Norm_.
+
+<hr>
+
+### Changelog
+
+**Version i.j.k :** i: Tarea number, j: EP number, k: EP part number
+
+- Version 1.2.1: Adjustment in some features and test's for the section 2.3 _Board_.
+- Version 1.2.0: Test driven develpment and Implementation of the trait, abstractClass and classes necessary to build the section 2.3 _Board_. And some additional implementations for the section 2.1 _Units_ and section 2.2 _Norm_.
+- Version 1.1.0: Desing of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type assosiations and methods.
 
 
 <div style="text-align:center;">

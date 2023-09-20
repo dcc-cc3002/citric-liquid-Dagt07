@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
-package model.Panels.Classes
+package model.panels.classes
 
-import model.Units.Classes.PlayerCharacter
-import model.Panels.Traits.Panel
-import model.Panels.AbstractClasses.AbstractPanel
+import model.units.classes.PlayerCharacter
+import model.panels.traits.Panel
+import model.panels.abstractClasses.AbstractPanel
 
 import scala.collection.mutable.ArrayBuffer
 

@@ -1,5 +1,7 @@
 package cl.uchile.dcc.citric
-package model.Units
+package model.units
+
+import cl.uchile.dcc.citric.model.units.classes.PlayerCharacter
 
 import scala.util.Random
 
@@ -14,7 +16,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private val randomNumberGenerator = new Random(11)
+  private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
   private val stars = 0
   private val wins = 0
@@ -33,6 +35,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
+    randomNumberGenerator = new Random(11)
     character = new PlayerCharacter(
       name,
       maxHp,
@@ -47,6 +50,7 @@ class PlayerCharacterTest extends munit.FunSuite {
       currentNorm,
       normObjective
     )
+    //randomNumberGenerator = new Random(11)
   }
 
   test("A character should have correctly set their attributes") {
@@ -78,7 +82,8 @@ class PlayerCharacterTest extends munit.FunSuite {
   // are always the same for the same seed.
   test("A character should be able to roll a dice with a fixed seed") {
     val other =
-      new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11))
+      new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+        stars, wins, currentHP, defaultNorm, currentNorm, normObjective)
     for (_ <- 1 to 10) {
       assertEquals(character.rollDice(), other.rollDice())
     }
