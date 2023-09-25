@@ -8,17 +8,11 @@ import model.panels.traits.Panel
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-/*
-class NeutralPanelTest extends munit.FunSuite{
-
-}*/
-
 class AbstractPanelTest extends munit.FunSuite{
-  /*
-  REMEMBER: It is a good practice to use constants for the values that are used in multiple
-  tests, so you can change them in a single place.
-  This will make your tests more readable, easier to maintain, and less error-prone.
-  */
+
+  /* Values and variables for the test*/
+
+  /* Default player for testing */
   private val name = "testPlayer"
   private val maxHp = 10
   private val attack = 1
@@ -62,7 +56,7 @@ class AbstractPanelTest extends munit.FunSuite{
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
-    //inicializar array buffer de personajes y paneles para poder crear el NeutralPanel
+    //Init the panel
     abstractpanel = new AbstractPanel(characters, nextPanels) {
     }
   }

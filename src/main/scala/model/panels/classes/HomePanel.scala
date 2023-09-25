@@ -38,7 +38,7 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
 
   def regenerateHP(player: PlayerCharacter): Unit = {
     if (characters.contains(player)){
-      player.currentHP += 10
+      player.regenerateHP()
     }
   }
 

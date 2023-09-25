@@ -88,4 +88,17 @@ class PlayerCharacterTest extends munit.FunSuite {
       assertEquals(character.rollDice(), other.rollDice())
     }
   }
+
+  test("A character should be able to regenerate their HP by landing in their Home Panel"){
+    assertEquals(character.currentHP, maxHp)
+    character.regenerateHP()
+    assertEquals(character.currentHP, maxHp + 10)
+  }
+
+  /*
+  test("A character should be able to increase their stars by landing in a Bonus Panel"){
+    assertEquals(character.stars,)
+    character.increaseStarsByPanel()
+  }*/
+
 }

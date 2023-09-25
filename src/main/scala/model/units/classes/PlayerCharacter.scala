@@ -2,7 +2,10 @@ package cl.uchile.dcc.citric
 package model.units.classes
 
 import model.norm.traits.normTrait
+import model.units.traits.unitTrait
 import model.units.abstractClasses.abstractUnit
+
+import scala.math.min
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -52,34 +55,64 @@ class PlayerCharacter(val name: String,
                       val defaultNorm: Int = 1,
                       var currentNorm: Int,
                       var normObjective: String)
-  extends abstractUnit(maxHp, attack, defense, evasion, currentHp, stars) with normTrait{
-/*
-class PlayerCharacter(val name: String,
-              val maxHp: Int,
-              val attack: Int,
-              val defense: Int,
-              val evasion: Int,
-              val randomNumberGenerator: Random = new Random(),
-              var stars: Int,
-              var wins: Int,
-              var currentHP: Int,
-              val defaultNorm: Int = 1, var currentNorm: Int, var normObjective: String) extends normTrait{
-*/
-
-/*
-  var stars: Int
-  var wins: Int
-  var currentHP: Int = maxHp
-*/
-
-/*
-var stars :Int = this.stars
-var wins :Int = this.wins
-var currentHP :Int = this.maxHp
-*/
+  extends abstractUnit(maxHp, attack, defense, evasion, currentHp, stars) with normTrait {
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
     randomNumberGenerator.nextInt(6) + 1
   }
+
+  /* PANEL DEPENDENT METHODS */
+  def regenerateHP(): Unit = {
+    currentHP += 10
+  }
+
+  /*
+  /** Increases the player's star count by the given amount. */
+  def increaseStarsByPanel(): Unit = {
+    //val min: Int = min(this.rollDice() * this.currentNorm, this.rollDice() * 3)
+    this.stars += min(this.rollDice() * this.currentNorm, this.rollDice() * 3)
+  }
+
+  def decreaseStarsByPanel(): Unit = {
+    //this.stars -= this.rollDice() * this.currentNorm
+  }
+  */
+
+  /* ROUND DEPENDENT METHODS, will be implemented later */
+
+  /*
+  def increaseStarsByRound(amount: Int): Unit = {
+    stars += amount
+  }
+  */
+
+  /* COMBAT DEPENDENT METHODS, will be implemented later */
+
+  /*
+  /** Increases the player's star count by the given amount(carried by the enemy). */
+  def increaseStarsByCombat(amount: Int): Unit = {
+     stars += amount
+  }
+
+  def decreaseStarsByCombat(amount: Int): Unit = {
+     stars -= amount
+  }
+  */
+
+  // Two ways to gain wins for the player:
+
+  /*
+  //1. By defeating a wild unit
+  def increaseVictories(wildUnit: unitTrait): Unit = {
+    wins += 1
+    stars += wildUnit.stars
+  }
+  //2. By defeating a player
+  def increaseVictories(opponent: PlayerCharacter): Unit = {
+    wins += 2
+    stars += round(opponent.stars/2) //buscar div entera y round entero
+  }
+  */
+
 }

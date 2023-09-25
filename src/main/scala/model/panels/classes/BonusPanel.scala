@@ -6,7 +6,6 @@ import model.panels.traits.Panel
 import model.panels.abstractClasses.AbstractPanel
 
 import scala.collection.mutable.ArrayBuffer
-import scala.math.min
 
 /** A class that represents a bonus panel in the board.
  *
@@ -32,10 +31,13 @@ class BonusPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuff
    *
    * @param player a player from the player characters array currently in the panel
    */
+
+  /*
   def giveStars (player: PlayerCharacter): Unit = {
     if (characters.contains(player)){
-      player.stars += min(player.rollDice() * player.currentNorm, player.rollDice * 3)
+      //player.stars += min(player.rollDice() * player.currentNorm, player.rollDice * 3)
+      player.increaseStarsByPanel()
     }
   }
-
+  */
 }

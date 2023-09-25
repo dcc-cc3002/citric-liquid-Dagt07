@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import model.units.classes.PlayerCharacter
-import model.panels.classes.NeutralPanel
 import model.panels.traits.Panel
+import model.panels.classes.NeutralPanel
+import model.units.classes.PlayerCharacter
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -11,14 +11,9 @@ import scala.util.Random
 
 class NeutralPanelTest extends munit.FunSuite{
 
-}
-/*
-class NeutralPanelTest extends munit.FunSuite{
-  /*
-  REMEMBER: It is a good practice to use constants for the values that are used in multiple
-  tests, so you can change them in a single place.
-  This will make your tests more readable, easier to maintain, and less error-prone.
-  */
+  /* Values and variables for the test*/
+
+  /* Default player for testing */
   private val name = "testPlayer"
   private val maxHp = 10
   private val attack = 1
@@ -48,36 +43,42 @@ class NeutralPanelTest extends munit.FunSuite{
 
   //initialize array buffer of characters and panels to create the NeutralPanel
 
-  private var neutralpanel: NeutralPanel = _
+  private var neutralPanel: NeutralPanel = _
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-     player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-                                    wins, currentHP, defaultNorm, currentNorm, normObjective)
-     player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-                                    wins, currentHP, defaultNorm, currentNorm, normObjective)
-     player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-                                    wins, currentHP, defaultNorm, currentNorm, normObjective)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
+      wins, currentHP, defaultNorm, currentNorm, normObjective)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
+      wins, currentHP, defaultNorm, currentNorm, normObjective)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
+      wins, currentHP, defaultNorm, currentNorm, normObjective)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
-    //inicializar array buffer de personajes y paneles para poder crear el NeutralPanel
-    neutralpanel = NeutralPanel(characters, nextPanels)
+    //Init the panel
+    neutralPanel = new NeutralPanel(characters, nextPanels) {
+    }
   }
 
   // 1. Test invariant properties
   test("A NeutralPanel should have correctly set their attributes") {
-    assertEquals(neutralpanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
-    assertEquals(neutralpanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(neutralPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
   }
 
+  // 2. Test methods
   test("A NeutralPanel should add a character to the list of characters currently on this panel") {
-    neutralpanel.addCharacter(player1)
-    assertEquals(neutralpanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3, player1))
+    neutralPanel.addCharacter(player1)
+    assertEquals(neutralPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3, player1))
   }
 
+  test("A NeutralPanel should remove a character to the list of characters currently on this panel") {
+    assertEquals(neutralPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
+    neutralPanel.removeCharacter(player1)
+    assertEquals(neutralPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
+  }
 }
 
-*/
 

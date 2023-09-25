@@ -16,7 +16,6 @@ import scala.collection.mutable.ArrayBuffer
   * @author [[https://github.com/r8vnhill Ignacio Slater M.]]
   */
 trait Panel {
-
   /** Array of the characters currently positioned on this panel.
     *
     * In the game, multiple characters might be on the same panel at once, e.g., if multiple players
