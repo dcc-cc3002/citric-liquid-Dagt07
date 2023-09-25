@@ -42,7 +42,7 @@ class PlayerCharacterTest extends munit.FunSuite {
       attack,
       defense,
       evasion,
-      randomNumberGenerator,
+      randomNumberGenerator: Random,
       stars,
       wins,
       currentHP,

@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.classes
 
 import model.norm.traits.normTrait
+import model.units.abstractClasses.abstractUnit
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -38,6 +39,21 @@ import scala.util.Random
   * @author [[https://github.com/r8vnhill/ Ignacio Slater M.]]
   * @author [[https://github.com/Seivier/ Vicente González B.]]
   */
+
+class PlayerCharacter(val name: String,
+                      maxHp: Int,
+                      attack: Int,
+                      defense: Int,
+                      evasion: Int,
+                      val randomNumberGenerator: Random = new Random(),
+                      stars: Int,
+                      var wins: Int,
+                      currentHp: Int,
+                      val defaultNorm: Int = 1,
+                      var currentNorm: Int,
+                      var normObjective: String)
+  extends abstractUnit(maxHp, attack, defense, evasion, currentHp, stars) with normTrait{
+/*
 class PlayerCharacter(val name: String,
               val maxHp: Int,
               val attack: Int,
@@ -48,6 +64,8 @@ class PlayerCharacter(val name: String,
               var wins: Int,
               var currentHP: Int,
               val defaultNorm: Int = 1, var currentNorm: Int, var normObjective: String) extends normTrait{
+*/
+
 /*
   var stars: Int
   var wins: Int
