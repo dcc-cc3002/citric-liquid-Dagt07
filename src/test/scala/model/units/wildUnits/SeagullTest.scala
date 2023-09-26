@@ -27,13 +27,7 @@ class SeagullTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    seagull = new Seagull(
-      maxHp,
-      attack,
-      defense,
-      evasion,
-      currentHP,
-      stars)
+    seagull = new Seagull(maxHp, attack, defense, evasion)
   }
 
   test("A Chicken should have correctly set their attributes") {
@@ -45,3 +39,4 @@ class SeagullTest extends munit.FunSuite {
     assertEquals(seagull.stars, stars)
   }
 }
+

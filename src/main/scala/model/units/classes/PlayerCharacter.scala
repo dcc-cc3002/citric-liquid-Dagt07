@@ -5,7 +5,7 @@ import model.norm.traits.normTrait
 import model.units.traits.unitTrait
 import model.units.abstractClasses.abstractUnit
 
-import scala.math.min
+import scala.math.{min, floorDiv}
 import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -49,13 +49,11 @@ class PlayerCharacter(val name: String,
                       defense: Int,
                       evasion: Int,
                       val randomNumberGenerator: Random = new Random(),
-                      stars: Int,
                       var wins: Int,
-                      currentHp: Int,
                       val defaultNorm: Int = 1,
                       var currentNorm: Int,
                       var normObjective: String)
-  extends abstractUnit(maxHp, attack, defense, evasion, currentHp, stars) with normTrait {
+  extends abstractUnit(maxHp, attack, defense, evasion) with normTrait {
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
@@ -67,29 +65,24 @@ class PlayerCharacter(val name: String,
     currentHP += 10
   }
 
-  /*
   /** Increases the player's star count by the given amount. */
   def increaseStarsByPanel(): Unit = {
-    //val min: Int = min(this.rollDice() * this.currentNorm, this.rollDice() * 3)
-    this.stars += min(this.rollDice() * this.currentNorm, this.rollDice() * 3)
+    stars += min(rollDice() * currentNorm, rollDice() * 3)
   }
 
   def decreaseStarsByPanel(): Unit = {
-    //this.stars -= this.rollDice() * this.currentNorm
+    stars -= rollDice() * currentNorm
   }
-  */
 
-  /* ROUND DEPENDENT METHODS, will be implemented later */
 
-  /*
+  /* ROUND DEPENDENT METHODS, will be implemented properly later */
+
   def increaseStarsByRound(amount: Int): Unit = {
     stars += amount
   }
-  */
 
-  /* COMBAT DEPENDENT METHODS, will be implemented later */
 
-  /*
+  /* COMBAT DEPENDENT METHODS, will be implemented properly later */
   /** Increases the player's star count by the given amount(carried by the enemy). */
   def increaseStarsByCombat(amount: Int): Unit = {
      stars += amount
@@ -98,21 +91,23 @@ class PlayerCharacter(val name: String,
   def decreaseStarsByCombat(amount: Int): Unit = {
      stars -= amount
   }
-  */
 
   // Two ways to gain wins for the player:
 
-  /*
   //1. By defeating a wild unit
   def increaseVictories(wildUnit: unitTrait): Unit = {
     wins += 1
     stars += wildUnit.stars
   }
+
+  //using overloading to separate the way victories are achieved
+
   //2. By defeating a player
   def increaseVictories(opponent: PlayerCharacter): Unit = {
     wins += 2
-    stars += round(opponent.stars/2) //buscar div entera y round entero
+    val rival_Stars : Int = opponent.stars
+    val value: Int = rival_Stars/2
+    stars += value
   }
-  */
 
 }

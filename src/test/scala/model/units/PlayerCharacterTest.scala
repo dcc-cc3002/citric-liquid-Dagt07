@@ -1,7 +1,11 @@
 package cl.uchile.dcc.citric
 package model.units
 
-import cl.uchile.dcc.citric.model.units.classes.PlayerCharacter
+import model.units.classes.PlayerCharacter
+import model.units.traits.unitTrait
+import model.units.classes.wildUnits.{Chicken, Robo_ball, Seagull}
+
+import cl.uchile.dcc.citric.model.units.classes.wildUnits.Chicken
 
 import scala.util.Random
 
@@ -18,12 +22,12 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val evasion = 1
   private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
-  private val stars = 0
-  private val wins = 0
-  private val currentHP = maxHp
+  private var stars = 0
+  private var wins = 0
+  private var currentHP = maxHp
   private val defaultNorm = 1
-  private val currentNorm = 1
-  private val normObjective = "stars"
+  private var currentNorm = 1
+  private var normObjective = "stars"
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -43,14 +47,11 @@ class PlayerCharacterTest extends munit.FunSuite {
       defense,
       evasion,
       randomNumberGenerator: Random,
-      stars,
       wins,
-      currentHP,
       defaultNorm,
       currentNorm,
       normObjective
     )
-    //randomNumberGenerator = new Random(11)
   }
 
   test("A character should have correctly set their attributes") {
@@ -83,22 +84,89 @@ class PlayerCharacterTest extends munit.FunSuite {
   test("A character should be able to roll a dice with a fixed seed") {
     val other =
       new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
-        stars, wins, currentHP, defaultNorm, currentNorm, normObjective)
+                          wins, defaultNorm, currentNorm, normObjective)
     for (_ <- 1 to 10) {
       assertEquals(character.rollDice(), other.rollDice())
     }
   }
 
-  test("A character should be able to regenerate their HP by landing in their Home Panel"){
+  test("A character should be able to regenerate their HP by landing in their HomePanel"){
     assertEquals(character.currentHP, maxHp)
     character.regenerateHP()
     assertEquals(character.currentHP, maxHp + 10)
   }
 
-  /*
-  test("A character should be able to increase their stars by landing in a Bonus Panel"){
-    assertEquals(character.stars,)
+  test("A character should be able to increase their stars by landing in a BonusPanel"){
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+                                    wins, defaultNorm, currentNorm, normObjective)
+    assertEquals(character.stars,other.stars)
     character.increaseStarsByPanel()
-  }*/
+    assert(character.stars > other.stars)
+  }
+
+  test("A character should be able to decrease their stars by landing in a DropPanel") {
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+                                    wins, defaultNorm, currentNorm, normObjective)
+    assertEquals(character.stars, other.stars)
+    character.decreaseStarsByPanel()
+    assert(character.stars < other.stars)
+  }
+
+  test("A character should increase their stars by winning a combat against other player") {
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+                                    wins, defaultNorm, currentNorm, normObjective)
+    assertEquals(character.stars, other.stars)
+    character.increaseStarsByCombat(2)
+    assert(character.stars > other.stars)
+    assertEquals(character.stars, other.stars + 2)
+  }
+
+  test("A character should decrease their stars by losing a combat against another player") {
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+                                    wins, defaultNorm, currentNorm, normObjective)
+    assertEquals(character.stars, other.stars)
+    character.decreaseStarsByCombat(3)
+    assert(character.stars < other.stars)
+    assertEquals(character.stars, other.stars - 3)
+  }
+
+  test("A character should increase their stars by winning a combat against a wildUnit") {
+    /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats*/
+    val chicken: unitTrait = new Chicken(maxHp, attack, defense, evasion)
+    assertEquals(character.stars, chicken.stars)
+    character.increaseStarsByCombat(5)
+    assert(character.stars > chicken.stars)
+    assertEquals(character.stars, chicken.stars + 5)
+  }
+
+  test("A character should increase their victories by winning a combat against a wildUnit") {
+    /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats*/
+    //Here is necessary to declare chicken a type Chicken, because we are using overloading in the PlayerCharacter class
+    val chicken: Chicken = new Chicken(maxHp, attack, defense, evasion)
+    //they both are initialized with 0 stars
+    assertEquals(character.stars, chicken.stars)
+    character.increaseVictories(chicken)
+    assertEquals(character.stars, chicken.stars) //both are 0
+    chicken.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
+    character.increaseVictories(chicken)
+    //wildUnit losing stars not implemented yet
+    assertEquals(character.stars, chicken.stars)
+  }
+
+
+  test("A character should increase their victories by winning a combat against another player") {
+    //Here is necessary to declare chicken a type Chicken, because we are using overloading in the PlayerCharacter class
+    val opponent: PlayerCharacter = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+                                                     wins, defaultNorm, currentNorm, normObjective)
+    //they both are initialized with 0 stars
+    assertEquals(character.stars, opponent.stars)
+    character.increaseVictories(opponent)
+    assertEquals(character.stars, opponent.stars) //both are 0
+    opponent.stars = 2 //now the opponent has 2 stars that the character can steal by winning
+    character.increaseVictories(opponent)
+    //opponent losing stars not implemented yet
+    opponent.stars /= 2
+    assertEquals(character.stars, opponent.stars)
+  }
 
 }

@@ -18,14 +18,14 @@ class EncounterPanelTest extends munit.FunSuite{
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private val randomNumberGenerator = new Random(11)
+  private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
-  private val stars = 0
-  private val wins = 0
-  private val currentHP = maxHp
+  private var stars = 0
+  private var wins = 0
+  private var currentHP = maxHp
   private val defaultNorm = 1
-  private val currentNorm = 1
-  private val normObjective = "stars"
+  private var currentNorm = 1
+  private var normObjective = "stars"
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -46,12 +46,13 @@ class EncounterPanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
+    randomNumberGenerator = new Random(11)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+                                  wins, defaultNorm, currentNorm, normObjective)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+                                  wins, defaultNorm, currentNorm, normObjective)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+                                  wins, defaultNorm, currentNorm, normObjective)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
@@ -62,18 +63,18 @@ class EncounterPanelTest extends munit.FunSuite{
   }
 
   // 1. Test invariant properties
-  test("A encounterPanel should have correctly set their attributes") {
+  test("A EncounterPanel should have correctly set their attributes") {
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
   }
 
   // 2. Test methods
-  test("A encounterPanel should add a character to the list of characters currently on this panel") {
+  test("A EncounterPanel should add a character to the list of characters currently on this panel") {
     encounterPanel.addCharacter(player1)
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3, player1))
   }
 
-  test("A encounterPanel should remove a character to the list of characters currently on this panel") {
+  test("A EncounterPanel should remove a character to the list of characters currently on this panel") {
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
     encounterPanel.removeCharacter(player1)
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))

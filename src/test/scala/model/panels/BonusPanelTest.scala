@@ -18,14 +18,14 @@ class BonusPanelTest extends munit.FunSuite{
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private val randomNumberGenerator = new Random(11)
+  private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
-  private val stars = 0
-  private val wins = 0
-  private val currentHP = maxHp
+  private var stars = 0
+  private var wins = 0
+  private var currentHP = maxHp
   private val defaultNorm = 1
-  private val currentNorm = 1
-  private val normObjective = "stars"
+  private var currentNorm = 1
+  private var normObjective = "stars"
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -46,12 +46,13 @@ class BonusPanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator, stars,
-      wins, currentHP, defaultNorm, currentNorm, normObjective)
+    randomNumberGenerator = new Random(11)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+      wins, defaultNorm, currentNorm, normObjective)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+      wins, defaultNorm, currentNorm, normObjective)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+      wins, defaultNorm, currentNorm, normObjective)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
@@ -78,4 +79,13 @@ class BonusPanelTest extends munit.FunSuite{
     bonuspanel.removeCharacter(player1)
     assertEquals(bonuspanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
   }
+
+  test("A character should be able to increase their stars by landing in a BonusPanel") {
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+      wins, defaultNorm, currentNorm, normObjective)
+    assertEquals(player1.stars, other.stars)
+    bonuspanel.giveStars(player1)
+    assert(player1.stars > other.stars)
+  }
+
 }

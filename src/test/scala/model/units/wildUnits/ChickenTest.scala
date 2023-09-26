@@ -27,13 +27,7 @@ class ChickenTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    chicken = new Chicken(
-      maxHp,
-      attack,
-      defense,
-      evasion,
-      currentHP,
-      stars)
+    chicken = new Chicken(maxHp, attack, defense, evasion)
   }
 
   test("A Chicken should have correctly set their attributes") {

@@ -2,7 +2,6 @@ package cl.uchile.dcc.citric
 package model.units.wildUnits
 
 import model.units.classes.wildUnits.Robo_ball
-
 class Robo_ballTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple
@@ -27,16 +26,10 @@ class Robo_ballTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    robo_ball = new Robo_ball(
-      maxHp,
-      attack,
-      defense,
-      evasion,
-      currentHP,
-      stars)
+    robo_ball = new Robo_ball(maxHp, attack, defense, evasion)
   }
 
-  test("A Chicken should have correctly set their attributes") {
+  test("A Robo_ball should have correctly set their attributes") {
     assertEquals(robo_ball.maxHp, maxHp)
     assertEquals(robo_ball.attack, attack)
     assertEquals(robo_ball.defense, defense)
