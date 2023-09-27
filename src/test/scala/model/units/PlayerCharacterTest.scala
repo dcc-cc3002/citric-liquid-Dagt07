@@ -169,4 +169,25 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, opponent.stars)
   }
 
+  test("A character should increase their norm if they meet the requirements") {
+    assertEquals(character.currentNorm, defaultNorm)
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm)
+    character.stars = 10
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 1)
+    character.stars = 30
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 2)
+    character.stars = 70
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 3)
+    character.stars = 120
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 4)
+    character.stars = 200
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 5)
+  }
+
 }

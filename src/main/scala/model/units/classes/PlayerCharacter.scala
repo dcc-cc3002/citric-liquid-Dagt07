@@ -4,6 +4,7 @@ package model.units.classes
 import model.norm.traits.normTrait
 import model.units.traits.unitTrait
 import model.units.abstractClasses.abstractUnit
+import model.norm.classes.NormaClass
 
 import scala.math.{min, floorDiv}
 import scala.util.Random
@@ -54,6 +55,8 @@ class PlayerCharacter(val name: String,
                       var currentNorm: Int,
                       var normObjective: String)
   extends abstractUnit(maxHp, attack, defense, evasion) with normTrait {
+
+  val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(): Int = {
@@ -108,6 +111,21 @@ class PlayerCharacter(val name: String,
     val rival_Stars : Int = opponent.stars
     val value: Int = rival_Stars/2
     stars += value
+  }
+
+  var IntNormObjective: Int = currentNorm + 1
+  /** Norm dependent methods */
+  def normCheck(): Unit = {
+    playerNorm.getRequirements(IntNormObjective) match {
+      case Some((starsRequired, winsRequired)) =>
+        if (stars >= starsRequired || wins >= winsRequired) {
+          currentNorm += 1
+          IntNormObjective += 1
+          stars = 0
+          wins = 0
+        }
+      case None => ()
+    }
   }
 
 }
