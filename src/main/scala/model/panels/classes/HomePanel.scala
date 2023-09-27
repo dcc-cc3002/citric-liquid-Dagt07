@@ -54,21 +54,5 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    *
    * @param player the player to check
    */
-  def normCheck(player: PlayerCharacter): Unit ={
-    if (player.normObjective == "stars"){
-      if (player.currentNorm == 1 && player.stars >= 10 ) player.currentNorm +=1
-      else if (player.currentNorm == 2 && player.stars >= 30) player.currentNorm += 1
-      else if (player.currentNorm == 3 && player.stars >= 70) player.currentNorm += 1
-      else if (player.currentNorm == 4 && player.stars >= 120) player.currentNorm += 1
-      else if (player.currentNorm == 5 && player.stars >= 200) player.currentNorm += 1
-    }
-    else if (player.normObjective == "wins"){
-      if (player.currentNorm == 1 && player.wins >= 1 ) player.currentNorm +=1
-      else if (player.currentNorm == 2 && player.wins >= 3) player.currentNorm += 1
-      else if (player.currentNorm == 3 && player.wins >= 6) player.currentNorm += 1
-      else if (player.currentNorm == 4 && player.wins >= 10) player.currentNorm += 1
-      else if (player.currentNorm == 5 && player.wins >= 14) player.currentNorm += 1
-    }
-  }
 
 }

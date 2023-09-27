@@ -56,6 +56,7 @@ class PlayerCharacter(val name: String,
                       var normObjective: String)
   extends abstractUnit(maxHp, attack, defense, evasion) with normTrait {
 
+  /** A instance of normaClass that will help checking player requirements to level up his norm */
   val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
   /** Rolls a dice and returns a value between 1 to 6. */

@@ -5,6 +5,18 @@ import scala.collection.mutable.ArrayBuffer
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
 
+/** AbstractPanel will help us to create the different types of panels that we will use in the game.
+ *
+ * This class will be extended by the different types of panels that we will use in the game.
+ *
+ * @param characters The list of characters currently on this panel.
+ * @param nextPanels The list of panels that are directly connected to this one.
+ *
+ * @constructor create a new abstract panel with the specified characters and next panels
+ *
+ * @author [[https://github.com/Dagt07 David Garcia T.]]
+ */
+
 abstract class AbstractPanel(val characters: ArrayBuffer[PlayerCharacter], var nextPanels: ArrayBuffer[Panel])
   extends Panel{
 

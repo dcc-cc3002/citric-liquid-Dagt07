@@ -139,10 +139,9 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, chicken.stars + 5)
   }
 
-  test("A character should increase their victories by winning a combat against a wildUnit") {
-    /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats*/
-    //Here is necessary to declare chicken a type Chicken, because we are using overloading in the PlayerCharacter class
-    val chicken: Chicken = new Chicken(maxHp, attack, defense, evasion)
+  test("A character should increase their victories by winning a combat against a Chicken wildUnit") {
+    //Here is necessary to declare chicken a type unitTrait, because we are using overloading in the PlayerCharacter class
+    val chicken: unitTrait = new Chicken(maxHp, attack, defense, evasion)
     //they both are initialized with 0 stars
     assertEquals(character.stars, chicken.stars)
     character.increaseVictories(chicken)
@@ -153,9 +152,34 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, chicken.stars)
   }
 
+  test("A character should increase their victories by winning a combat against a Robo_ball (wildUnit)") {
+    //Here is necessary to declare robo_ball a type unitTrait, because we are using overloading in the PlayerCharacter class
+    val robo_ball: unitTrait = new Robo_ball(maxHp, attack, defense, evasion)
+    //they both are initialized with 0 stars
+    assertEquals(character.stars, robo_ball.stars)
+    character.increaseVictories(robo_ball)
+    assertEquals(character.stars, robo_ball.stars) //both are 0
+    robo_ball.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
+    character.increaseVictories(robo_ball)
+    //wildUnit losing stars not implemented yet
+    assertEquals(character.stars, robo_ball.stars)
+  }
+
+  test("A character should increase their victories by winning a combat against a Seagull (wildUnit)") {
+    //Here is necessary to declare seagull a type unitTrait, because we are using overloading in the PlayerCharacter class
+    val seagull: unitTrait = new Seagull(maxHp, attack, defense, evasion)
+    //they both are initialized with 0 stars
+    assertEquals(character.stars, seagull.stars)
+    character.increaseVictories(seagull)
+    assertEquals(character.stars, seagull.stars) //both are 0
+    seagull.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
+    character.increaseVictories(seagull)
+    //wildUnit losing stars not implemented yet
+    assertEquals(character.stars, seagull.stars)
+  }
 
   test("A character should increase their victories by winning a combat against another player") {
-    //Here is necessary to declare chicken a type Chicken, because we are using overloading in the PlayerCharacter class
+    //Here is necessary to declare opponent a type PlayerCharacter, because we are using overloading in the PlayerCharacter class
     val opponent: PlayerCharacter = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
                                                      wins, defaultNorm, currentNorm, normObjective)
     //they both are initialized with 0 stars
@@ -169,7 +193,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, opponent.stars)
   }
 
-  test("A character should increase their norm if they meet the requirements") {
+  test("A character should increase their stars just by finishing the round") {
+    assertEquals(character.stars, stars)
+    character.increaseStarsByRound(2)
+    assertEquals(character.stars, stars + 2)
+  }
+
+  test("A character should increase their norm if they meet the stars requirements") {
     assertEquals(character.currentNorm, defaultNorm)
     character.normCheck()
     assertEquals(character.currentNorm, defaultNorm)
@@ -190,4 +220,45 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.currentNorm, defaultNorm + 5)
   }
 
+  test("A character should increase their norm if they meet the victories requirements"){
+    assertEquals(character.currentNorm, defaultNorm)
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm)
+    character.wins = 1
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 1)
+    character.wins = 3
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 2)
+    character.wins = 6
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 3)
+    character.wins = 10
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 4)
+    character.wins = 15
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 5)
+  }
+
+  test("A character cant increase their norm if it doesnt meet the requirements"){
+    assertEquals(character.currentNorm, defaultNorm)
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm)
+    character.stars = 9
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm)
+    character.stars = 29
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 1)
+    character.stars = 69
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 2)
+    character.stars = 119
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 3)
+    character.stars = 199
+    character.normCheck()
+    assertEquals(character.currentNorm, defaultNorm + 4)
+  }
 }
