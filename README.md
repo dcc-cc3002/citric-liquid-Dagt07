@@ -24,8 +24,11 @@ contributions, the design decisions you've made, and any other information you d
 
 ### Changelog
 
-**Version i.j.k :** i: Tarea number, j: EP number, k: EP part number
+**Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
+- Version 1.3.5 Added Norm tests and create NormaClass to pass those tests, NormaClass helps to control the player's Norma level (Level system)
+- Version 1.3.4 Added tests for the playerCharacter's stars and self-healing, Added test for panels triggering playerCharacter's effects
+- Version 1.3.3 Fixed bug of the playerCharacter not being able to increase or decrease his stars
 - Version 1.3.2 More tests for panels types
 - Version 1.3.1 Delegate panel effects affecting the player, to the playerCharacter Class itself
 - Version 1.3.0 Tests for playerCharacter Stars and self healing
