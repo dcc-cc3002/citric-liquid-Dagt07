@@ -10,7 +10,7 @@ import model.units.traits.unitTrait
  * @param defense the defense of the unit.
  * @param evasion the evasion of the unit.
  */
-abstract class abstractUnit(val maxHp: Int, val attack: Int, val defense: Int, val evasion: Int) extends unitTrait{
+abstract class AbstractUnit(val maxHp: Int, val attack: Int, val defense: Int, val evasion: Int) extends unitTrait{
   private var _stars: Int = 0
   private var _currentHP: Int = maxHp
 
@@ -35,8 +35,5 @@ abstract class abstractUnit(val maxHp: Int, val attack: Int, val defense: Int, v
    * @param newAmount an Int amount for update the star count of the player
    * @return the new stars value of the player
    */
-  def stars_=(newAmount: Int): Unit = {
-    _stars = newAmount
-    println(s"cambiando estrellas $newAmount")
-  }
+  def stars_=(newAmount: Int): Unit = _stars = newAmount
 }

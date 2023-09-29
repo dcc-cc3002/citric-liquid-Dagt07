@@ -37,5 +37,15 @@ class ChickenTest extends munit.FunSuite {
     assertEquals(chicken.currentHP, currentHP)
     assertEquals(chicken.stars, stars)
   }
+
+  /*PARA NO SOBRECARGAR DE MOMENTO AL PLAYER Y TODOS LOS TEST QUE YA TIENE,
+  PROBEMOS ACÁ LOS GETTERS Y SETTERS DE ABSTRACT UNIT*/
+
+  test("A Chicken should be able to change its currentHP using his getter and setter"){
+    val expected = chicken.currentHP
+    assertEquals(chicken.currentHP, expected)
+    chicken.currentHP_=(expected+1)
+    assertEquals(chicken.currentHP, expected+1)
+  }
 }
 
