@@ -2,7 +2,6 @@ package cl.uchile.dcc.citric
 package model.units.wildUnits
 
 import model.units.classes.wildUnits.Seagull
-
 class SeagullTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple
@@ -39,4 +38,3 @@ class SeagullTest extends munit.FunSuite {
     assertEquals(seagull.stars, stars)
   }
 }
-

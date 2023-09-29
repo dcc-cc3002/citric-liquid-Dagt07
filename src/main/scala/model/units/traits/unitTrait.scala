@@ -15,4 +15,6 @@ trait unitTrait {
   val evasion: Int
   var currentHP: Int
   var stars: Int
+  //var _currentHP: Int
+  //var _stars: Int
 }

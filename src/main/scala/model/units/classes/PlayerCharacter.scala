@@ -56,6 +56,30 @@ class PlayerCharacter(val name: String,
                       var normObjective: String)
   extends abstractUnit(maxHp, attack, defense, evasion) with normTrait {
 
+  /** getters and setters for PlayerCharacter */
+  //private var _currentHP: Int = maxHp
+  //private var _stars: Int = 0
+
+  /*
+  /** getter for currentHP
+   * @return the current HP of the player
+   */
+  def currentHP: Int = _currentHP
+
+  /** getter for stars
+   * @return the current star count of the player
+   */
+  def stars: Int = _stars
+
+
+  /** Setter for CurrentHP */
+  def currentHP_= (newAmount: Int): Unit = _currentHP
+
+  /** Setter for stars */
+  def stars_= (newAmount: Int): Unit = _stars
+
+  */
+
   /** A instance of normaClass that will help checking player requirements to level up his norm */
   val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
@@ -66,16 +90,21 @@ class PlayerCharacter(val name: String,
 
   /* PANEL DEPENDENT METHODS */
   def regenerateHP(): Unit = {
-    currentHP += 10
+    //currentHP += 10
+    //_currentHP = currentHP + 10
+    currentHP_=(10 + currentHP)
   }
 
   /** Increases the player's star count by the given amount. */
   def increaseStarsByPanel(): Unit = {
     stars += min(rollDice() * currentNorm, rollDice() * 3)
+    //_stars = stars + min(rollDice() * currentNorm, rollDice() * 3)
   }
 
   def decreaseStarsByPanel(): Unit = {
     stars -= rollDice() * currentNorm
+    //_stars = stars - rollDice() * currentNorm
+
   }
 
 
@@ -83,26 +112,32 @@ class PlayerCharacter(val name: String,
 
   def increaseStarsByRound(amount: Int): Unit = {
     stars += amount
+    //_stars = stars + amount
   }
 
 
   /* COMBAT DEPENDENT METHODS, will be implemented properly later */
   /** Increases the player's star count by the given amount(carried by the enemy). */
   def increaseStarsByCombat(amount: Int): Unit = {
-     stars += amount
+    stars += amount
+    //_stars = stars + amount
   }
 
   def decreaseStarsByCombat(amount: Int): Unit = {
-     stars -= amount
+    stars -= amount
+    //_stars = stars + amount
   }
 
   // Two ways to gain wins for the player:
+
 
   //1. By defeating a wild unit
   def increaseVictories(wildUnit: unitTrait): Unit = {
     wins += 1
     stars += wildUnit.stars
+    //_stars = stars + wildUnit._stars
   }
+
 
   //using overloading to separate the way victories are achieved
 
@@ -112,16 +147,18 @@ class PlayerCharacter(val name: String,
     val rival_Stars : Int = opponent.stars
     val value: Int = rival_Stars/2
     stars += value
+    //_stars = stars + value
   }
 
-  var IntNormObjective: Int = currentNorm + 1
   /** Norm dependent methods */
+  var IntNormObjective: Int = currentNorm + 1
   def normCheck(): Unit = {
     playerNorm.getRequirements(IntNormObjective) match {
       case Some((starsRequired, winsRequired)) =>
         if (stars >= starsRequired || wins >= winsRequired) {
           currentNorm += 1
           IntNormObjective += 1
+          //_stars = 0
           stars = 0
           wins = 0
         }

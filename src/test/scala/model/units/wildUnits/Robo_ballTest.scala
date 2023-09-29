@@ -38,3 +38,4 @@ class Robo_ballTest extends munit.FunSuite {
     assertEquals(robo_ball.stars, stars)
   }
 }
+
