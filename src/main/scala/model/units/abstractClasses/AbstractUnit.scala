@@ -11,8 +11,24 @@ import model.units.traits.unitTrait
  * @param evasion the evasion of the unit.
  */
 abstract class AbstractUnit(val maxHp: Int, val attack: Int, val defense: Int, val evasion: Int) extends unitTrait{
+
+  /** Security for values */
+  private val _maxHp: Int = maxHp
+  private val _attack: Int = attack
+  private val _defense: Int = defense
+  private val _evasion: Int = evasion
+
+  /** Security for variables */
   private var _stars: Int = 0
   private var _currentHP: Int = maxHp
+
+  /** Getters for values */
+  def maxHp: Int = _maxHp
+  def attack: Int = _attack
+  def defense: Int = _defense
+  def evasion: Int = _evasion
+
+  /** Getters/Setters for variables */
 
   /** getter for currentHP
    * @return the current HP of the player

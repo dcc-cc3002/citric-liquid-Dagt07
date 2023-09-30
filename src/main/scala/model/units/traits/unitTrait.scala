@@ -9,6 +9,7 @@ package model.units.traits
 */
 
 trait unitTrait {
+  /*
   val maxHp: Int
   val attack: Int
   val defense: Int
@@ -17,4 +18,18 @@ trait unitTrait {
   var stars: Int
   //var _currentHP: Int
   //var _stars: Int
+  */
+
+  /** getters/setters to be implemented for variables*/
+  def currentHP: Int
+  def currentHP_=(newAmount: Int): Unit
+  def stars: Int
+  def stars_=(newAmount: Int): Unit
+
+  /** getters to be implemented for values */
+  def maxHp: Int
+  def attack: Int
+  def defense: Int
+  def evasion: Int
+
 }
