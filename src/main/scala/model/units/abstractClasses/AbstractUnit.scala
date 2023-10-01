@@ -5,22 +5,22 @@ import model.units.traits.unitTrait
 
 /**
  * Abstract class that represents a unit.
- * @param maxHp the maximum hp of the unit.
- * @param attack the attack of the unit.
- * @param defense the defense of the unit.
- * @param evasion the evasion of the unit.
+ * @param CMaxHp the maximum hp of the unit.
+ * @param CAttack the attack of the unit.
+ * @param CDefense the defense of the unit.
+ * @param CEvasion the evasion of the unit.
  */
-abstract class AbstractUnit(val maxHp: Int, val attack: Int, val defense: Int, val evasion: Int) extends unitTrait{
+abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends unitTrait{
 
   /** Security for values */
-  private val _maxHp: Int = maxHp
-  private val _attack: Int = attack
-  private val _defense: Int = defense
-  private val _evasion: Int = evasion
+  private val _maxHp: Int = CMaxHp
+  private val _attack: Int = CAttack
+  private val _defense: Int = CDefense
+  private val _evasion: Int = CEvasion
 
   /** Security for variables */
   private var _stars: Int = 0
-  private var _currentHP: Int = maxHp
+  private var _currentHP: Int = CMaxHp
 
   /** Getters for values */
   def maxHp: Int = _maxHp
