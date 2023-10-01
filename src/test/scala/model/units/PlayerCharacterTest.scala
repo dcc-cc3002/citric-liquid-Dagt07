@@ -5,8 +5,6 @@ import model.units.classes.PlayerCharacter
 import model.units.traits.unitTrait
 import model.units.classes.wildUnits.{Chicken, Robo_ball, Seagull}
 
-import cl.uchile.dcc.citric.model.units.classes.wildUnits.Chicken
-
 import scala.util.Random
 
 class PlayerCharacterTest extends munit.FunSuite {

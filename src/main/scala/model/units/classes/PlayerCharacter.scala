@@ -61,7 +61,6 @@ class PlayerCharacter(val name: String,
 
   /** getters and setters for PlayerCharacter are implemented in abstractUnit */
 
-
   /** A instance of normaClass that will help checking player requirements to level up his norm */
   val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
