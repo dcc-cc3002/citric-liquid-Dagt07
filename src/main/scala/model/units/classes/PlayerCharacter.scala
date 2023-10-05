@@ -7,7 +7,6 @@ import model.units.abstractClasses.AbstractUnit
 import model.norm.classes.NormaClass
 
 import scala.math.{min, floorDiv}
-import scala.util.Random
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,
@@ -34,7 +33,6 @@ import scala.util.Random
   * @param attack The player's capability to deal damage to opponents.
   * @param defense The player's capability to resist or mitigate damage from opponents.
   * @param evasion The player's skill to completely avoid certain attacks.
-  * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance.
   * @param wins The number of victories the player has.
   * @param defaultNorm The default norma level of the player.
   * @param currentNorm The current norma level of the player.
@@ -52,7 +50,6 @@ class PlayerCharacter(val name: String,
                       attack: Int,
                       defense: Int,
                       evasion: Int,
-                      val randomNumberGenerator: Random = new Random(),
                       var wins: Int,
                       val defaultNorm: Int = 1,
                       var currentNorm: Int,
@@ -64,10 +61,7 @@ class PlayerCharacter(val name: String,
   /** A instance of normaClass that will help checking player requirements to level up his norm */
   val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
-  /** Rolls a dice and returns a value between 1 to 6. */
-  def rollDice(): Int = {
-    randomNumberGenerator.nextInt(6) + 1
-  }
+
 
   /* PANEL DEPENDENT METHODS */
   def regenerateHP(): Unit = {

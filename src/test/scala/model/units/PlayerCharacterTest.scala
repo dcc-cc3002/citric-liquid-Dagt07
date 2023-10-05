@@ -44,7 +44,6 @@ class PlayerCharacterTest extends munit.FunSuite {
       attack,
       defense,
       evasion,
-      randomNumberGenerator: Random,
       wins,
       defaultNorm,
       currentNorm,
@@ -58,7 +57,6 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.attack, attack)
     assertEquals(character.defense, defense)
     assertEquals(character.evasion, evasion)
-    assertEquals(character.randomNumberGenerator, randomNumberGenerator)
     assertEquals(character.stars, stars)
     assertEquals(character.wins, wins)
     assertEquals(character.currentHP, currentHP)
@@ -70,9 +68,9 @@ class PlayerCharacterTest extends munit.FunSuite {
   // Two ways to test randomness (you can use any of them):
 
   // 1. Test invariant properties, e.g. the result is always between 1 and 6.
-  test("A character should be able to roll a dice") {
+  test("A character should be able to roll a dice without a default/fixed seed") {
     for (_ <- 1 to 10) {
-      assert(character.rollDice >= 1 && character.rollDice <= 6)
+      assert(character.rollDice() >= 1 && character.rollDice() <= 6)
     }
   }
 
@@ -81,10 +79,10 @@ class PlayerCharacterTest extends munit.FunSuite {
   // are always the same for the same seed.
   test("A character should be able to roll a dice with a fixed seed") {
     val other =
-      new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+      new PlayerCharacter(name, maxHp, attack, defense, evasion,
                           wins, defaultNorm, currentNorm, normObjective)
     for (_ <- 1 to 10) {
-      assertEquals(character.rollDice(), other.rollDice())
+      assertEquals(character.rollDice(11), other.rollDice(11))
     }
   }
 
@@ -95,7 +93,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should be able to increase their stars by landing in a BonusPanel"){
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                     wins, defaultNorm, currentNorm, normObjective)
     assertEquals(character.stars,other.stars)
     character.increaseStarsByPanel()
@@ -103,7 +101,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should be able to decrease their stars by landing in a DropPanel") {
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                     wins, defaultNorm, currentNorm, normObjective)
     assertEquals(character.stars, other.stars)
     character.decreaseStarsByPanel()
@@ -111,7 +109,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should increase their stars by winning a combat against other player") {
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                     wins, defaultNorm, currentNorm, normObjective)
     assertEquals(character.stars, other.stars)
     character.increaseStarsByCombat(2)
@@ -120,7 +118,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should decrease their stars by losing a combat against another player") {
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                     wins, defaultNorm, currentNorm, normObjective)
     assertEquals(character.stars, other.stars)
     character.decreaseStarsByCombat(3)
@@ -178,7 +176,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character should increase their victories by winning a combat against another player") {
     //Here is necessary to declare opponent a type PlayerCharacter, because we are using overloading in the PlayerCharacter class
-    val opponent: PlayerCharacter = new PlayerCharacter(name, maxHp, attack, defense, evasion, new Random(11),
+    val opponent: PlayerCharacter = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                                      wins, defaultNorm, currentNorm, normObjective)
     //they both are initialized with 0 stars
     assertEquals(character.stars, opponent.stars)

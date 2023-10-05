@@ -2,8 +2,10 @@ package cl.uchile.dcc.citric
 package model.units.abstractClasses
 
 import model.units.traits.unitTrait
+
 import scala.util.Random
-import scala.math.max
+import scala.math.{max, random}
+import scala.runtime.Null$
 
 /**
  * Abstract class that represents a unit.
@@ -11,6 +13,7 @@ import scala.math.max
  * @param CAttack the attack of the unit.
  * @param CDefense the defense of the unit.
  * @param CEvasion the evasion of the unit.
+ * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance.
  */
 abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends unitTrait{
 
@@ -75,11 +78,18 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
    */
   def stars_=(newAmount: Int): Unit = _stars = newAmount
 
-  /*roll dice 2.0*/
-  def rollDiceAttack(): Int = {
-    randomNumberGenerator2.nextInt(6) + 1
+  /** Other methods */
+  /** Rolls a dice and returns a value between 1 to 6. */
+  def rollDice(seed: Int = 0): Int = {
+    if (seed != 0){
+      val randomNumberGenerator: Random = new Random(seed)
+      return randomNumberGenerator.nextInt(6) + 1
+    }
+    val randomNumberGenerator: Random = new Random()
+    randomNumberGenerator.nextInt(6) + 1
   }
 
+  /*
   def attackMove(): Unit = {
   }
 
@@ -89,5 +99,5 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
 
   def evadeMove(): Unit = {
   }
-
+  */
 }

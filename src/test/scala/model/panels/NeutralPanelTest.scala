@@ -18,7 +18,7 @@ class NeutralPanelTest extends munit.FunSuite{
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private var randomNumberGenerator: Random = _
+  //private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
   private var stars = 0
   private var wins = 0
@@ -46,12 +46,12 @@ class NeutralPanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    randomNumberGenerator = new Random(11)
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+    //randomNumberGenerator = new Random(11)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                   wins, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                   wins, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion, randomNumberGenerator,
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                   wins, defaultNorm, currentNorm, normObjective)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
