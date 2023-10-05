@@ -26,6 +26,9 @@ contributions, the design decisions you've made, and any other information you d
 
 **Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
+- Version 2.4.2 Added AbstractUnit methods to attack, defend and evade
+- Version 2.4.1 PlayerCharacter.rollDice() moved to AbstractUnit because now all units need to throw a die, for the combat system development.
+- Version 2.4.0 Added tests for attack, defense and evasion methods to any abstractUnit subclass
 - Version 2.3.3 FIX some private values failing the tests
 - Version 2.3.2 Add privacy to all units statements -> getters && setters
 - Version 2.3.1 Deleted abstractPanelTest and AbstractUnitTest, they were badly designed

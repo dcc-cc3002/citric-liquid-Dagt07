@@ -6,8 +6,6 @@ import model.panels.classes.HomePanel
 import model.panels.traits.Panel
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
-
 
 class HomePanelTest extends munit.FunSuite{
 
@@ -19,7 +17,6 @@ class HomePanelTest extends munit.FunSuite{
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  //private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
   private var stars = 0
   private var wins = 0
@@ -47,7 +44,6 @@ class HomePanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    //randomNumberGenerator = new Random(11)
     player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                   wins, defaultNorm, currentNorm, normObjective)
     player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion,

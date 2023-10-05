@@ -13,8 +13,8 @@ class ChickenTest extends munit.FunSuite {
   private val defense = -1
   private val evasion = +1
   /* Add any other constants you need here... */
-  private val stars = 0
-  private val currentHP = maxHp
+  private var stars = 0
+  private var currentHP = maxHp
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.

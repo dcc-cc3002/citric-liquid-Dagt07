@@ -5,8 +5,6 @@ import model.units.classes.PlayerCharacter
 import model.units.traits.unitTrait
 import model.units.classes.wildUnits.{Chicken, Robo_ball, Seagull}
 
-import scala.util.Random
-
 class PlayerCharacterTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple
@@ -18,7 +16,6 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
   private var stars = 0
   private var wins = 0
@@ -37,7 +34,6 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    randomNumberGenerator = new Random(11)
     character = new PlayerCharacter(
       name,
       maxHp,
@@ -97,6 +93,9 @@ class PlayerCharacterTest extends munit.FunSuite {
                                     wins, defaultNorm, currentNorm, normObjective)
     assertEquals(character.stars,other.stars)
     character.increaseStarsByPanel()
+    //println(character.stars,other.stars)
+    //character.stars +=1
+    //println(character.stars,other.stars)
     assert(character.stars > other.stars)
   }
 
@@ -127,7 +126,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should increase their stars by winning a combat against a wildUnit") {
-    /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats*/
+    /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats)*/
     val chicken: unitTrait = new Chicken(maxHp, attack, defense, evasion)
     assertEquals(character.stars, chicken.stars)
     character.increaseStarsByCombat(5)
