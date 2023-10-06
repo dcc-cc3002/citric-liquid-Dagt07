@@ -32,4 +32,7 @@ trait unitTrait {
   def defense: Int
   def evasion: Int
 
+  /** Other methods */
+  def rollDice(seed: Int = 0): Int
+
 }

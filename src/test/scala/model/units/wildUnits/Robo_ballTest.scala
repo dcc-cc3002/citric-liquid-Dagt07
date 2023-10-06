@@ -37,5 +37,26 @@ class Robo_ballTest extends munit.FunSuite {
     assertEquals(robo_ball.currentHP, currentHP)
     assertEquals(robo_ball.stars, stars)
   }
+
+  // Two ways to test randomness (you can use any of them):
+
+  // 1. Test invariant properties, e.g. the result is always between 1 and 6.
+  test("A Robo_Ball should be able to roll a dice without a default/fixed seed") {
+    for (_ <- 1 to 10) {
+      assert(robo_ball.rollDice() >= 1 && robo_ball.rollDice() <= 6)
+    }
+  }
+
+  // 2. Set a seed and test the result is always the same.
+  // A seed sets a fixed succession of random numbers, so you can know that the next numbers
+  // are always the same for the same seed.
+  test("A Robo_ball should be able to roll a dice with a fixed seed") {
+    val other =
+      new Robo_ball(maxHp, attack, defense, evasion)
+    for (_ <- 1 to 10) {
+      assertEquals(robo_ball.rollDice(11), other.rollDice(11))
+    }
+  }
+
 }
 

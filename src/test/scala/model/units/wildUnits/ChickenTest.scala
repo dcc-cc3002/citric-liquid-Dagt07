@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.wildUnits
 
 import model.units.classes.wildUnits.Chicken
+
 class ChickenTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple
@@ -44,5 +45,42 @@ class ChickenTest extends munit.FunSuite {
     chicken.currentHP_=(expected+1)
     assertEquals(chicken.currentHP, expected+1)
   }
+
+  // Two ways to test randomness (you can use any of them):
+
+  // 1. Test invariant properties, e.g. the result is always between 1 and 6.
+  test("A Chicken should be able to roll a dice without a default/fixed seed") {
+    for (_ <- 1 to 10) {
+      assert(chicken.rollDice() >= 1 && chicken.rollDice() <= 6)
+    }
+  }
+
+  // 2. Set a seed and test the result is always the same.
+  // A seed sets a fixed succession of random numbers, so you can know that the next numbers
+  // are always the same for the same seed.
+  test("A Chicken should be able to roll a dice with a fixed seed") {
+    val other =
+      new Chicken(maxHp,attack,defense,evasion)
+    for (_ <- 1 to 10) {
+      assertEquals(chicken.rollDice(11), other.rollDice(11))
+    }
+  }
+
+  test("Defense method"){
+    val other = new Chicken(maxHp, attack, defense, evasion)
+    val ref = chicken.currentHP
+    val value = chicken.defendMove(other)
+    //println(value,ref,other.attack)
+    assert(chicken.currentHP == ref || chicken.currentHP == ref - value)
+  }
+
+  test("Evade method"){
+    val other = new Chicken(maxHp, attack, defense, evasion)
+    val ref = chicken.currentHP
+    val value = chicken.evadeMove(other)
+    //println(value,ref,other.attack)
+    assert(chicken.currentHP == ref || chicken.currentHP == ref - value)
+  }
+
 }
 
