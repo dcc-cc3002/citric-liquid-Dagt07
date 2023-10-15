@@ -1,11 +1,10 @@
 package cl.uchile.dcc.citric
 package model.units.abstractClasses
 
-import model.units.traits.unitTrait
+import model.units.traits.UnitTrait
 
 import scala.util.Random
-import scala.math.{max, random}
-import scala.runtime.Null$
+import scala.math.max
 
 /**
  * Abstract class that represents a unit.
@@ -15,7 +14,7 @@ import scala.runtime.Null$
  * @param CEvasion the evasion of the unit.
  * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance.
  */
-abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends unitTrait{
+abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends UnitTrait{
 
   /** Security for values */
   private val _maxHp: Int = CMaxHp
@@ -93,14 +92,14 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   def attackMove(): Unit = {
   }
   */
-  def defendMove(opponent: unitTrait): Int = {
+  def defendMove(opponent: UnitTrait): Int = {
     val luck = max(1, opponent.rollDice() + opponent.attack - (rollDice() + defense))
     //println(luck,opponent.attack)
     currentHP -= luck
     luck //returns the damage taken
   }
 
-  def evadeMove(opponent: unitTrait): Int = {
+  def evadeMove(opponent: UnitTrait): Int = {
     val selfLuck = rollDice()+ evasion
     val opponentLuck = opponent.rollDice() + opponent.attack
     //println(currentHP, selfLuck, opponentLuck, opponent.attack)

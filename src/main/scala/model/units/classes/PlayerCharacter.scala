@@ -2,7 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.classes
 
 import model.norm.traits.normTrait
-import model.units.traits.unitTrait
+import model.units.traits.UnitTrait
 import model.units.abstractClasses.AbstractUnit
 import model.norm.classes.NormaClass
 
@@ -99,7 +99,7 @@ class PlayerCharacter(val name: String,
   //using overloading to separate the way victories are achieved
 
   //1. By defeating a wild unit
-  def increaseVictories(wildUnit: unitTrait): Unit = {
+  def increaseVictories(wildUnit: UnitTrait): Unit = {
     wins += 1
     stars += wildUnit.stars
   }

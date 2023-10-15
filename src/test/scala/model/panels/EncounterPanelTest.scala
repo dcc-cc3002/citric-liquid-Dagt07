@@ -4,6 +4,8 @@ package model.panels
 import model.panels.classes.EncounterPanel
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
+import model.units.traits.UnitTrait
+import model.units.classes.wildUnits.Chicken
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -34,6 +36,8 @@ class EncounterPanelTest extends munit.FunSuite{
   private var player2: PlayerCharacter = _
   private var player3: PlayerCharacter = _
 
+  private var wildUnit: UnitTrait = _
+
   private var panel1: Panel = _
   private var panel2: Panel = _
   private var panel3: Panel = _
@@ -51,16 +55,19 @@ class EncounterPanelTest extends munit.FunSuite{
     player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
                                   wins, defaultNorm, currentNorm, normObjective)
 
+    var wildUnit: UnitTrait = new Chicken (maxHp, attack, defense, evasion)
+
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
     //Init the panel
-    encounterPanel = new EncounterPanel(characters, nextPanels) {
+    encounterPanel = new EncounterPanel(characters, nextPanels, wildUnit) {
     }
   }
 
   // 1. Test invariant properties
   test("A EncounterPanel should have correctly set their attributes") {
+    //val other_chicken = new Chicken(maxHp, attack, defense, evasion)
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
   }

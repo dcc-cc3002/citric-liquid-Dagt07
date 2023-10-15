@@ -3,6 +3,7 @@ package model.panels.classes
 
 import model.panels.abstractClasses.AbstractPanel
 import model.panels.traits.Panel
+import model.units.traits.UnitTrait
 import model.units.classes.PlayerCharacter
 
 import scala.collection.mutable.ArrayBuffer
@@ -14,8 +15,9 @@ import scala.collection.mutable.ArrayBuffer
  * @author [[https://github.com/Dagt07 David Garcia T.]]
  */
 
-class EncounterPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Panel])
+class EncounterPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Panel], var wildUnit: UnitTrait)
   extends AbstractPanel(characters, nextPanels){
+
 
   /* In the current version, this panel cant be implemented because the combat system is not implemented yet */
 }

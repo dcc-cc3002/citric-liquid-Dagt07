@@ -2,7 +2,7 @@ package cl.uchile.dcc.citric
 package model.units
 
 import model.units.classes.PlayerCharacter
-import model.units.traits.unitTrait
+import model.units.traits.UnitTrait
 import model.units.classes.wildUnits.{Chicken, Robo_ball, Seagull}
 
 class PlayerCharacterTest extends munit.FunSuite {
@@ -127,7 +127,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character should increase their stars by winning a combat against a wildUnit") {
     /*For example here we will use a Chicken as a wildUnit (because all wildUnits are the same but with different stats)*/
-    val chicken: unitTrait = new Chicken(maxHp, attack, defense, evasion)
+    val chicken: UnitTrait = new Chicken(maxHp, attack, defense, evasion)
     assertEquals(character.stars, chicken.stars)
     character.increaseStarsByCombat(5)
     assert(character.stars > chicken.stars)
@@ -136,7 +136,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character should increase their victories by winning a combat against a Chicken wildUnit") {
     //Here is necessary to declare chicken a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val chicken: unitTrait = new Chicken(maxHp, attack, defense, evasion)
+    val chicken: UnitTrait = new Chicken(maxHp, attack, defense, evasion)
     //they both are initialized with 0 stars
     assertEquals(character.stars, chicken.stars)
     character.increaseVictories(chicken)
@@ -149,7 +149,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character should increase their victories by winning a combat against a Robo_ball (wildUnit)") {
     //Here is necessary to declare robo_ball a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val robo_ball: unitTrait = new Robo_ball(maxHp, attack, defense, evasion)
+    val robo_ball: UnitTrait = new Robo_ball(maxHp, attack, defense, evasion)
     //they both are initialized with 0 stars
     assertEquals(character.stars, robo_ball.stars)
     character.increaseVictories(robo_ball)
@@ -162,7 +162,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("A character should increase their victories by winning a combat against a Seagull (wildUnit)") {
     //Here is necessary to declare seagull a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val seagull: unitTrait = new Seagull(maxHp, attack, defense, evasion)
+    val seagull: UnitTrait = new Seagull(maxHp, attack, defense, evasion)
     //they both are initialized with 0 stars
     assertEquals(character.stars, seagull.stars)
     character.increaseVictories(seagull)

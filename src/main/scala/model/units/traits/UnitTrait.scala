@@ -8,7 +8,7 @@ package model.units.traits
 * @param evasion The player's skill to completely avoid certain attacks.
 */
 
-trait unitTrait {
+trait UnitTrait {
   /*
   val maxHp: Int
   val attack: Int
