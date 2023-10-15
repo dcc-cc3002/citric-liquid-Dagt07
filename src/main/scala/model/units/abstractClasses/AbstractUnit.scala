@@ -94,10 +94,10 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   }
   */
   def defendMove(opponent: unitTrait): Int = {
-    val luck = max(1, rollDice() + opponent.attack - rollDice())
+    val luck = max(1, opponent.rollDice() + opponent.attack - (rollDice() + defense))
     //println(luck,opponent.attack)
     currentHP -= luck
-    return luck
+    luck //returns the damage taken
   }
 
   def evadeMove(opponent: unitTrait): Int = {
@@ -109,10 +109,10 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
       currentHP -= opponentLuck
       //println("Gano el oponente")
       //println(currentHP)
-      return opponentLuck
+      return opponentLuck //returns the damage taken
     }
     //println("Gano evadir")
     //println(currentHP)
-    return selfLuck
+    selfLuck //returns the damage taken
   }
 }

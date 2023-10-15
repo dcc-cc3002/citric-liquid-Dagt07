@@ -70,8 +70,8 @@ class ChickenTest extends munit.FunSuite {
     val other = new Chicken(maxHp, attack, defense, evasion)
     val ref = chicken.currentHP
     val value = chicken.defendMove(other)
-    //println(value,ref,other.attack)
-    assert(chicken.currentHP == ref || chicken.currentHP == ref - value)
+    println(value,ref,chicken.currentHP)
+    assert(chicken.currentHP == ref - 1 || chicken.currentHP == ref - value)
   }
 
   test("Evade method"){
