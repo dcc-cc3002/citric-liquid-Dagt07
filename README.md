@@ -14,6 +14,9 @@ purpose is to serve as an educational tool, teaching foundational programming co
 The remainder of this README is yours to complete. Take this opportunity to describe your
 contributions, the design decisions you've made, and any other information you deem necessary.
 
+### UML Diagram
+![UML Diagram]( ../citric-liquid-Dagt07/imagenes/UML99OrangeJuiceDiagram.png  "UML Diagram")
+
 ### Tarea 1
 
 - Tarea 1 EP1: Design of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type associations and methods.
@@ -21,6 +24,8 @@ contributions, the design decisions you've made, and any other information you d
 - Tarea 1 EP2: Test driven development and Implementation of the trait, abstractClass and classes necessary to build the section 2.3 _Board_. And some additional implementations for the section 2.1 _Units_ and section 2.2 _Norm_.
 
 <hr>
+
+
 
 ### Changelog
 
