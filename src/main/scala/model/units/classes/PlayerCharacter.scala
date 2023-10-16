@@ -61,8 +61,6 @@ class PlayerCharacter(val name: String,
   /** A instance of normaClass that will help checking player requirements to level up his norm */
   val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
 
-
-
   /* PANEL DEPENDENT METHODS */
   def regenerateHP(): Unit = {
     currentHP_=(10 + currentHP)
@@ -76,7 +74,6 @@ class PlayerCharacter(val name: String,
   def decreaseStarsByPanel(): Unit = {
     stars -= rollDice() * currentNorm
   }
-
 
   /* ROUND DEPENDENT METHODS, will be implemented properly later */
 

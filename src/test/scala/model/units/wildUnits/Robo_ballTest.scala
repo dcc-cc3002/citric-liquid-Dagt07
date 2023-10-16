@@ -58,5 +58,32 @@ class Robo_ballTest extends munit.FunSuite {
     }
   }
 
+  test("Attack method") {
+    assertNotEquals(robo_ball.attackMove(robo_ball), robo_ball.attack)
+    assert(robo_ball.attack < robo_ball.attackMove(robo_ball))
+    assert(robo_ball.attackMove(robo_ball) > -1) //Attack should never be negative
+    robo_ball.isKO = true
+    assertEquals(robo_ball.attackMove(robo_ball), 0) //If KO, attack should be 0
+
+  }
+
+  test("Defense method") {
+    val other = new Robo_ball(maxHp, attack, defense, evasion)
+    val ref = robo_ball.currentHP
+    val value = robo_ball.defendMove(other)
+    assert(robo_ball.currentHP == ref - 1 || robo_ball.currentHP == ref - value)
+    val megaRobo_ball = new Robo_ball(maxHp, 10000, defense, evasion)
+    robo_ball.defendMove(megaRobo_ball)
+    assertEquals(robo_ball.currentHP, expected = 0)
+    assertEquals(robo_ball.isKO, expected = true)
+  }
+
+  test("Evade method") {
+    val other = new Robo_ball(maxHp, attack, defense, evasion)
+    val ref = robo_ball.currentHP
+    val value = robo_ball.evadeMove(other)
+    //println(value,ref,other.attack)
+    assert(robo_ball.currentHP == ref || robo_ball.currentHP == ref - value)
+  }
 }
 

@@ -66,19 +66,31 @@ class ChickenTest extends munit.FunSuite {
     }
   }
 
+  test("Attack method"){
+    assertNotEquals(chicken.attackMove(chicken),chicken.attack)
+    assert(chicken.attack < chicken.attackMove(chicken))
+    assert(chicken.attackMove(chicken) > -1) //Attack should never be negative
+    chicken.isKO = true
+    assertEquals(chicken.attackMove(chicken),0)  //If KO, attack should be 0
+
+  }
+
   test("Defense method"){
     val other = new Chicken(maxHp, attack, defense, evasion)
     val ref = chicken.currentHP
     val value = chicken.defendMove(other)
     println(value,ref,chicken.currentHP)
     assert(chicken.currentHP == ref - 1 || chicken.currentHP == ref - value)
+    val megaChicken = new Chicken(maxHp, 10000, defense, evasion)
+    chicken.defendMove(megaChicken)
+    assertEquals(chicken.currentHP, expected = 0)
+    assertEquals(chicken.isKO, expected = true)
   }
 
   test("Evade method"){
     val other = new Chicken(maxHp, attack, defense, evasion)
     val ref = chicken.currentHP
     val value = chicken.evadeMove(other)
-    //println(value,ref,other.attack)
     assert(chicken.currentHP == ref || chicken.currentHP == ref - value)
   }
 

@@ -29,7 +29,7 @@ class SeagullTest extends munit.FunSuite {
     seagull = new Seagull(maxHp, attack, defense, evasion)
   }
 
-  test("A Chicken should have correctly set their attributes") {
+  test("A seagull should have correctly set their attributes") {
     assertEquals(seagull.maxHp, maxHp)
     assertEquals(seagull.attack, attack)
     assertEquals(seagull.defense, defense)
@@ -56,5 +56,32 @@ class SeagullTest extends munit.FunSuite {
     for (_ <- 1 to 10) {
       assertEquals(seagull.rollDice(11), other.rollDice(11))
     }
+  }
+
+  test("Attack method") {
+    assertNotEquals(seagull.attackMove(seagull), seagull.attack)
+    assert(seagull.attack < seagull.attackMove(seagull))
+    assert(seagull.attackMove(seagull) > -1) //Attack should never be negative
+    seagull.isKO = true
+    assertEquals(seagull.attackMove(seagull), 0) //If KO, attack should be 0
+
+  }
+
+  test("Defense method") {
+    val other = new Seagull(maxHp, attack, defense, evasion)
+    val ref = seagull.currentHP
+    val value = seagull.defendMove(other)
+    assert(seagull.currentHP == ref - 1 || seagull.currentHP == ref - value)
+    val megaSeagull = new Seagull(maxHp, 10000, defense, evasion)
+    seagull.defendMove(megaSeagull)
+    assertEquals(seagull.currentHP, expected = 0)
+    assertEquals(seagull.isKO, expected = true)
+  }
+
+  test("Evade method") {
+    val other = new Seagull(maxHp, attack, defense, evasion)
+    val ref = seagull.currentHP
+    val value = seagull.evadeMove(other)
+    assert(seagull.currentHP == ref || seagull.currentHP == ref - value)
   }
 }
