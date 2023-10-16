@@ -26,6 +26,9 @@ contributions, the design decisions you've made, and any other information you d
 
 **Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
+- Version 2.5.1 UML diagram of the project added to the repository
+- Version 2.5.0 Feedback taken into account, 1) refactor all the NormaClass to various classes, one for each Norma level. 2) Style refactor for packages and classes names. 3) Added WildUnit trait(interface) to the overall design of the project
+- Version 2.4.3 Moved away attacking calculus from inside the defend and evade method, to the attack method itself
 - Version 2.4.2 Added AbstractUnit methods to attack, defend and evade
 - Version 2.4.1 PlayerCharacter.rollDice() moved to AbstractUnit because now all units need to throw a die, for the combat system development.
 - Version 2.4.0 Added tests for attack, defense and evasion methods to any abstractUnit subclass
