@@ -15,7 +15,7 @@ The remainder of this README is yours to complete. Take this opportunity to desc
 contributions, the design decisions you've made, and any other information you deem necessary.
 
 ### UML Diagram
-![UML Diagram]( ../citric-liquid-Dagt07/imagenes/UML99OrangeJuiceDiagram.png  "UML Diagram")
+![UML Diagram](/imagenes/UML99OrangeJuiceDiagram.png  "UML Diagram")
 
 ### Tarea 1
 
