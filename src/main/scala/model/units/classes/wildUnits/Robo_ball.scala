@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.classes.wildUnits
 
 import model.units.abstractClasses.AbstractUnit
+import model.units.traits.WildUnit
 
 /**
  * Class that represents the Robo_ball wild unit.
@@ -12,7 +13,7 @@ import model.units.abstractClasses.AbstractUnit
  *
  * @author [[https://github.com/Dagt07/ David García T.]]
  */
-class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion){
+class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion) with WildUnit{
 
   //Robo_ball as a wild unit will have the ability to steal stars form the player if it wins, but right now that involves
   //combat, so it will be implemented later.

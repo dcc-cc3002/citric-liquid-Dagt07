@@ -2,11 +2,11 @@ package cl.uchile.dcc.citric
 package model.units.classes
 
 import model.norm.traits.normTrait
-import model.units.traits.UnitTrait
+import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractClasses.AbstractUnit
 import model.norm.classes.NormaClass
 
-import scala.math.{min, floorDiv}
+import scala.math.{floorDiv, min}
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
   * several attributes such as health points, attack strength, defense capability,
