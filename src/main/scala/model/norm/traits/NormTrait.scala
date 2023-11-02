@@ -10,7 +10,7 @@ package model.norm.traits
  * @author [[https://github.com/Dagt07 David Garcia T.]]
  */
 
-trait normTrait {
+trait NormTrait {
   val defaultNorm: Int
   var currentNorm: Int
   var normObjective: String

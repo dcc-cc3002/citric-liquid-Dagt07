@@ -1,9 +1,9 @@
 package cl.uchile.dcc.citric
 package model.units.classes
 
-import model.norm.traits.normTrait
+import model.norm.traits.NormTrait
 import model.units.traits.{UnitTrait, WildUnit}
-import model.units.abstractClasses.AbstractUnit
+import model.units.abstractc.AbstractUnit
 import model.norm.classes.NormaClass
 
 import scala.math.{floorDiv, min}
@@ -54,7 +54,7 @@ class PlayerCharacter(val name: String,
                       val defaultNorm: Int = 1,
                       var currentNorm: Int,
                       var normObjective: String)
-  extends AbstractUnit(maxHp, attack, defense, evasion) with normTrait {
+  extends AbstractUnit(maxHp, attack, defense, evasion) with NormTrait {
 
   /** getters and setters for PlayerCharacter are implemented in abstractUnit */
 

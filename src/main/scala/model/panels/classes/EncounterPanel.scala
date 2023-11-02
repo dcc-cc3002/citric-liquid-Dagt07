@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.panels.classes
 
-import model.panels.abstractClasses.AbstractPanel
+import model.panels.abstractc.AbstractPanel
 import model.panels.traits.Panel
 import model.units.traits.UnitTrait
 import model.units.classes.PlayerCharacter

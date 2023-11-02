@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.units.classes.wildUnits
+package model.units.classes.wilds
 
-import model.units.abstractClasses.AbstractUnit
+import model.units.abstractc.AbstractUnit
 import model.units.traits.WildUnit
 
 /**

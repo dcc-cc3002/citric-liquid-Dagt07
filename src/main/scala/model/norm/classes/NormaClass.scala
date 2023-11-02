@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.norm.classes
 
-import model.norm.traits.normTrait
+import model.norm.traits.NormTrait
 
 /** NormaCLass is a class that represents all the valids norms for the game, aka, the level system.
  *  @param defaultNorm the default norm of the player.
@@ -12,7 +12,7 @@ import model.norm.traits.normTrait
  *  @author [[https://github.com/Dagt07 David Garcia T.]]
  */
 
-class NormaClass(val defaultNorm: Int = 1, var currentNorm: Int, var normObjective: String) extends normTrait {
+class NormaClass(val defaultNorm: Int = 1, var currentNorm: Int, var normObjective: String) extends NormTrait {
 
   /** Valid norms using a map with the level as key and a tuple (x,y) where x: stars needed to level up, y: victories needed to level up. */
   val norms: Map[Int, (Int, Int)] = Map(

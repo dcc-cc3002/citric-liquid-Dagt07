@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.units.wildUnits
+package model.units.wilds
 
-import model.units.classes.wildUnits.Chicken
+import model.units.classes.wilds.Chicken
 
 class ChickenTest extends munit.FunSuite {
   /*

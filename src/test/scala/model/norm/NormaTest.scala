@@ -8,7 +8,7 @@ import model.units.classes.PlayerCharacter
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-class normaTest extends munit.FunSuite{
+class NormaTest extends munit.FunSuite{
 
   /* Values and variables for the test*/
 

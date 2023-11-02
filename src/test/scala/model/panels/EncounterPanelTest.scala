@@ -5,7 +5,7 @@ import model.panels.classes.EncounterPanel
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
 import model.units.traits.UnitTrait
-import model.units.classes.wildUnits.Chicken
+import model.units.classes.wilds.Chicken
 
 import scala.collection.mutable.ArrayBuffer
 

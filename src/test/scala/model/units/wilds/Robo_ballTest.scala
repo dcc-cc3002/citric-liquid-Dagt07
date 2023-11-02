@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.units.wildUnits
+package model.units.wilds
 
-import model.units.classes.wildUnits.Robo_ball
+import model.units.classes.wilds.Robo_ball
 class Robo_ballTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple

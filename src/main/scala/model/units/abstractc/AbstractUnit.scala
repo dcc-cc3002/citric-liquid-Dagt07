@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package model.units.abstractClasses
+package model.units.abstractc
 
 import model.units.traits.UnitTrait
 

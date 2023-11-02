@@ -3,7 +3,7 @@ package model.panels.classes
 
 import model.units.classes.PlayerCharacter
 import model.panels.traits.Panel
-import model.panels.abstractClasses.AbstractPanel
+import model.panels.abstractc.AbstractPanel
 
 import scala.collection.mutable.ArrayBuffer
 

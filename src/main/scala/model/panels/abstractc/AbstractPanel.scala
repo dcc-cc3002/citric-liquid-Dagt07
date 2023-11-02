@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package model.panels.abstractClasses
+package model.panels.abstractc
 
 import scala.collection.mutable.ArrayBuffer
 import model.panels.traits.Panel

@@ -3,7 +3,7 @@ package model.units
 
 import model.units.classes.PlayerCharacter
 import model.units.traits.UnitTrait
-import model.units.classes.wildUnits.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
 
 class PlayerCharacterTest extends munit.FunSuite {
   /*
