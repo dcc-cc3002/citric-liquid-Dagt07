@@ -38,9 +38,9 @@ class HomePanelTest extends munit.FunSuite{
   private var panel2: Panel = _
   private var panel3: Panel = _
 
-  //initialize array buffer of characters and panels to create the NeutralPanel
+  //initialize array buffer of characters and panels to create the HomePanel
 
-  private var homepanel: HomePanel = _
+  private var homePanel: HomePanel = _
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
@@ -54,19 +54,40 @@ class HomePanelTest extends munit.FunSuite{
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
-    homepanel = new HomePanel(characters, nextPanels, owner= player1){
+    homePanel = new HomePanel(characters, nextPanels, owner= player1){
     }
   }
 
   test("A HomePanel should have correctly set their attributes") {
-    assertEquals(homepanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
-    assertEquals(homepanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    assertEquals(homepanel.owner, player1)
+    assertEquals(homePanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(homePanel.owner, player1)
   }
 
+  test("A HomePanel should add a panel to the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    val panel4: Panel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), owner=player2)
+    homePanel.addPanel(panel4)
+    assertNotEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3, panel4))
+  }
+
+  test("A HomePanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that already exist in the list of NextPanels of the panel itself
+    homePanel.removePanel(panel3)
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    val panel4: Panel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), owner=player2)
+    homePanel.removePanel(panel4)
+    assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+  
   test("A HomePanel can trigger the player to regenerate HP") {
     var healthPoints = player1.currentHP
-    homepanel.regenerateHP(player1)
+    homePanel.regenerateHP(player1)
     assertEquals(player1.currentHP, healthPoints + 10)
   }
 }

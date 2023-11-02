@@ -58,4 +58,12 @@ abstract class AbstractPanel(val characters: ArrayBuffer[PlayerCharacter], var n
     characters -= player
   }
 
+  def addPanel(panel: Panel): Unit = {
+    nextPanels += panel
+  }
+
+  def removePanel(panel: Panel): Unit = {
+    //ver que pasa para panel vacio. ver que pasa para más de 1 mismo tipo de panel en la lista, ej remover droppanel, con nextPanels [neutral, drop, drop]
+    if (nextPanels.contains(panel)) nextPanels -= panel
+  }
 }

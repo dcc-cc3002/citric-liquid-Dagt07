@@ -42,7 +42,7 @@ class EncounterPanelTest extends munit.FunSuite{
   private var panel2: Panel = _
   private var panel3: Panel = _
 
-  //initialize array buffer of characters and panels to create the NeutralPanel
+  //initialize array buffer of characters and panels to create the EncounterPanel
 
   private var encounterPanel: EncounterPanel = _
 
@@ -83,4 +83,26 @@ class EncounterPanelTest extends munit.FunSuite{
     encounterPanel.removeCharacter(player1)
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
   }
+
+  test("A EncounterPanel should add a panel to the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    encounterPanel.addPanel(panel4)
+    assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3, panel4))
+  }
+
+  test("A EncounterPanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that already exist in the list of NextPanels of the panel itself
+    encounterPanel.removePanel(panel3)
+    assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    encounterPanel.removePanel(panel4)
+    assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+  
 }

@@ -76,5 +76,26 @@ class NeutralPanelTest extends munit.FunSuite{
     neutralPanel.removeCharacter(player1)
     assertEquals(neutralPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
   }
+
+  test("A NeutralPanel should add a panel to the list of NextPanels if necessary to build/modify the board"){
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2,panel3))
+    val panel4: Panel = new NeutralPanel(ArrayBuffer[PlayerCharacter](player1,player2),ArrayBuffer[Panel](panel1,panel2))
+    neutralPanel.addPanel(panel4)
+    assertNotEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2,panel3))
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2,panel3,panel4))
+  }
+
+  test("A NeutralPanel should remove a panel from the list of NextPanels if necessary to build/modify the board"){
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2,panel3))
+    //remove a panel that already exist in the list of NextPanels of the panel itself
+    neutralPanel.removePanel(panel3)
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2))
+    assertNotEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2,panel3))
+    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    val panel4: Panel = new NeutralPanel(ArrayBuffer[PlayerCharacter](player1,player2),ArrayBuffer[Panel](panel1,panel2))
+    neutralPanel.removePanel(panel4)
+    assertEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1,panel2))
+    assertNotEquals(neutralPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
 }
 

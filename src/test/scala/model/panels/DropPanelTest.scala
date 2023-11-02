@@ -38,7 +38,7 @@ class DropPanelTest extends munit.FunSuite{
   private var panel2: Panel = _
   private var panel3: Panel = _
 
-  //initialize array buffer of characters and panels to create the NeutralPanel
+  //initialize array buffer of characters and panels to create the DropPanel
 
   private var dropPanel: DropPanel = _
 
@@ -77,6 +77,27 @@ class DropPanelTest extends munit.FunSuite{
     assertEquals(dropPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
   }
 
+  test("A DropPanel should add a panel to the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    val panel4: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
+    dropPanel.addPanel(panel4)
+    assertNotEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3, panel4))
+  }
+
+  test("A DropPanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that already exist in the list of NextPanels of the panel itself
+    dropPanel.removePanel(panel3)
+    assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    val panel4: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
+    dropPanel.removePanel(panel4)
+    assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+  
   test("A character should be able to decrease their stars by landing in a DropPanel") {
     val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
       wins, defaultNorm, currentNorm, normObjective)
@@ -84,5 +105,5 @@ class DropPanelTest extends munit.FunSuite{
     dropPanel.dropStars(player1)
     assert(player1.stars < other.stars)
   }
-
+  
 }

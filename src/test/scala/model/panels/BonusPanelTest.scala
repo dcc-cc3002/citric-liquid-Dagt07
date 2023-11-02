@@ -38,9 +38,9 @@ class BonusPanelTest extends munit.FunSuite{
   private var panel2: Panel = _
   private var panel3: Panel = _
 
-  //initialize array buffer of characters and panels to create the NeutralPanel
+  //initialize array buffer of characters and panels to create the bonusPanel
 
-  private var bonuspanel: BonusPanel = _
+  private var bonusPanel: BonusPanel = _
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
@@ -55,33 +55,54 @@ class BonusPanelTest extends munit.FunSuite{
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
     //Init the panel
-    bonuspanel = new BonusPanel(characters, nextPanels) {
+    bonusPanel = new BonusPanel(characters, nextPanels) {
     }
   }
 
   // 1. Test invariant properties
   test("A BonusPanel should have correctly set their attributes") {
-    assertEquals(bonuspanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
-    assertEquals(bonuspanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(bonusPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
   }
 
   // 2. Test methods
   test("A BonusPanel should add a character to the list of characters currently on this panel") {
-    bonuspanel.addCharacter(player1)
-    assertEquals(bonuspanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3, player1))
+    bonusPanel.addCharacter(player1)
+    assertEquals(bonusPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3, player1))
   }
 
   test("A BonusPanel should remove a character to the list of characters currently on this panel") {
-    assertEquals(bonuspanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
-    bonuspanel.removeCharacter(player1)
-    assertEquals(bonuspanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
+    assertEquals(bonusPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
+    bonusPanel.removeCharacter(player1)
+    assertEquals(bonusPanel.characters, ArrayBuffer[PlayerCharacter](player2, player3))
   }
 
+  test("A BonusPanel should add a panel to the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    val panel4: Panel = new BonusPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
+    bonusPanel.addPanel(panel4)
+    assertNotEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3, panel4))
+  }
+
+  test("A BonusPanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that already exist in the list of NextPanels of the panel itself
+    bonusPanel.removePanel(panel3)
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    val panel4: Panel = new BonusPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
+    bonusPanel.removePanel(panel4)
+    assertEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
+    assertNotEquals(bonusPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+  
   test("A character should be able to increase their stars by landing in a BonusPanel") {
     val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
       wins, defaultNorm, currentNorm, normObjective)
     assertEquals(player1.stars, other.stars)
-    bonuspanel.giveStars(player1)
+    bonusPanel.giveStars(player1)
     assert(player1.stars > other.stars)
   }
 
