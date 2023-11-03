@@ -2,7 +2,7 @@ package cl.uchile.dcc.citric
 package model.panels
 
 import model.units.classes.PlayerCharacter
-import model.panels.classes.HomePanel
+import model.panels.classes.{DropPanel, HomePanel}
 import model.panels.traits.Panel
 
 import scala.collection.mutable.ArrayBuffer
@@ -74,17 +74,36 @@ class HomePanelTest extends munit.FunSuite{
 
   test("A HomePanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
     assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that already exist in the list of NextPanels of the panel itself
+    //remove a panel that already exist in the list of nextPanels of the panel itself
     homePanel.removePanel(panel3)
     assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
-    val panel4: Panel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), owner=player2)
+    //remove a panel that doesn't exist in the list of nextPanels of the panel itself
+    val panel4: Panel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), owner = player2)
     homePanel.removePanel(panel4)
     assertEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(homePanel.nextPanels, ArrayBuffer[Panel](panel1))
   }
-  
+
+  test("Not more than one same type panel removed") {
+    val panel5: Panel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](), owner = player2)
+    val panel6: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val panel7: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val homePanel2: HomePanel = new HomePanel(ArrayBuffer[PlayerCharacter](player1, player2, player3), ArrayBuffer[Panel](panel5, panel6, panel7), owner = player3)
+    assertEquals(homePanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6, panel7))
+    homePanel2.removePanel(panel7)
+    assertEquals(homePanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6))
+  }
+
+  test("Cant remove a panel from a isolated Panel(empty nextPanels list)") {
+    //This case its included in the test above, when trying to remove a panel that doesn't exist in the list of nextPanels
+    //but for a more sensitive test, its being tested
+    val homePanel2: HomePanel = new HomePanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](), owner = player3)
+    val otherPanel: HomePanel = new HomePanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](panel1, panel2), owner = player1)
+    homePanel2.removePanel(otherPanel)
+    assertEquals(homePanel2.nextPanels, ArrayBuffer[Panel]())
+  }
+
   test("A HomePanel can trigger the player to regenerate HP") {
     var healthPoints = player1.currentHP
     homePanel.regenerateHP(player1)

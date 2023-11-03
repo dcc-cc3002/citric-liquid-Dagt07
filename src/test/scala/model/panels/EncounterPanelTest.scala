@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import model.panels.classes.EncounterPanel
+import model.panels.classes.{DropPanel, EncounterPanel}
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
 import model.units.traits.UnitTrait
@@ -94,15 +94,34 @@ class EncounterPanelTest extends munit.FunSuite{
 
   test("A EncounterPanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that already exist in the list of NextPanels of the panel itself
+    //remove a panel that already exist in the list of nextPanels of the panel itself
     encounterPanel.removePanel(panel3)
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    //remove a panel that doesn't exist in the list of nextPanels of the panel itself
     val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), wildUnit)
     encounterPanel.removePanel(panel4)
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+
+  test("Not more than one same type panel removed") {
+    val panel5: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](), wildUnit)
+    val panel6: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val panel7: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2, player3), ArrayBuffer[Panel](panel5, panel6, panel7), wildUnit)
+    assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6, panel7))
+    encounterPanel2.removePanel(panel7)
+    assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6))
+  }
+
+  test("Cant remove a panel from a isolated Panel(empty nextPanels list)") {
+    //This case its included in the test above, when trying to remove a panel that doesn't exist in the list of nextPanels
+    //but for a more sensitive test, its being tested
+    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](), wildUnit)
+    val otherPanel: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    encounterPanel2.removePanel(otherPanel)
+    assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel]())
   }
   
 }

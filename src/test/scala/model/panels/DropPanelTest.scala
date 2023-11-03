@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.panels
 
-import model.panels.classes.DropPanel
+import model.panels.classes.{BonusPanel, DropPanel}
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
 
@@ -87,15 +87,34 @@ class DropPanelTest extends munit.FunSuite{
 
   test("A DropPanel should remove a panel from the list of NextPanels if necessary to build/modify the board") {
     assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that already exist in the list of NextPanels of the panel itself
+    //remove a panel that already exist in the list of nextPanels of the panel itself
     dropPanel.removePanel(panel3)
     assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    //remove a panel that doesn't exist in the list of NextPanels of the panel itself
+    //remove a panel that doesn't exist in the list of nextPanels of the panel itself
     val panel4: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
     dropPanel.removePanel(panel4)
     assertEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(dropPanel.nextPanels, ArrayBuffer[Panel](panel1))
+  }
+
+  test("Not more than one same type panel removed") {
+    val panel5: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val panel6: Panel = new BonusPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val panel7: Panel = new BonusPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
+    val dropPanel2: DropPanel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2, player3), ArrayBuffer[Panel](panel5, panel6, panel7))
+    assertEquals(dropPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6, panel7))
+    dropPanel2.removePanel(panel7)
+    assertEquals(dropPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6))
+  }
+
+  test("Cant remove a panel from a isolated Panel(empty nextPanels list)") {
+    //This case its included in the test above, when trying to remove a panel that doesn't exist in the list of nextPanels
+    //but for a more sensitive test, its being tested
+    val dropPanel2: DropPanel = new DropPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel]())
+    val otherPanel: DropPanel = new DropPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](panel1, panel2))
+    dropPanel2.removePanel(otherPanel)
+    assertEquals(dropPanel2.nextPanels, ArrayBuffer[Panel]())
   }
   
   test("A character should be able to decrease their stars by landing in a DropPanel") {
