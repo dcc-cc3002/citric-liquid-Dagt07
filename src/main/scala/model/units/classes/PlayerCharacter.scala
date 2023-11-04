@@ -6,6 +6,8 @@ import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
 import model.norm.classes.NormaClass
 
+import cl.uchile.dcc.citric.model.units.classes.wilds.Chicken
+
 import scala.math.{floorDiv, min}
 
 /** The `PlayerCharacter` class represents a character or avatar in the game, encapsulating
@@ -108,6 +110,23 @@ class PlayerCharacter(val name: String,
     val value: Int = rival_Stars/2
     stars += value
   }
+
+  //estamos usando attack move y recibiendo quien ataca, cuando deberiamos recibir a que oponente atacamos
+  /*
+  def attackMove(opponent: UnitTrait): Int = {
+    opponent.receiveAttack(this)
+  }
+  */
+
+  /*
+  def attackMovePlayer(gameUnit: PlayerCharacter): Int = {
+    if (gameUnit.isKO) {
+      return 0 //an KO unit can't attack
+    }
+    val damage = gameUnit.rollDice() + gameUnit.attack
+    damage //returns the damage of the attack
+  }
+  */
 
   /** Norm dependent methods */
   var IntNormObjective: Int = currentNorm + 1

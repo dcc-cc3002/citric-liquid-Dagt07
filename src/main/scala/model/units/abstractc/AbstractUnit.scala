@@ -12,7 +12,6 @@ import scala.math.max
  * @param CAttack the attack of the unit.
  * @param CDefense the defense of the unit.
  * @param CEvasion the evasion of the unit.
- * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance.
  */
 abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends UnitTrait{
 
@@ -87,7 +86,8 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   def isKO_=(newStatus: Boolean): Unit = _isKO = newStatus
 
   /** Other methods */
-  /** Rolls a dice and returns a value between 1 to 6. */
+  /** Rolls a dice and returns a value between 1 to 6.
+  * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance. */
   def rollDice(seed: Int = 0): Int = {
     if (seed != 0){
       val randomNumberGenerator: Random = new Random(seed)
@@ -97,8 +97,10 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     randomNumberGenerator.nextInt(6) + 1
   }
 
-
-  def attackMove(attackingUnit: UnitTrait): Int = {
+  def attackMove(opponent: UnitTrait): Int = {
+    opponent.receiveAttack(this)
+  }
+  def attackCalculator(attackingUnit: UnitTrait): Int = {
     if (attackingUnit.isKO){
       return 0 //an KO unit can't attack
     }
@@ -106,34 +108,37 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     damage //returns the damage of the attack
   }
 
-  def defendMove(opponent: UnitTrait): Int = {
-    val luck = max(1, attackMove(opponent) - (rollDice() + defense))
-    //println(luck,opponent.attack)
-    currentHP -= luck
+  def receiveAttack(attackingUnit: UnitTrait): Int = {
+    val decision = this.rollDice()
+    val damageToReceive = attackingUnit.attackCalculator(attackingUnit)
+    if (decision < 3){ //unit has decide to defend
+      this.defendMove(damageToReceive)
+    }else{ //else case, unit has decide to evade
+      this.evadeMove(damageToReceive)
+    }
+  }
+
+  def defendMove(damageToReceive: Int): Int = {
+    val damage_taken = max(1, damageToReceive - (rollDice() + defense))
+    currentHP -= damage_taken
     if (currentHP < 0) {
       currentHP = 0
       isKO = true
     }
-    luck //returns the damage taken
+    damage_taken //returns the damage taken
   }
 
-  def evadeMove(opponent: UnitTrait): Int = {
+  def evadeMove(damageToReceive: Int): Int = {
     val selfLuck = rollDice()+ evasion
-    val opponentLuck = attackMove(opponent)
-    //println(currentHP, selfLuck, opponentLuck, opponent.attack)
-    if (selfLuck <= opponentLuck){
+    if (selfLuck <= damageToReceive){
       //case when it will take damage
-      currentHP -= opponentLuck
+      currentHP -= damageToReceive
       if (currentHP < 0) {
         currentHP = 0
         isKO = true
       }
-      //println("Gano el oponente")
-      //println(currentHP)
-      return opponentLuck //returns the damage taken
+      return damageToReceive //returns the damage taken
     }
-    //println("Gano evadir")
-    //println(currentHP)
-    selfLuck //returns the damage taken
+    0 //returns 0 damage taken
   }
 }
