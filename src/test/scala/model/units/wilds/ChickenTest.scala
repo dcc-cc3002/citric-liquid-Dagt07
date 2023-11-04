@@ -83,7 +83,7 @@ class ChickenTest extends munit.FunSuite {
     val damageToDeal = chicken.attackCalculator(chicken)
     assert(damageToDeal > -1) // damageToDeal cant be negative
     // in this case, chicken attack is -1, so the maximum attack depends on the rollDice() getting a 6 ---> dmg = 6+(-1) = 5
-    assert(damageToDeal == 0 || damageToDeal < 6)
+    assert(damageToDeal == 0 || damageToDeal <= (attack + 6))
     assert(damageToDeal > ref) // it can be (0 to 5) > -1
     val lazyChicken = new Chicken(maxHp, -1000, defense, evasion) // a Unit with no attack
     val damage = lazyChicken.attackCalculator(lazyChicken)

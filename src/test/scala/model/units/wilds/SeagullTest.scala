@@ -70,33 +70,154 @@ class SeagullTest extends munit.FunSuite {
       assertEquals(seagull.rollDice(11), other.rollDice(11))
     }
   }
-  /*
-  test("Attack method") {
-    assertNotEquals(seagull.attackMove(seagull), seagull.attack)
-    assert(seagull.attack < seagull.attackMove(seagull))
-    assert(seagull.attackMove(seagull) > -1) //Attack should never be negative
-    seagull.isKO = true
-    assertEquals(seagull.attackMove(seagull), 0) //If KO, attack should be 0
 
+  /** ------------------------------------- COMBAT METHODS -------------------------------------- */
+  /* for properly test the double dispatch for the combat system, we will test the methods from inside to outside the scope
+    or in other words, by the runtime stack with the most deep method that has been called
+   */
+
+  test("AttackCalculator method should return a damage value") {
+    val ref = seagull.attack // -1
+    val damageToDeal = seagull.attackCalculator(seagull)
+    assert(damageToDeal > -1) // damageToDeal cant be negative
+    // in this case, seagull attack is -1, so the maximum attack depends on the rollDice() getting a 6 ---> dmg = 6+(-1) = 5
+    assert(damageToDeal == 0 || damageToDeal <= (attack + 6))
+    assert(damageToDeal > ref) // it can be (0 to 5) > -1
+    val lazySeagull = new Seagull(maxHp, -1000, defense, evasion) // a Unit with no attack
+    val damage = lazySeagull.attackCalculator(lazySeagull)
+    assertEquals(damage, 0) // for a negative attack, it should return damage = 0
+  }
+
+  test("AttackCalculator for a KO unit should return 0") {
+    val otherUnit = new Seagull(maxHp, attack, defense, evasion)
+    otherUnit.currentHP = 0
+    otherUnit.isKO = true
+    val damage = otherUnit.attackCalculator(otherUnit)
+    assertEquals(damage, 0)
   }
 
   test("Defense method") {
-    val other = new Seagull(maxHp, attack, defense, evasion)
     val ref = seagull.currentHP
-    val value = seagull.defendMove(other)
-    assert(seagull.currentHP == ref - 1 || seagull.currentHP == ref - value)
-    val megaSeagull = new Seagull(maxHp, 10000, defense, evasion)
-    seagull.defendMove(megaSeagull)
-    assertEquals(seagull.currentHP, expected = 0)
+    val opponent = new Seagull(maxHp, attack, defense, evasion)
+    val damageToReceive = opponent.attackCalculator(opponent) //we already test this method
+    assertEquals(opponent.currentHP, ref)
+    seagull.defendMove(damageToReceive)
+    // Minimum damage is 1, or Max damage 5 ---> it will defeat the seagull and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
+    assert(seagull.currentHP == ref - 1 || seagull.currentHP == 0 || (seagull.currentHP > 0 && seagull.currentHP <= maxHp))
+  }
+
+  test("Defense method vs a OverPowered unit") {
+    val ref = seagull.currentHP
+    val megaSeagull = new Seagull(maxHp, 1000, defense, evasion)
+    val damageToReceive = megaSeagull.attackCalculator(megaSeagull) //we already test this method, could be 1001 to 1006
+    assert(1000 < damageToReceive && damageToReceive <= 1006)
+    seagull.defendMove(damageToReceive)
+    assert(seagull.currentHP < ref)
+    assertEquals(seagull.currentHP, 0)
     assertEquals(seagull.isKO, expected = true)
   }
 
   test("Evade method") {
-    val other = new Seagull(maxHp, attack, defense, evasion)
     val ref = seagull.currentHP
-    val value = seagull.evadeMove(other)
-    assert(seagull.currentHP == ref || seagull.currentHP == ref - value)
+    val opponent = new Seagull(maxHp, attack, defense, evasion)
+    val damageToReceive = opponent.attackCalculator(opponent) // Minimum damage = 1, Max damage = 5
+    assertEquals(opponent.currentHP, ref)
+    val damageReceived = seagull.evadeMove(damageToReceive)
+    //evade the attack = damageReceived = 0, take all damage = damageReceived == damageToReceive
+    assert(damageReceived == 0 || damageReceived == damageToReceive)
+    assert(seagull.currentHP > -1) //after the attack, currentHP cant be negative
+    // 1) SameHP because evade successfully the attack, 2) take all the damage and survives, 3) take all damage and not survives
+    assert(seagull.currentHP == ref || seagull.currentHP == ref - damageReceived || seagull.currentHP == 0)
   }
-   */
+
+  test("Evade method vs a non dangerous Unit") {
+    val ref = seagull.currentHP
+    val lazySeagull = new Seagull(maxHp, -1000, defense, evasion) // a Unit with no attack
+    val damageToReceive = lazySeagull.attackCalculator(lazySeagull)
+    assertEquals(damageToReceive, 0) // for a negative attack, it should return damage = 0
+    seagull.evadeMove(damageToReceive)
+    assertEquals(seagull.currentHP, ref) // for a negative attack, it should always evade it ---> return damage = 0
+  }
+
+  test("Evade method vs a OverPowered unit") {
+    // By the evade idea, it always take all damage or nothing, then this will have the same effect as test("Evade method")
+    val ref = seagull.currentHP
+    val megaSeagull = new Seagull(maxHp, 1000, defense, evasion)
+    val damageToReceive = megaSeagull.attackCalculator(megaSeagull) //we already test this method, could be 1001 to 1006
+    assert(1000 < damageToReceive && damageToReceive <= 1006)
+    val damageReceived = seagull.evadeMove(damageToReceive)
+    assert(damageReceived == 0 || damageReceived == damageToReceive)
+    assert(seagull.currentHP > -1) //after the attack, currentHP cant be negative
+    // 1) SameHP because evade successfully the attack, 2) take all the damage (OP unit KO the seagull)
+    assert(seagull.currentHP == ref || seagull.currentHP == 0)
+  }
+
+  test("ReceiveAttack method: First test, a seagull not in KO state and with 'defense' tactic") {
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, attack, defense, evasion)
+    assertEquals(seagull.isKO, false)
+    assertEquals(seagull.decision, "defense")
+    // First, test a seagull not in KO state and with defense tactic
+    val damageReceived = seagull.receiveAttack(attackingUnit)
+    // Minimum damage is 1, or Max damage 5 ---> it will defeat the seagull and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
+    assert(seagull.currentHP == ref - 1 || seagull.currentHP == 0 || (seagull.currentHP > 0 && seagull.currentHP <= maxHp))
+  }
+
+  test("ReceiveAttack method: Second test, a seagull not in KO state and with 'evade' tactic") {
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
+    assertEquals(seagull.isKO, false)
+    seagull.decision = "evade"
+    assertEquals(seagull.decision, "evade")
+    // First, test a seagull not in KO state and with defense tactic
+    val damageReceived = seagull.receiveAttack(attackingUnit)
+    // 1) SameHP because evade successfully the attack, 2) take all the damage and survives, 3) take all damage and not survives
+    assert(seagull.currentHP == ref || seagull.currentHP == ref - damageReceived || seagull.currentHP == 0)
+  }
+
+  test("ReceiveAttack method: Third test, a seagull in KO state with any tactic") {
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, 1, defense, evasion)
+    seagull.isKO = true
+    assertEquals(seagull.isKO, true)
+    val damageReceived = seagull.receiveAttack(attackingUnit)
+    assertEquals(damageReceived, 0)
+    assertEquals(seagull.currentHP, ref)
+  }
+
+  test("ReceiveAttack method: Fourth test, a seagull with an invalid tactic") {
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
+    seagull.decision = "something"
+    assertEquals(seagull.decision, "something")
+    val damageReceived = seagull.receiveAttack(attackingUnit)
+    assertEquals(damageReceived, 0)
+    assertEquals(seagull.currentHP, ref)
+  }
+
+  test("Attack Method, with 'defense' tactic") {
+    //our seagull will defend, his opponent will attack
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, attack, defense, evasion)
+    assertEquals(seagull.isKO, false)
+    assertEquals(seagull.decision, "defense")
+    val damageReceived = attackingUnit.attackMove(seagull)
+    // Minimum damage is 1, or Max damage 5 ---> it will defeat the seagull and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
+    assert(seagull.currentHP == ref - 1 || seagull.currentHP == 0 || seagull.currentHP > 0)
+  }
+
+  test("Attack Method, with 'evade' tactic") {
+    //our seagull will defend, his opponent will attack
+    val ref = seagull.currentHP
+    val attackingUnit = new Seagull(maxHp, 1, defense, evasion)
+    assertEquals(seagull.isKO, false)
+    seagull.decision = "evade"
+    assertEquals(seagull.decision, "evade")
+    val damageReceived = attackingUnit.attackMove(seagull)
+    assert(seagull.currentHP > -1) //after the attack, currentHP cant be negative
+    // 1) SameHP because evade successfully the attack, 2) take all the damage and survives, 3) take all damage and not survives
+    assert(seagull.currentHP == ref || seagull.currentHP == ref - damageReceived || seagull.currentHP == 0)
+  }
+
 
 }
