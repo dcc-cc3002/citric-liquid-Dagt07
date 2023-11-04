@@ -13,7 +13,7 @@ import scala.math.max
  * @param CDefense the defense of the unit.
  * @param CEvasion the evasion of the unit.
  */
-abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends UnitTrait{
+abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends UnitTrait {
 
   /** Security for values */
   private val _maxHp: Int = CMaxHp
@@ -25,6 +25,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   private var _stars: Int = 0
   private var _currentHP: Int = CMaxHp
   private var _isKO: Boolean = false
+  private var _decision: String = "defense" //"defense" will be the default state, "evade" its the other possibility
 
   /** Getters for values */
 
@@ -66,14 +67,18 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
    */
   def isKO: Boolean = _isKO
 
-  /** Setter for CurrentHP
+  /** getter for decision
+   * @return the decision string of the unit
+   * */
+  def decision: String = _decision
+
+  /** Setter for currentHP
    * @param newAmount an Int amount for update the healthPoints of the player
    * @return the new HP value of the player
    */
   def currentHP_=(newAmount: Int): Unit = _currentHP = newAmount
 
   /** Setter for stars
-   *
    * @param newAmount an Int amount for update the star count of the player
    * @return the new stars value of the player
    */
@@ -85,16 +90,22 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
    */
   def isKO_=(newStatus: Boolean): Unit = _isKO = newStatus
 
+  /** Setter for decision
+   * @param newDecision a string for update the decision state
+   * @return the new decision state of a unit
+   * */
+  def decision_=(newDecision: String): Unit = _decision = newDecision
+
   /** Other methods */
-  /** Rolls a dice and returns a value between 1 to 6.
-  * @param randomNumberGenerator A utility to generate random numbers. Defaults to a new `Random` instance. */
+  /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(seed: Int = 0): Int = {
     if (seed != 0){
       val randomNumberGenerator: Random = new Random(seed)
       return randomNumberGenerator.nextInt(6) + 1
     }
     val randomNumberGenerator: Random = new Random()
-    randomNumberGenerator.nextInt(6) + 1
+    val dice = randomNumberGenerator.nextInt(6) + 1
+    dice
   }
 
   def attackMove(opponent: UnitTrait): Int = {
@@ -102,19 +113,26 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   }
   def attackCalculator(attackingUnit: UnitTrait): Int = {
     if (attackingUnit.isKO){
-      return 0 //an KO unit can't attack
+      return 0 // an KO unit can't attack
     }
-    val damage = attackingUnit.rollDice() + attackingUnit.attack
-    damage //returns the damage of the attack
+    var damage = attackingUnit.rollDice() + attackingUnit.attack
+    if (damage<0){ // damage done by a unit cant be negative
+      damage=0
+    }
+    damage // returns the damage of the attack
   }
 
   def receiveAttack(attackingUnit: UnitTrait): Int = {
-    val decision = this.rollDice()
+    if (this.isKO){
+      return 0 // an KO unit can't be attacked
+    }
     val damageToReceive = attackingUnit.attackCalculator(attackingUnit)
-    if (decision < 3){ //unit has decide to defend
+    if (decision == "defense"){ // unit has decide to defend
       this.defendMove(damageToReceive)
-    }else{ //else case, unit has decide to evade
+    } else if(decision == "evade"){ // else case, unit has decide to evade
       this.evadeMove(damageToReceive)
+    } else { // invalid tactic
+      0
     }
   }
 
@@ -125,7 +143,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
       currentHP = 0
       isKO = true
     }
-    damage_taken //returns the damage taken
+    damage_taken // returns the damage taken
   }
 
   def evadeMove(damageToReceive: Int): Int = {
@@ -137,8 +155,8 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
         currentHP = 0
         isKO = true
       }
-      return damageToReceive //returns the damage taken
+      return damageToReceive // returns the damage taken
     }
-    0 //returns 0 damage taken
+    0 // returns 0 damage taken
   }
 }

@@ -22,16 +22,8 @@ trait UnitTrait {
 
   /** Other methods */
   def rollDice(seed: Int = 0): Int
-
-
   def attackMove(opponent: UnitTrait): Int
-  def attackCalculator(gameUnit: UnitTrait): Int
-  /*
-  def attackMovePlayer(opponent: PlayerCharacter): Int
-  def attackMoveChicken(gameUnit: Chicken): Int
-  def attackMoveRobo_ball(gameUnit: Robo_ball): Int
-  def attackMoveSeagull(gameUnit: Seagull): Int
-  */
+  def attackCalculator(attackingUnit: UnitTrait): Int
   def receiveAttack(attackingUnit: UnitTrait): Int
   def defendMove(damageToReceive: Int): Int
   def evadeMove(damageToReceive: Int): Int

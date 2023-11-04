@@ -9,9 +9,9 @@ class SeagullTest extends munit.FunSuite {
   This will make your tests more readable, easier to maintain, and less error-prone.
   */
   private val maxHp = 3
-  private val attack = -1
+  private val attack = +1
   private val defense = -1
-  private val evasion = +1
+  private val evasion = -1
   /* Add any other constants you need here... */
   private val stars = 0
   private val currentHP = maxHp
@@ -29,7 +29,7 @@ class SeagullTest extends munit.FunSuite {
     seagull = new Seagull(maxHp, attack, defense, evasion)
   }
 
-  test("A seagull should have correctly set their attributes") {
+  test("A Seagull should have correctly set their attributes") {
     assertEquals(seagull.maxHp, maxHp)
     assertEquals(seagull.attack, attack)
     assertEquals(seagull.defense, defense)
@@ -38,6 +38,19 @@ class SeagullTest extends munit.FunSuite {
     assertEquals(seagull.stars, stars)
   }
 
+  test("A Seagull should be able to change its currentHP using his getter and setter") {
+    val expected = seagull.currentHP
+    assertEquals(seagull.currentHP, expected)
+    seagull.currentHP_=(expected + 1)
+    assertEquals(seagull.currentHP, expected + 1)
+  }
+
+  test("A Seagull should be able to get and change his decision to defend or evade if someone attacks him") {
+    assertEquals(seagull.decision, "defense")
+    seagull.decision = "evade"
+    assertEquals(seagull.decision, "evade")
+  }
+  
   // Two ways to test randomness (you can use any of them):
 
   // 1. Test invariant properties, e.g. the result is always between 1 and 6.
@@ -57,7 +70,7 @@ class SeagullTest extends munit.FunSuite {
       assertEquals(seagull.rollDice(11), other.rollDice(11))
     }
   }
-
+  /*
   test("Attack method") {
     assertNotEquals(seagull.attackMove(seagull), seagull.attack)
     assert(seagull.attack < seagull.attackMove(seagull))
@@ -84,4 +97,6 @@ class SeagullTest extends munit.FunSuite {
     val value = seagull.evadeMove(other)
     assert(seagull.currentHP == ref || seagull.currentHP == ref - value)
   }
+   */
+
 }

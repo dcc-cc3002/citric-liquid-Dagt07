@@ -17,9 +17,9 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val defense = 1
   private val evasion = 1
   /* Add any other constants you need here... */
-  private var stars = 0
-  private var wins = 0
-  private var currentHP = maxHp
+  private val stars = 0
+  private val wins = 0
+  private val currentHP = maxHp
   private val defaultNorm = 1
   private var currentNorm = 1
   private var normObjective = "stars"
@@ -80,6 +80,19 @@ class PlayerCharacterTest extends munit.FunSuite {
     for (_ <- 1 to 10) {
       assertEquals(character.rollDice(11), other.rollDice(11))
     }
+  }
+
+  test("A character should be able to get and change his decision to defend or evade if someone attacks him"){
+    assertEquals(character.decision, "defense")
+    character.decision = "evade"
+    assertEquals(character.decision, "evade")
+  }
+
+  test("A character should be able to change its currentHP using his getter and setter") {
+    val expected = character.currentHP
+    assertEquals(character.currentHP, expected)
+    character.currentHP_=(expected + 1)
+    assertEquals(character.currentHP, expected + 1)
   }
 
   test("A character should be able to regenerate their HP by landing in their HomePanel"){
