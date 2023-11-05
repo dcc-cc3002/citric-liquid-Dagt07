@@ -287,7 +287,7 @@ class PlayerCharacterTest extends munit.FunSuite {
       0, 1, 1, "stars")
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 6)
     assertNotEquals(character.stars, opponent.stars)
   }
@@ -297,13 +297,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     val opponent = new Chicken(maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 8 + 3) //Chicken bonus = 3
     assertNotEquals(character.stars, opponent.stars)
     //testing only the bonus stars
     character.stars = 0
     opponent.stars = 0
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 0 + 3)
   }
 
@@ -312,13 +312,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     val opponent = new Robo_ball(maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 8 + 2) //Robo ball bonus = 2
     assertNotEquals(character.stars, opponent.stars)
     //testing only the bonus stars
     character.stars = 0
     opponent.stars = 0
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 0 + 2)
   }
 
@@ -327,13 +327,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     val opponent = new Seagull(maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 8 + 2) //Seagull bonus = 2
     assertNotEquals(character.stars, opponent.stars)
     //testing only the bonus stars
     character.stars = 0
     opponent.stars = 0
-    character.increaseStars(opponent, 0)
+    character.increaseStars(opponent)
     assertEquals(character.stars, 0 + 2)
   }
 

@@ -228,7 +228,7 @@ class ChickenTest extends munit.FunSuite {
                           0, 1, 1, "stars")
     opponent.stars = 4
     assertEquals(chicken.stars, opponent.stars)
-    chicken.increaseStars(opponent, 0)
+    chicken.increaseStars(opponent)
     assertEquals(chicken.stars, 6)
     assertNotEquals(chicken.stars, opponent.stars)
   }
@@ -244,11 +244,11 @@ class ChickenTest extends munit.FunSuite {
     assertEquals(chicken.stars, opponent.stars)
     assertEquals(chicken.stars, opponent2.stars)
     assertEquals(chicken.stars, opponent3.stars)
-    chicken.increaseStars(opponent, 0) // it should not increase stars
+    chicken.increaseStars(opponent) // it should not increase stars
     assertEquals(chicken.stars, 4)
-    chicken.increaseStars(opponent2, 0) // it should not increase stars
+    chicken.increaseStars(opponent2) // it should not increase stars
     assertEquals(chicken.stars, 4)
-    chicken.increaseStars(opponent3, 0) // it should not increase stars
+    chicken.increaseStars(opponent3) // it should not increase stars
     assertEquals(chicken.stars, 4)
   }
 

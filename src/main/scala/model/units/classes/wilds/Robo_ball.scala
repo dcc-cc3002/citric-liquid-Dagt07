@@ -17,19 +17,19 @@ import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
  */
 class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion) with WildUnit{
 
-  def increaseStars(unit: UnitTrait, value: Int): Unit = {
-    unit.increaseStarsRobo_ball(this, value)
+  def increaseStars(unit: UnitTrait): Unit = {
+    unit.increaseStarsRobo_ball(this)
   }
 
-  def increaseStarsPlayer(unit: PlayerCharacter, value: Int): Unit = {
-    unit.stars += this.stars + value + 2 //Robo_ball bonus = 3 stars
+  def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
+    unit.stars += this.stars + 2 //Robo_ball bonus = 3 stars
   }
 
-  def increaseStarsChicken(unit: Chicken, value: Int): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
+  def increaseStarsChicken(unit: Chicken): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
 
-  def increaseStarsRobo_ball(unit: Robo_ball, value: Int): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
+  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
 
-  def increaseStarsSeagull(unit: Seagull, value: Int): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
+  def increaseStarsSeagull(unit: Seagull): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
 
   /*
   def decreaseStars(unit: UnitTrait): Int = {

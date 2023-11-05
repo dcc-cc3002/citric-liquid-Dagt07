@@ -96,26 +96,24 @@ class PlayerCharacter(val name: String,
   }
   */
 
-  def increaseStars(unit: UnitTrait, value: Int): Unit = {
-    unit.increaseStarsPlayer(this,value)
+  def increaseStars(unit: UnitTrait): Unit = {
+    unit.increaseStarsPlayer(this)
   }
 
-  def increaseStarsPlayer(unit: PlayerCharacter, value: Int): Unit = {
-    //this.stars = unit.stars + value
-    //this.stars += value
-    unit.stars += this.stars/2 + value
+  def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
+    unit.stars += this.stars/2
   }
 
-  def increaseStarsChicken(unit: Chicken, value: Int): Unit = {
-    unit.stars += this.stars/2 + value //losing as a Player vs any WildUnit will drop our stars by half
+  def increaseStarsChicken(unit: Chicken): Unit = {
+    unit.stars += this.stars/2 //losing as a Player vs any WildUnit will drop our stars by half
   }
 
-  def increaseStarsRobo_ball(unit: Robo_ball, value: Int): Unit = {
-    unit.stars += this.stars/2 + value
+  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {
+    unit.stars += this.stars/2
   }
 
-  def increaseStarsSeagull(unit: Seagull, value: Int): Unit = {
-    unit.stars += this.stars/2 + value
+  def increaseStarsSeagull(unit: Seagull): Unit = {
+    unit.stars += this.stars/2
   }
 
   /*

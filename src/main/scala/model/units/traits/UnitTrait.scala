@@ -29,11 +29,11 @@ trait UnitTrait {
   def evadeMove(damageToReceive: Int, attackingUnit: UnitTrait): Int
 
 
-  def increaseStars(unit: UnitTrait,value: Int): Unit
-  def increaseStarsPlayer(unit: PlayerCharacter,value: Int): Unit
-  def increaseStarsChicken(unit: Chicken,value: Int): Unit
-  def increaseStarsRobo_ball(unit: Robo_ball,value: Int): Unit
-  def increaseStarsSeagull(unit: Seagull,value: Int): Unit
+  def increaseStars(unit: UnitTrait): Unit
+  def increaseStarsPlayer(unit: PlayerCharacter): Unit
+  def increaseStarsChicken(unit: Chicken): Unit
+  def increaseStarsRobo_ball(unit: Robo_ball): Unit
+  def increaseStarsSeagull(unit: Seagull): Unit
 
   /*
   def decreaseStars(unit: UnitTrait): Int

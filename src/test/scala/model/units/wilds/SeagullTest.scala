@@ -226,7 +226,7 @@ class SeagullTest extends munit.FunSuite {
       0, 1, 1, "stars")
     opponent.stars = 4
     assertEquals(seagull.stars, opponent.stars)
-    seagull.increaseStars(opponent, 0)
+    seagull.increaseStars(opponent)
     assertEquals(seagull.stars, 6)
     assertNotEquals(seagull.stars, opponent.stars)
   }
@@ -242,11 +242,11 @@ class SeagullTest extends munit.FunSuite {
     assertEquals(seagull.stars, opponent.stars)
     assertEquals(seagull.stars, opponent2.stars)
     assertEquals(seagull.stars, opponent3.stars)
-    seagull.increaseStars(opponent, 0) // it should not increase stars
+    seagull.increaseStars(opponent) // it should not increase stars
     assertEquals(seagull.stars, 4)
-    seagull.increaseStars(opponent2, 0) // it should not increase stars
+    seagull.increaseStars(opponent2) // it should not increase stars
     assertEquals(seagull.stars, 4)
-    seagull.increaseStars(opponent3, 0) // it should not increase stars
+    seagull.increaseStars(opponent3) // it should not increase stars
     assertEquals(seagull.stars, 4)
   }
 

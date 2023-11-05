@@ -226,7 +226,7 @@ class Robo_ballTest extends munit.FunSuite {
       0, 1, 1, "stars")
     opponent.stars = 4
     assertEquals(robo_ball.stars, opponent.stars)
-    robo_ball.increaseStars(opponent, 0)
+    robo_ball.increaseStars(opponent)
     assertEquals(robo_ball.stars, 6)
     assertNotEquals(robo_ball.stars, opponent.stars)
   }
@@ -242,11 +242,11 @@ class Robo_ballTest extends munit.FunSuite {
     assertEquals(robo_ball.stars, opponent.stars)
     assertEquals(robo_ball.stars, opponent2.stars)
     assertEquals(robo_ball.stars, opponent3.stars)
-    robo_ball.increaseStars(opponent, 0) // it should not increase stars
+    robo_ball.increaseStars(opponent) // it should not increase stars
     assertEquals(robo_ball.stars, 4)
-    robo_ball.increaseStars(opponent2, 0) // it should not increase stars
+    robo_ball.increaseStars(opponent2) // it should not increase stars
     assertEquals(robo_ball.stars, 4)
-    robo_ball.increaseStars(opponent3, 0) // it should not increase stars
+    robo_ball.increaseStars(opponent3) // it should not increase stars
     assertEquals(robo_ball.stars, 4)
   }
 
