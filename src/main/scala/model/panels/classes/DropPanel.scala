@@ -32,7 +32,7 @@ class DropPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    * @param player a player from the player characters array currently in the panel
    */
 
-  def dropStars(player: PlayerCharacter): Unit = {
+  def apply(player: PlayerCharacter): Unit = {
     if (characters.contains(player)){
       player.decreaseStarsByPanel()
     }

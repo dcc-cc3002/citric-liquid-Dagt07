@@ -21,4 +21,6 @@ import scala.collection.mutable.ArrayBuffer
 class NeutralPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Panel])
   extends AbstractPanel(characters, nextPanels){
 
+  override def apply(): Unit = {}
+
 }

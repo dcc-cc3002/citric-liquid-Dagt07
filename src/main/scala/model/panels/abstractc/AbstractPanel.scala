@@ -65,4 +65,6 @@ abstract class AbstractPanel(val characters: ArrayBuffer[PlayerCharacter], var n
   def removePanel(panel: Panel): Unit = {
     if (nextPanels.contains(panel)) nextPanels -= panel
   }
+
+  def apply(): Unit = {}
 }

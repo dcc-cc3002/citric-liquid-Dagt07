@@ -18,6 +18,5 @@ import scala.collection.mutable.ArrayBuffer
 class EncounterPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Panel], var wildUnit: UnitTrait)
   extends AbstractPanel(characters, nextPanels){
 
-
-  /* In the current version, this panel cant be implemented because the combat system is not implemented yet */
+  override def apply(): Unit = {}
 }

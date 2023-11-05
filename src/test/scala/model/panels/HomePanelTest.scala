@@ -106,7 +106,7 @@ class HomePanelTest extends munit.FunSuite{
 
   test("A HomePanel can trigger the player to regenerate HP") {
     var healthPoints = player1.currentHP
-    homePanel.regenerateHP(player1)
+    homePanel.apply(player1)
     assertEquals(player1.currentHP, healthPoints + 10)
   }
 }

@@ -121,7 +121,7 @@ class BonusPanelTest extends munit.FunSuite{
     val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
       wins, defaultNorm, currentNorm, normObjective)
     assertEquals(player1.stars, other.stars)
-    bonusPanel.giveStars(player1)
+    bonusPanel.apply(player1)
     assert(player1.stars > other.stars)
   }
 

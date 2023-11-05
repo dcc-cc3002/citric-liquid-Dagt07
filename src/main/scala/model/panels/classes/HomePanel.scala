@@ -36,7 +36,7 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    * @param player the player to regenerate HP
    */
 
-  def regenerateHP(player: PlayerCharacter): Unit = {
+  def apply(player: PlayerCharacter): Unit = {
     if (characters.contains(player)){
       player.regenerateHP()
     }

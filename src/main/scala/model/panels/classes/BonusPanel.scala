@@ -31,7 +31,7 @@ class BonusPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuff
    *
    * @param player a player from the player characters array currently in the panel
    */
-  def giveStars (player: PlayerCharacter): Unit = {
+  def apply (player: PlayerCharacter): Unit = {
     if (characters.contains(player)) {
       player.increaseStarsByPanel()
     }

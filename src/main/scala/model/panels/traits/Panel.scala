@@ -50,5 +50,6 @@ trait Panel {
 
   def addPanel(panel: Panel): Unit
   def removePanel(panel: Panel): Unit
+  def apply(): Unit
 
 }

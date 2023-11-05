@@ -116,5 +116,11 @@ class NeutralPanelTest extends munit.FunSuite{
     assertEquals(neutralPanel2.nextPanels, ArrayBuffer[Panel]())
   }
 
+  test("apply method doesnt do anything"){
+    val healthPoints = player1.currentHP
+    neutralPanel.apply()
+    assertEquals(player1.currentHP, healthPoints)
+  }
+
 }
 
