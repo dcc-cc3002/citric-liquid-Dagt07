@@ -1,7 +1,8 @@
 package cl.uchile.dcc.citric
 package model.units.wilds
 
-import model.units.classes.wilds.Chicken
+import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.PlayerCharacter
 
 class ChickenTest extends munit.FunSuite {
   /*
@@ -103,7 +104,7 @@ class ChickenTest extends munit.FunSuite {
     val opponent = new Chicken(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) //we already test this method
     assertEquals(opponent.currentHP, ref)
-    chicken.defendMove(damageToReceive)
+    chicken.defendMove(damageToReceive,opponent)
     // Minimum damage is 1, or Max damage 5 ---> it will defeat the chicken and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
     assert(chicken.currentHP == ref - 1 || chicken.currentHP == 0 || (chicken.currentHP > 0  && chicken.currentHP <= maxHp) )
   }
@@ -113,7 +114,7 @@ class ChickenTest extends munit.FunSuite {
     val megaChicken = new Chicken(maxHp, 1000, defense, evasion)
     val damageToReceive = megaChicken.attackCalculator(megaChicken) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
-    chicken.defendMove(damageToReceive)
+    chicken.defendMove(damageToReceive,megaChicken)
     assert(chicken.currentHP < ref)
     assertEquals(chicken.currentHP,0)
     assertEquals(chicken.isKO, expected = true)
@@ -124,7 +125,7 @@ class ChickenTest extends munit.FunSuite {
     val opponent = new Chicken(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) // Minimum damage = 1, Max damage = 5
     assertEquals(opponent.currentHP, ref)
-    val damageReceived = chicken.evadeMove(damageToReceive)
+    val damageReceived = chicken.evadeMove(damageToReceive,opponent)
     //evade the attack = damageReceived = 0, take all damage = damageReceived == damageToReceive
     assert(damageReceived == 0 || damageReceived == damageToReceive)
     assert(chicken.currentHP > -1) //after the attack, currentHP cant be negative
@@ -137,7 +138,7 @@ class ChickenTest extends munit.FunSuite {
     val lazyChicken = new Chicken(maxHp, -1000, defense, evasion) // a Unit with no attack
     val damageToReceive = lazyChicken.attackCalculator(lazyChicken)
     assertEquals(damageToReceive, 0) // for a negative attack, it should return damage = 0
-    chicken.evadeMove(damageToReceive)
+    chicken.evadeMove(damageToReceive,lazyChicken)
     assertEquals(chicken.currentHP, ref) // for a negative attack, it should always evade it ---> return damage = 0
   }
 
@@ -147,7 +148,7 @@ class ChickenTest extends munit.FunSuite {
     val megaChicken = new Chicken(maxHp, 1000, defense, evasion)
     val damageToReceive = megaChicken.attackCalculator(megaChicken) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
-    val damageReceived = chicken.evadeMove(damageToReceive)
+    val damageReceived = chicken.evadeMove(damageToReceive,megaChicken)
     assert(damageReceived == 0 || damageReceived == damageToReceive)
     assert(chicken.currentHP > -1) //after the attack, currentHP cant be negative
     // 1) SameHP because evade successfully the attack, 2) take all the damage (OP unit KO the chicken)
@@ -197,18 +198,18 @@ class ChickenTest extends munit.FunSuite {
     assertEquals(chicken.currentHP, ref)
   }
 
-  test("Attack Method, with 'defense' tactic"){
+  test("Attack method, with 'defense' tactic"){
     //our chicken will defend, his opponent will attack
     val ref = chicken.currentHP
     val attackingUnit = new Chicken(maxHp, attack, defense, evasion)
     assertEquals(chicken.isKO, false)
     assertEquals(chicken.decision, "defense")
-    val damageReceived = attackingUnit.attackMove(chicken)
+    attackingUnit.attackMove(chicken)
     // Minimum damage is 1, or Max damage 5 ---> it will defeat the chicken and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
     assert(chicken.currentHP == ref - 1 || chicken.currentHP == 0 || chicken.currentHP > 0)
   }
 
-  test("Attack Method, with 'evade' tactic") {
+  test("Attack method, with 'evade' tactic") {
     //our chicken will defend, his opponent will attack
     val ref = chicken.currentHP
     val attackingUnit = new Chicken(maxHp, 1, defense, evasion)
@@ -219,6 +220,36 @@ class ChickenTest extends munit.FunSuite {
     assert(chicken.currentHP > -1) //after the attack, currentHP cant be negative
     // 1) SameHP because evade successfully the attack, 2) take all the damage and survives, 3) take all damage and not survives
     assert(chicken.currentHP == ref || chicken.currentHP == ref - damageReceived || chicken.currentHP == 0)
+  }
+
+  test("Increase Stars method: Vs PlayerCharacter") {
+    chicken.stars = 4
+    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion,
+                          0, 1, 1, "stars")
+    opponent.stars = 4
+    assertEquals(chicken.stars, opponent.stars)
+    chicken.increaseStars(opponent, 0)
+    assertEquals(chicken.stars, 6)
+    assertNotEquals(chicken.stars, opponent.stars)
+  }
+
+  test("Increase Stars method: Vs any WildUnit type should not increase stars"){
+    chicken.stars = 4
+    val opponent = new Chicken(maxHp,attack, defense, evasion)
+    val opponent2 = new Robo_ball(maxHp,attack, defense, evasion)
+    val opponent3 = new Seagull(maxHp,attack, defense, evasion)
+    opponent.stars = 4
+    opponent2.stars = 4
+    opponent3.stars = 4
+    assertEquals(chicken.stars, opponent.stars)
+    assertEquals(chicken.stars, opponent2.stars)
+    assertEquals(chicken.stars, opponent3.stars)
+    chicken.increaseStars(opponent, 0) // it should not increase stars
+    assertEquals(chicken.stars, 4)
+    chicken.increaseStars(opponent2, 0) // it should not increase stars
+    assertEquals(chicken.stars, 4)
+    chicken.increaseStars(opponent3, 0) // it should not increase stars
+    assertEquals(chicken.stars, 4)
   }
 
 }

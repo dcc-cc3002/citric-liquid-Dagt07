@@ -2,7 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.traits
 
 import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
-import cl.uchile.dcc.citric.model.units.classes.PlayerCharacter
+import model.units.classes.PlayerCharacter
 
 trait UnitTrait {
 
@@ -25,7 +25,19 @@ trait UnitTrait {
   def attackMove(opponent: UnitTrait): Int
   def attackCalculator(attackingUnit: UnitTrait): Int
   def receiveAttack(attackingUnit: UnitTrait): Int
-  def defendMove(damageToReceive: Int): Int
-  def evadeMove(damageToReceive: Int): Int
+  def defendMove(damageToReceive: Int, attackingUnit: UnitTrait): Int
+  def evadeMove(damageToReceive: Int, attackingUnit: UnitTrait): Int
 
+
+  def increaseStars(unit: UnitTrait,value: Int): Unit
+  def increaseStarsPlayer(unit: PlayerCharacter,value: Int): Unit
+  def increaseStarsChicken(unit: Chicken,value: Int): Unit
+  def increaseStarsRobo_ball(unit: Robo_ball,value: Int): Unit
+  def increaseStarsSeagull(unit: Seagull,value: Int): Unit
+
+  /*
+  def decreaseStars(unit: UnitTrait): Int
+  def decreaseStarsPlayer(unit: PlayerCharacter): Int
+  def decreaseStarsWildUnit(unit: WildUnit): Int
+  */
 }

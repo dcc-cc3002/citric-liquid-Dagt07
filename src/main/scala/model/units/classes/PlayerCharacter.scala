@@ -6,7 +6,7 @@ import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
 import model.norm.classes.NormaClass
 
-import cl.uchile.dcc.citric.model.units.classes.wilds.Chicken
+import cl.uchile.dcc.citric.model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
 
 import scala.math.{floorDiv, min}
 
@@ -85,6 +85,7 @@ class PlayerCharacter(val name: String,
 
 
   /* COMBAT DEPENDENT METHODS, will be implemented properly later */
+  /*
   /** Increases the player's star count by the given amount(carried by the enemy). */
   def increaseStarsByCombat(amount: Int): Unit = {
     stars += amount
@@ -93,6 +94,47 @@ class PlayerCharacter(val name: String,
   def decreaseStarsByCombat(amount: Int): Unit = {
     stars -= amount
   }
+  */
+
+  def increaseStars(unit: UnitTrait, value: Int): Unit = {
+    unit.increaseStarsPlayer(this,value)
+  }
+
+  def increaseStarsPlayer(unit: PlayerCharacter, value: Int): Unit = {
+    //this.stars = unit.stars + value
+    //this.stars += value
+    unit.stars += this.stars/2 + value
+  }
+
+  def increaseStarsChicken(unit: Chicken, value: Int): Unit = {
+    unit.stars += this.stars/2 + value //losing as a Player vs any WildUnit will drop our stars by half
+  }
+
+  def increaseStarsRobo_ball(unit: Robo_ball, value: Int): Unit = {
+    unit.stars += this.stars/2 + value
+  }
+
+  def increaseStarsSeagull(unit: Seagull, value: Int): Unit = {
+    unit.stars += this.stars/2 + value
+  }
+
+  /*
+  def decreaseStars(unit: UnitTrait): Int = {
+    unit.decreaseStarsPlayer(this)
+  }
+
+  def decreaseStarsPlayer(losingUnit: PlayerCharacter): Int = {
+    val starsLost = this.stars/2
+    this.stars /= 2
+    starsLost //return half of the stars carried by this unit
+  }
+
+  def decreaseStarsWildUnit(losingUnit: WildUnit): Int = {
+    val starsLost = this.stars / 2
+    this.stars /= 2
+    starsLost //return half of the stars carried by this unit
+  }
+   */
 
   // Two ways to gain wins for the player:
   //using overloading to separate the way victories are achieved
@@ -110,23 +152,6 @@ class PlayerCharacter(val name: String,
     val value: Int = rival_Stars/2
     stars += value
   }
-
-  //estamos usando attack move y recibiendo quien ataca, cuando deberiamos recibir a que oponente atacamos
-  /*
-  def attackMove(opponent: UnitTrait): Int = {
-    opponent.receiveAttack(this)
-  }
-  */
-
-  /*
-  def attackMovePlayer(gameUnit: PlayerCharacter): Int = {
-    if (gameUnit.isKO) {
-      return 0 //an KO unit can't attack
-    }
-    val damage = gameUnit.rollDice() + gameUnit.attack
-    damage //returns the damage of the attack
-  }
-  */
 
   /** Norm dependent methods */
   var IntNormObjective: Int = currentNorm + 1

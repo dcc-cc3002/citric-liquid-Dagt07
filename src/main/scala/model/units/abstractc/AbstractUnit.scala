@@ -128,35 +128,38 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     }
     val damageToReceive = attackingUnit.attackCalculator(attackingUnit)
     if (decision == "defense"){ // unit has decide to defend
-      this.defendMove(damageToReceive)
+      this.defendMove(damageToReceive,attackingUnit)
     } else if(decision == "evade"){ // else case, unit has decide to evade
-      this.evadeMove(damageToReceive)
+      this.evadeMove(damageToReceive,attackingUnit)
     } else { // invalid tactic
       0
     }
   }
 
-  def defendMove(damageToReceive: Int): Int = {
+  def defendMove(damageToReceive: Int, attackingUnit: UnitTrait): Int = {
     val damage_taken = max(1, damageToReceive - (rollDice() + defense))
     currentHP -= damage_taken
     if (currentHP < 0) {
       currentHP = 0
       isKO = true
+      attackingUnit.increaseStars(attackingUnit,0)
     }
     damage_taken // returns the damage taken
   }
 
-  def evadeMove(damageToReceive: Int): Int = {
+  def evadeMove(damageToReceive: Int, attackingUnit: UnitTrait): Int = {
     val selfLuck = rollDice()+ evasion
     if (selfLuck <= damageToReceive){
       //case when it will take damage
       currentHP -= damageToReceive
       if (currentHP < 0) {
-        currentHP = 0
         isKO = true
+        currentHP = 0
+        attackingUnit.increaseStars(attackingUnit,0)
       }
       return damageToReceive // returns the damage taken
     }
     0 // returns 0 damage taken
   }
+
 }

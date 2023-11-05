@@ -1,7 +1,8 @@
 package cl.uchile.dcc.citric
 package model.units.wilds
 
-import model.units.classes.wilds.Seagull
+import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.PlayerCharacter
 class SeagullTest extends munit.FunSuite {
   /*
   REMEMBER: It is a good practice to use constants for the values that are used in multiple
@@ -101,7 +102,7 @@ class SeagullTest extends munit.FunSuite {
     val opponent = new Seagull(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) //we already test this method
     assertEquals(opponent.currentHP, ref)
-    seagull.defendMove(damageToReceive)
+    seagull.defendMove(damageToReceive,opponent)
     // Minimum damage is 1, or Max damage 5 ---> it will defeat the seagull and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
     assert(seagull.currentHP == ref - 1 || seagull.currentHP == 0 || (seagull.currentHP > 0 && seagull.currentHP <= maxHp))
   }
@@ -111,7 +112,7 @@ class SeagullTest extends munit.FunSuite {
     val megaSeagull = new Seagull(maxHp, 1000, defense, evasion)
     val damageToReceive = megaSeagull.attackCalculator(megaSeagull) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
-    seagull.defendMove(damageToReceive)
+    seagull.defendMove(damageToReceive,megaSeagull)
     assert(seagull.currentHP < ref)
     assertEquals(seagull.currentHP, 0)
     assertEquals(seagull.isKO, expected = true)
@@ -122,7 +123,7 @@ class SeagullTest extends munit.FunSuite {
     val opponent = new Seagull(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) // Minimum damage = 1, Max damage = 5
     assertEquals(opponent.currentHP, ref)
-    val damageReceived = seagull.evadeMove(damageToReceive)
+    val damageReceived = seagull.evadeMove(damageToReceive,opponent)
     //evade the attack = damageReceived = 0, take all damage = damageReceived == damageToReceive
     assert(damageReceived == 0 || damageReceived == damageToReceive)
     assert(seagull.currentHP > -1) //after the attack, currentHP cant be negative
@@ -135,7 +136,7 @@ class SeagullTest extends munit.FunSuite {
     val lazySeagull = new Seagull(maxHp, -1000, defense, evasion) // a Unit with no attack
     val damageToReceive = lazySeagull.attackCalculator(lazySeagull)
     assertEquals(damageToReceive, 0) // for a negative attack, it should return damage = 0
-    seagull.evadeMove(damageToReceive)
+    seagull.evadeMove(damageToReceive,lazySeagull)
     assertEquals(seagull.currentHP, ref) // for a negative attack, it should always evade it ---> return damage = 0
   }
 
@@ -145,7 +146,7 @@ class SeagullTest extends munit.FunSuite {
     val megaSeagull = new Seagull(maxHp, 1000, defense, evasion)
     val damageToReceive = megaSeagull.attackCalculator(megaSeagull) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
-    val damageReceived = seagull.evadeMove(damageToReceive)
+    val damageReceived = seagull.evadeMove(damageToReceive,megaSeagull)
     assert(damageReceived == 0 || damageReceived == damageToReceive)
     assert(seagull.currentHP > -1) //after the attack, currentHP cant be negative
     // 1) SameHP because evade successfully the attack, 2) take all the damage (OP unit KO the seagull)
@@ -195,18 +196,18 @@ class SeagullTest extends munit.FunSuite {
     assertEquals(seagull.currentHP, ref)
   }
 
-  test("Attack Method, with 'defense' tactic") {
+  test("Attack method, with 'defense' tactic") {
     //our seagull will defend, his opponent will attack
     val ref = seagull.currentHP
     val attackingUnit = new Seagull(maxHp, attack, defense, evasion)
     assertEquals(seagull.isKO, false)
     assertEquals(seagull.decision, "defense")
-    val damageReceived = attackingUnit.attackMove(seagull)
+    attackingUnit.attackMove(seagull)
     // Minimum damage is 1, or Max damage 5 ---> it will defeat the seagull and his HP would be 0, or currentHP between 1 to maxHP(3 in this case)
     assert(seagull.currentHP == ref - 1 || seagull.currentHP == 0 || seagull.currentHP > 0)
   }
 
-  test("Attack Method, with 'evade' tactic") {
+  test("Attack method, with 'evade' tactic") {
     //our seagull will defend, his opponent will attack
     val ref = seagull.currentHP
     val attackingUnit = new Seagull(maxHp, 1, defense, evasion)
@@ -219,5 +220,34 @@ class SeagullTest extends munit.FunSuite {
     assert(seagull.currentHP == ref || seagull.currentHP == ref - damageReceived || seagull.currentHP == 0)
   }
 
+  test("Increase Stars method: Vs PlayerCharacter") {
+    seagull.stars = 4
+    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion,
+      0, 1, 1, "stars")
+    opponent.stars = 4
+    assertEquals(seagull.stars, opponent.stars)
+    seagull.increaseStars(opponent, 0)
+    assertEquals(seagull.stars, 6)
+    assertNotEquals(seagull.stars, opponent.stars)
+  }
+
+  test("Increase Stars method: Vs any WildUnit type should not increase stars") {
+    seagull.stars = 4
+    val opponent = new Chicken(maxHp, attack, defense, evasion)
+    val opponent2 = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent3 = new Seagull(maxHp, attack, defense, evasion)
+    opponent.stars = 4
+    opponent2.stars = 4
+    opponent3.stars = 4
+    assertEquals(seagull.stars, opponent.stars)
+    assertEquals(seagull.stars, opponent2.stars)
+    assertEquals(seagull.stars, opponent3.stars)
+    seagull.increaseStars(opponent, 0) // it should not increase stars
+    assertEquals(seagull.stars, 4)
+    seagull.increaseStars(opponent2, 0) // it should not increase stars
+    assertEquals(seagull.stars, 4)
+    seagull.increaseStars(opponent3, 0) // it should not increase stars
+    assertEquals(seagull.stars, 4)
+  }
 
 }
