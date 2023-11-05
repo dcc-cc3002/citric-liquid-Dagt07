@@ -337,29 +337,33 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, 0 + 2)
   }
 
-  test("Attack method can increase Player stars winning the combat (units will defend)") {
+  test("Attack method can increase Player stars winning the combat (units will defend), if so, the opponent will lose stars") {
     // Testing vs all units
     character.stars = 4
     val opponent = new Seagull(maxHp, attack, defense, evasion)
     opponent.stars = 2
     character.attackMove(opponent)
     assertEquals(character.stars, 6 + 2) //Seagull bonus = 2
+    assertEquals(opponent.stars, 0)
     val opponent2 = new Chicken(maxHp, attack, defense, evasion)
     opponent2.stars = 2
     character.attackMove(opponent2)
     assertEquals(character.stars, 10 + 3) //Chicken bonus = 3
+    assertEquals(opponent2.stars, 0)
     val opponent3 = new Robo_ball(maxHp, attack, defense, evasion)
     opponent3.stars = 2
     character.attackMove(opponent3)
     assertEquals(character.stars, 15 + 2)
+    assertEquals(opponent3.stars, 0)
     val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, evasion,
       0, 1, 1, "stars")
     opponent4.stars = 4
     character.attackMove(opponent4)
     assertEquals(character.stars, 19)
+    assertEquals(opponent4.stars, 2)
   }
 
-  test("Attack method can increase Player stars winning the combat (units will evade)") {
+  test("Attack method can increase Player stars winning the combat (units will evade), if so, the opponent will lose stars") {
     // Testing vs all units
     character.stars = 4
     val opponent = new Seagull(maxHp, attack, defense, -100)
@@ -367,76 +371,47 @@ class PlayerCharacterTest extends munit.FunSuite {
     opponent.decision = "evade"
     character.attackMove(opponent)
     assertEquals(character.stars, 6 + 2) //Seagull bonus = 2
+    assertEquals(opponent.stars, 0)
     val opponent2 = new Chicken(maxHp, attack, defense, evasion-100)
     opponent2.stars = 2
     opponent.decision = "evade"
     character.attackMove(opponent2)
     assertEquals(character.stars, 10 + 3) //Chicken bonus = 3
+    assertEquals(opponent2.stars, 0)
     val opponent3 = new Robo_ball(maxHp, attack, defense, -100)
     opponent3.stars = 2
     opponent.decision = "evade"
     character.attackMove(opponent3)
     assertEquals(character.stars, 15 + 2)
+    assertEquals(opponent3.stars, 0)
     val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100,
       0, 1, 1, "stars")
     opponent4.stars = 4
     opponent4.decision = "evade"
     character.attackMove(opponent4)
     assertEquals(character.stars, 19)
+    assertEquals(opponent4.stars, 2)
   }
 
-  test("A character should increase their victories by winning a combat against a PlayerCharacter wildUnit") {
-    //Here is necessary to declare chicken a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val chicken: UnitTrait = new Chicken(maxHp, attack, defense, evasion)
-    //they both are initialized with 0 stars
-    assertEquals(character.stars, chicken.stars)
-    character.increaseVictories(chicken)
-    assertEquals(character.stars, chicken.stars) //both are 0
-    chicken.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
-    character.increaseVictories(chicken)
-    //wildUnit losing stars not implemented yet
-    assertEquals(character.stars, chicken.stars)
+  test("A character should increase their victories by winning a combat against a PlayerCharacter") {
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100,
+                                0, 1, 1, "stars")
+    assertEquals(character.wins, 0)
+    character.attackMove(opponent4)
+    assertEquals(character.wins, 2)
   }
 
-  test("A character should increase their victories by winning a combat against a Robo_ball (wildUnit)") {
-    //Here is necessary to declare robo_ball a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val robo_ball: UnitTrait = new Robo_ball(maxHp, attack, defense, evasion)
-    //they both are initialized with 0 stars
-    assertEquals(character.stars, robo_ball.stars)
-    character.increaseVictories(robo_ball)
-    assertEquals(character.stars, robo_ball.stars) //both are 0
-    robo_ball.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
-    character.increaseVictories(robo_ball)
-    //wildUnit losing stars not implemented yet
-    assertEquals(character.stars, robo_ball.stars)
-  }
-
-  test("A character should increase their victories by winning a combat against a Seagull (wildUnit)") {
-    //Here is necessary to declare seagull a type unitTrait, because we are using overloading in the PlayerCharacter class
-    val seagull: UnitTrait = new Seagull(maxHp, attack, defense, evasion)
-    //they both are initialized with 0 stars
-    assertEquals(character.stars, seagull.stars)
-    character.increaseVictories(seagull)
-    assertEquals(character.stars, seagull.stars) //both are 0
-    seagull.stars = 2 //now the wildUnit has 2 stars that the character can steal by winning
-    character.increaseVictories(seagull)
-    //wildUnit losing stars not implemented yet
-    assertEquals(character.stars, seagull.stars)
-  }
-
-  test("A character should increase their victories by winning a combat against another player") {
-    //Here is necessary to declare opponent a type PlayerCharacter, because we are using overloading in the PlayerCharacter class
-    val opponent: PlayerCharacter = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                                     wins, defaultNorm, currentNorm, normObjective)
-    //they both are initialized with 0 stars
-    assertEquals(character.stars, opponent.stars)
-    character.increaseVictories(opponent)
-    assertEquals(character.stars, opponent.stars) //both are 0
-    opponent.stars = 2 //now the opponent has 2 stars that the character can steal by winning
-    character.increaseVictories(opponent)
-    //opponent losing stars not implemented yet
-    opponent.stars /= 2
-    assertEquals(character.stars, opponent.stars)
+  test("A character should increase their victories by winning a combat against a wildUnit"){
+    val opponent = new Seagull(maxHp, attack, defense, evasion)
+    val opponent2 = new Chicken(maxHp, attack, defense, evasion)
+    val opponent3 = new Robo_ball(maxHp, attack, defense, evasion)
+    assertEquals(character.wins, 0) //initial wins
+    character.attackMove(opponent)
+    assertEquals(character.wins, 1)
+    character.attackMove(opponent2)
+    assertEquals(character.wins, 2)
+    character.attackMove(opponent3)
+    assertEquals(character.wins, 3)
   }
 
   test("A character should increase their stars just by finishing the round") {
@@ -507,7 +482,5 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.normCheck()
     assertEquals(character.currentNorm, defaultNorm + 4)
   }
-
-
 
 }

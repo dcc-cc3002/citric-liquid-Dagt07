@@ -83,19 +83,7 @@ class PlayerCharacter(val name: String,
     stars += amount
   }
 
-
-  /* COMBAT DEPENDENT METHODS, will be implemented properly later */
-  /*
-  /** Increases the player's star count by the given amount(carried by the enemy). */
-  def increaseStarsByCombat(amount: Int): Unit = {
-    stars += amount
-  }
-
-  def decreaseStarsByCombat(amount: Int): Unit = {
-    stars -= amount
-  }
-  */
-
+  /* COMBAT DEPENDENT METHODS */
   def increaseStars(unit: UnitTrait): Unit = {
     unit.increaseStarsPlayer(this)
   }
@@ -103,6 +91,7 @@ class PlayerCharacter(val name: String,
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
+    unit.increaseVictoriesVsPlayer()
   }
 
   def increaseStarsChicken(unit: Chicken): Unit = {
@@ -120,39 +109,16 @@ class PlayerCharacter(val name: String,
     this.stars = floorDiv(this.stars, 2)
   }
 
-  /*
-  def decreaseStars(unit: UnitTrait): Int = {
-    unit.decreaseStarsPlayer(this)
-  }
-
-  def decreaseStarsPlayer(losingUnit: PlayerCharacter): Int = {
-    val starsLost = this.stars/2
-    this.stars /= 2
-    starsLost //return half of the stars carried by this unit
-  }
-
-  def decreaseStarsWildUnit(losingUnit: WildUnit): Int = {
-    val starsLost = this.stars / 2
-    this.stars /= 2
-    starsLost //return half of the stars carried by this unit
-  }
-   */
-
   // Two ways to gain wins for the player:
-  //using overloading to separate the way victories are achieved
 
   //1. By defeating a wild unit
-  def increaseVictories(wildUnit: UnitTrait): Unit = {
+  def increaseVictoriesVsWildUnit(): Unit = {
     wins += 1
-    stars += wildUnit.stars
   }
 
   //2. By defeating a player
-  def increaseVictories(opponent: PlayerCharacter): Unit = {
+  private def increaseVictoriesVsPlayer(): Unit = {
     wins += 2
-    val rival_Stars : Int = opponent.stars
-    val value: Int = rival_Stars/2
-    stars += value
   }
 
   /** Norm dependent methods */

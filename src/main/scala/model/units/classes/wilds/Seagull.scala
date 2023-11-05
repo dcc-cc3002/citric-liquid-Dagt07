@@ -24,6 +24,7 @@ class Seagull(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abstr
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars + 2 //Seagull bonus = 2 stars
     this.stars = 0
+    unit.increaseVictoriesVsWildUnit()
   }
 
   def increaseStarsChicken(unit: Chicken): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
@@ -32,19 +33,4 @@ class Seagull(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abstr
 
   def increaseStarsSeagull(unit: Seagull): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
 
-  /*
-  def decreaseStars(unit: UnitTrait): Int = {
-    unit.decreaseStarsWildUnit(this)
-  }
-
-  def decreaseStarsPlayer(losingUnit: PlayerCharacter): Int = {
-    val starsLost = this.stars
-    this.stars = 0
-    starsLost //return all the stars carried by this unit
-  }
-
-  def decreaseStarsWildUnit(losingUnit: WildUnit): Int = {
-    0
-  }
-   */
 }

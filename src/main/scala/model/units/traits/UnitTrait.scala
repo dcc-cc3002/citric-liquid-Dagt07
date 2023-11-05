@@ -35,9 +35,4 @@ trait UnitTrait {
   def increaseStarsRobo_ball(unit: Robo_ball): Unit
   def increaseStarsSeagull(unit: Seagull): Unit
 
-  /*
-  def decreaseStars(unit: UnitTrait): Int
-  def decreaseStarsPlayer(unit: PlayerCharacter): Int
-  def decreaseStarsWildUnit(unit: WildUnit): Int
-  */
 }
