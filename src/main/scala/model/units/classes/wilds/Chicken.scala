@@ -23,6 +23,7 @@ class Chicken (maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abst
 
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars + 3 //Chicken bonus = 3 stars
+    this.stars = 0
   }
 
   def increaseStarsChicken(unit: Chicken): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed

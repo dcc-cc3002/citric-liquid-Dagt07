@@ -252,5 +252,54 @@ class ChickenTest extends munit.FunSuite {
     assertEquals(chicken.stars, 4)
   }
 
+  test("Attack method can increase Player stars winning the combat (units will defend)") {
+    // Testing vs all units
+    chicken.stars = 4
+    val opponent = new Seagull(maxHp, attack, defense, evasion)
+    opponent.stars = 2
+    chicken.attackMove(opponent)
+    assertEquals(chicken.stars, 4)
+    val opponent2 = new Chicken(maxHp, attack, defense, evasion)
+    opponent2.stars = 2
+    chicken.attackMove(opponent2)
+    assertEquals(chicken.stars, 4)
+    val opponent3 = new Robo_ball(maxHp, attack, defense, evasion)
+    opponent3.stars = 2
+    chicken.attackMove(opponent3)
+    assertEquals(chicken.stars, 4)
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, evasion,
+      0, 1, 1, "stars")
+    opponent4.stars = 4
+    chicken.attackMove(opponent4) //only in this case, the stars should increase (vs a Player)
+    assertEquals(chicken.stars, 4)
+  }
+
+  /*
+  test("Attack method can increase Player stars winning the combat (units will evade)") {
+    // Testing vs all units
+    chicken.stars = 4
+    val opponent = new Seagull(maxHp, attack, defense, -100)
+    opponent.stars = 2
+    opponent.decision = "evade"
+    chicken.attackMove(opponent)
+    assertEquals(chicken.stars, 4)
+    val opponent2 = new Chicken(maxHp, attack, defense, evasion - 100)
+    opponent2.stars = 2
+    opponent.decision = "evade"
+    chicken.attackMove(opponent2)
+    assertEquals(chicken.stars, 4)
+    val opponent3 = new Robo_ball(maxHp, attack, defense, -100)
+    opponent3.stars = 2
+    opponent.decision = "evade"
+    chicken.attackMove(opponent3)
+    assertEquals(chicken.stars, 4)
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100,
+      0, 1, 1, "stars")
+    opponent4.stars = 4
+    opponent4.decision = "evade"
+    chicken.attackMove(opponent4)
+    assertEquals(chicken.stars, 4)
+  }
+  */
 }
 

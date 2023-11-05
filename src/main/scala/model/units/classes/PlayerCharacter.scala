@@ -102,18 +102,22 @@ class PlayerCharacter(val name: String,
 
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars/2
+    this.stars = floorDiv(this.stars, 2)
   }
 
   def increaseStarsChicken(unit: Chicken): Unit = {
     unit.stars += this.stars/2 //losing as a Player vs any WildUnit will drop our stars by half
+    this.stars = floorDiv(this.stars, 2)
   }
 
   def increaseStarsRobo_ball(unit: Robo_ball): Unit = {
     unit.stars += this.stars/2
+    this.stars = floorDiv(this.stars, 2)
   }
 
   def increaseStarsSeagull(unit: Seagull): Unit = {
     unit.stars += this.stars/2
+    this.stars = floorDiv(this.stars, 2)
   }
 
   /*

@@ -142,7 +142,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     if (currentHP < 0) {
       currentHP = 0
       isKO = true
-      attackingUnit.increaseStars(attackingUnit)
+      attackingUnit.increaseStars(this)
     }
     damage_taken // returns the damage taken
   }
@@ -155,7 +155,8 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
       if (currentHP < 0) {
         isKO = true
         currentHP = 0
-        attackingUnit.increaseStars(attackingUnit)
+        attackingUnit.increaseStars(this)
+
       }
       return damageToReceive // returns the damage taken
     }

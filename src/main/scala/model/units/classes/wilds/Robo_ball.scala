@@ -23,6 +23,7 @@ class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abs
 
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars + 2 //Robo_ball bonus = 3 stars
+    this.stars = 0
   }
 
   def increaseStarsChicken(unit: Chicken): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
