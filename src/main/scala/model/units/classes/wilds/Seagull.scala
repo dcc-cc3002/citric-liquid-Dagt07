@@ -17,20 +17,35 @@ import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
  */
 class Seagull(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion) with WildUnit{
 
+  /** Double dispatch methods, related to the combat */
+
+  /** Increases the stars of a unit after defeating a Seagull wild unit.
+   * @param unit The unit that defeated the Seagull.
+   */
   def increaseStars(unit: UnitTrait): Unit = {
     unit.increaseStarsSeagull(this)
   }
 
+  /** Increases the stars of a player character after defeating a Seagull wild unit.
+   * @param unit The player character who defeated the Seagull.
+   */
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars + 2 //Seagull bonus = 2 stars
     this.stars = 0
     unit.increaseVictoriesVsWildUnit()
   }
 
-  def increaseStarsChicken(unit: Chicken): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
 
-  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
+  /** No stars are increased when a Seagull wild unit defeats another wild unit (assumed to be disallowed).
+   * @param unit The Chicken unit defeated by the Seagull wild unit. */
+  def increaseStarsChicken(unit: Chicken): Unit = {}
 
-  def increaseStarsSeagull(unit: Seagull): Unit = {} //we asume that WildUnit vs WildUnit combat isn't allowed
+  /** No stars are increased when a Seagull wild unit defeats a Robo_ball wild unit (assumed to be disallowed).
+   * @param unit The Robo_ball unit defeated by the Seagull wild unit. */
+  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {}
+
+  /** No stars are increased when a Seagull wild unit defeats another Seagull wild unit (assumed to be disallowed).
+   * @param unit The Seagull unit defeated by the Seagull wild unit. */
+  def increaseStarsSeagull(unit: Seagull): Unit = {}
 
 }

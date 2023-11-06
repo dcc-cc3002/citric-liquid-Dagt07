@@ -58,47 +58,67 @@ class PlayerCharacter(val name: String,
   var normObjective: String = "stars"
   var wins : Int = 0
 
-  /* PANEL DEPENDENT METHODS */
+  /**-------------------------- PANEL DEPENDENT METHODS --------------------------*/
+
+  /** Regenerates HP for the player character. */
   def regenerateHP(): Unit = {
     currentHP_=(10 + currentHP)
   }
 
-  /** Increases the player's star count by the given amount. */
+  /** Increases the player character's star count based on panel effects. */
   def increaseStarsByPanel(): Unit = {
     stars += min(rollDice() * intNorm, rollDice() * 3)
   }
 
+  /** Decreases the player character's star count based on panel effects. */
   def decreaseStarsByPanel(): Unit = {
     stars -= rollDice() * intNorm
   }
 
-  /* ROUND DEPENDENT METHODS, will be implemented properly later */
+  /** -------- ROUND DEPENDENT METHODS, will be implemented properly later -------- */
 
+  /** Increases the player character's star count based on round effects. */
   def increaseStarsByRound(amount: Int): Unit = {
     stars += amount
   }
 
-  /* COMBAT DEPENDENT METHODS */
+  /**-------------------------- COMBAT DEPENDENT METHODS --------------------------*/
+
+  /** Increases the stars of a unit after defeating a PlayerCharacter.
+   * @param unit The unit that defeated the PlayerCharacter.
+   */
   def increaseStars(unit: UnitTrait): Unit = {
     unit.increaseStarsPlayer(this)
   }
 
+  /** Increases the stars of a player character after defeating a PlayerCharacter.
+   * @param unit The player character who defeated the PlayerCharacter.
+   */
   def increaseStarsPlayer(unit: PlayerCharacter): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
     unit.increaseVictoriesVsPlayer()
   }
 
+  /** Increases the stars of a Chicken after defeating a PlayerCharacter.
+   * @param unit The chicken who defeated the PlayerCharacter.
+   */
   def increaseStarsChicken(unit: Chicken): Unit = {
     unit.stars += this.stars/2 //losing as a Player vs any WildUnit will drop our stars by half
     this.stars = floorDiv(this.stars, 2)
   }
 
+  /** Increases the stars of a Robo_ball after defeating a PlayerCharacter.
+   * @param unit The robo_ball who defeated the PlayerCharacter.
+   */
   def increaseStarsRobo_ball(unit: Robo_ball): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
   }
 
+  /** Increases the stars of a Seagull after defeating a PlayerCharacter.
+   * @param unit The seagull who defeated the PlayerCharacter.
+   */
   def increaseStarsSeagull(unit: Seagull): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
@@ -107,11 +127,13 @@ class PlayerCharacter(val name: String,
   // Two ways to gain wins for the player:
 
   //1. By defeating a wild unit
+  /** Increases the wins of a player character after defeating a wild unit. */
   def increaseVictoriesVsWildUnit(): Unit = {
     wins += 1
   }
 
   //2. By defeating a player
+  /** Increases the wins of a player character after defeating another player. */
   private def increaseVictoriesVsPlayer(): Unit = {
     wins += 2
   }

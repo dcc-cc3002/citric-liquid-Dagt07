@@ -22,6 +22,8 @@ trait UnitTrait {
 
   /** Other methods */
   def rollDice(seed: Int = 0): Int
+
+  /** Double dispatch methods, related to the combat */
   def attackMove(opponent: UnitTrait): Int
   def attackCalculator(attackingUnit: UnitTrait): Int
   def receiveAttack(attackingUnit: UnitTrait): Int

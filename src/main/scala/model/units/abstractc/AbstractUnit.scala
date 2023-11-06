@@ -97,7 +97,8 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
    * */
   def decision_=(newDecision: String): Unit = _decision = newDecision
 
-  /** Other methods */
+  /** ------------------------------ Other methods ---------------------------------------*/
+
   /** Rolls a dice and returns a value between 1 to 6. */
   def rollDice(seed: Int = 0): Int = {
     if (seed != 0){
@@ -112,6 +113,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   /**------------------------ COMBAT METHODS (using double dispatch)---------------------- */
 
   /** Method that a unit call to attack another unit
+   *
    * @param opponent the unit that will receive the attack
    * @return the damage done by the unit
    */
@@ -120,6 +122,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   }
 
   /** Method that the attacking unit calls to calculate his damage
+   *
    * @param attackingUnit the unit that will attack
    * @return the damage done by the unit
    */
@@ -135,6 +138,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   }
 
   /** Method that a unit that is being attack calls to protect itself
+   *
    * @param attackingUnit The unit that is attacking.
    * @return The damage taken by the unit.
    */
@@ -153,6 +157,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   }
 
   /** Method that a unit uses to defend itself against an attack.
+   *
    * @param damageToReceive The damage to receive from the attacker.
    * @param attackingUnit   The unit that is attacking.
    * @return The damage taken by the unit after defending.
@@ -183,7 +188,6 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
         isKO = true
         currentHP = 0
         attackingUnit.increaseStars(this)
-
       }
       return damageToReceive // returns the damage taken
     }
