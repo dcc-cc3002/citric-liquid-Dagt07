@@ -35,7 +35,6 @@ import scala.math.{floorDiv, min}
   * @param attack The player's capability to deal damage to opponents.
   * @param defense The player's capability to resist or mitigate damage from opponents.
   * @param evasion The player's skill to completely avoid certain attacks.
-  * @param wins The number of victories the player has.
   *
   * @author [[https://github.com/Dagt07/ David García T.]]
   * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
@@ -54,7 +53,6 @@ class PlayerCharacter(val name: String,
   /** getters and setters for PlayerCharacter are implemented in abstractUnit */
 
   /** A instance of normaClass that will help checking player requirements to level up his norm */
-  //val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
   var norma:NormTrait = new Norma1(this)
   var intNorm = 1
   var normObjective: String = "stars"

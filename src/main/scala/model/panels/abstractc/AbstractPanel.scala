@@ -13,7 +13,6 @@ import model.units.classes.PlayerCharacter
  * @param nextPanels The list of panels that are directly connected to this one.
  *
  * @constructor create a new abstract panel with the specified characters and next panels
- *
  * @author [[https://github.com/Dagt07 David Garcia T.]]
  */
 
@@ -58,13 +57,46 @@ abstract class AbstractPanel(val characters: ArrayBuffer[PlayerCharacter], var n
     characters -= player
   }
 
+  /** Adds a panel to the list of panels that are directly connected to this one.
+   *
+   * This might be invoked when a player moves to this panel or starts their turn on it.
+   *
+   * @param panel The panel to add to this panel.
+   * @return the panel nextPanels array with the new panel
+   *
+   * @example {{{
+   *  val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel]()
+   *  addPanel(panel)
+   *  #It has added a new panel to the current panel nextPanels array, isn't necessary to know the index of the panel
+   *  nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel)
+   * }}}
+   */
   def addPanel(panel: Panel): Unit = {
     nextPanels += panel
   }
 
+  /** Removes a panel from the list of panels that are directly connected to this one.
+   *
+   * This might be invoked when a player moves off this panel.
+   *
+   * @param panel The panel to remove from this panel.
+   * @return the panel nextPanels array without the specified panel
+   *
+   * @example
+   * {{{
+   *   #Supose that the panel array nextPanels has 3 panels
+   *   val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3
+   *   removePanel(nextPanels(3))
+   *   #It has removed the third panel from the panel, it would be necessary to know the index of the panel
+   *   nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2)
+   * }}}
+   */
   def removePanel(panel: Panel): Unit = {
     if (nextPanels.contains(panel)) nextPanels -= panel
   }
 
+  /** Method that applies the effect of the panel to the player.
+   * This method will be reimplemented (override) in the different types of panels that we will use in the game. */
   def apply(): Unit = {}
+
 }

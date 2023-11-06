@@ -13,10 +13,8 @@ import scala.collection.mutable.ArrayBuffer
  *
  *  not implemented yet:
  *  -If the player passing by is the owner of this home panel, he can choose to activate the panel ending his turn here
- *  regenerating 10 HP per default and doing a normCheck to see if he can level up his currentNorm level.
  *  -If the player passing by is not the owner of this home panel, he cannot activate the panel.
  *  -If the player its not the owner of the panel, he can only activate it if he lands exactly on it, regenerating 10 HP
- *  per default and doing a normCheck to see if he can level up his currentNorm level.
  *
  * @param characters The list of characters currently on this panel.
  * @param nextPanels The list of panels that are directly connected to this one.
@@ -35,7 +33,6 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    *
    * @param player the player to regenerate HP
    */
-
   def apply(player: PlayerCharacter): Unit = {
     if (characters.contains(player)){
       player.regenerateHP()

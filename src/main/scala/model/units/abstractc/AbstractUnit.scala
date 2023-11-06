@@ -12,6 +12,7 @@ import scala.math.max
  * @param CAttack the attack of the unit.
  * @param CDefense the defense of the unit.
  * @param CEvasion the evasion of the unit.
+ * @author [[https://github.com/Dagt07/ David García T.]]
  */
 abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int, val CEvasion: Int) extends UnitTrait {
 
@@ -108,9 +109,20 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     dice
   }
 
+  /**------------------------ COMBAT METHODS (using double dispatch)---------------------- */
+
+  /** Method that a unit call to attack another unit
+   * @param opponent the unit that will receive the attack
+   * @return the damage done by the unit
+   */
   def attackMove(opponent: UnitTrait): Int = {
     opponent.receiveAttack(this)
   }
+
+  /** Method that the attacking unit calls to calculate his damage
+   * @param attackingUnit the unit that will attack
+   * @return the damage done by the unit
+   */
   def attackCalculator(attackingUnit: UnitTrait): Int = {
     if (attackingUnit.isKO){
       return 0 // an KO unit can't attack
@@ -122,6 +134,10 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     damage // returns the damage of the attack
   }
 
+  /** Method that a unit that is being attack calls to protect itself
+   * @param attackingUnit The unit that is attacking.
+   * @return The damage taken by the unit.
+   */
   def receiveAttack(attackingUnit: UnitTrait): Int = {
     if (this.isKO){
       return 0 // an KO unit can't be attacked
@@ -136,6 +152,11 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     }
   }
 
+  /** Method that a unit uses to defend itself against an attack.
+   * @param damageToReceive The damage to receive from the attacker.
+   * @param attackingUnit   The unit that is attacking.
+   * @return The damage taken by the unit after defending.
+   */
   def defendMove(damageToReceive: Int, attackingUnit: UnitTrait): Int = {
     val damage_taken = max(1, damageToReceive - (rollDice() + defense))
     currentHP -= damage_taken
@@ -147,6 +168,12 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     damage_taken // returns the damage taken
   }
 
+  /** Method that a unit uses to evade an attack.
+   *
+   * @param damageToReceive The damage to potentially receive from the attacker.
+   * @param attackingUnit   The unit that is attacking.
+   * @return The damage taken by the unit after attempting to evade.
+   */
   def evadeMove(damageToReceive: Int, attackingUnit: UnitTrait): Int = {
     val selfLuck = rollDice()+ evasion
     if (selfLuck <= damageToReceive){

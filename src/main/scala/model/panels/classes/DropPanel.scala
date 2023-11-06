@@ -27,7 +27,7 @@ class DropPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
    *
    * It needs to know the current norm of the player and the roll of the dice that the player obtains to calculate
    * the amount of stars that the player will lose with the following criteria:
-   * rollDice() * currentNorm
+   * rollDice() * norma
    *
    * @param player a player from the player characters array currently in the panel
    */

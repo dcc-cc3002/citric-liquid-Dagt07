@@ -27,7 +27,7 @@ class BonusPanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuff
    *
    * It needs to know the current norm of the player and the roll of the dice that the player obtains to calculate
    * the amount of stars that the player will receive with the following criteria:
-   * min(roll * Norma, roll * 3).
+   * min(roll * norma, roll * 3).
    *
    * @param player a player from the player characters array currently in the panel
    */
