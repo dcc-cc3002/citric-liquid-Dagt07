@@ -21,9 +21,7 @@ class DropPanelTest extends munit.FunSuite{
   private var stars = 0
   private var wins = 0
   private var currentHP = maxHp
-  private val defaultNorm = 1
-  private var currentNorm = 1
-  private var normObjective = "stars"
+
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -44,12 +42,9 @@ class DropPanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-      wins, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-      wins, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-      wins, defaultNorm, currentNorm, normObjective)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
@@ -118,8 +113,7 @@ class DropPanelTest extends munit.FunSuite{
   }
   
   test("A character should be able to decrease their stars by landing in a DropPanel") {
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-      wins, defaultNorm, currentNorm, normObjective)
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(player1.stars, other.stars)
     dropPanel.apply(player1)
     assert(player1.stars < other.stars)

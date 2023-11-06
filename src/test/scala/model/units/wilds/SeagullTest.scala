@@ -222,8 +222,7 @@ class SeagullTest extends munit.FunSuite {
 
   test("Increase Stars method: Vs PlayerCharacter") {
     seagull.stars = 4
-    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion,
-      0, 1, 1, "stars")
+    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(seagull.stars, opponent.stars)
     seagull.increaseStars(opponent)

@@ -4,9 +4,9 @@ package model.units.classes
 import model.norm.traits.NormTrait
 import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
-import model.norm.classes.NormaClass
+import model.norm.classes.Norma1
 
-import cl.uchile.dcc.citric.model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
 
 import scala.math.{floorDiv, min}
 
@@ -36,9 +36,6 @@ import scala.math.{floorDiv, min}
   * @param defense The player's capability to resist or mitigate damage from opponents.
   * @param evasion The player's skill to completely avoid certain attacks.
   * @param wins The number of victories the player has.
-  * @param defaultNorm The default norma level of the player.
-  * @param currentNorm The current norma level of the player.
-  * @param normObjective The objective of the player's current norma level.
   *
   * @author [[https://github.com/Dagt07/ David García T.]]
   * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
@@ -51,17 +48,17 @@ class PlayerCharacter(val name: String,
                       maxHp: Int,
                       attack: Int,
                       defense: Int,
-                      evasion: Int,
-                      var wins: Int,
-                      val defaultNorm: Int = 1,
-                      var currentNorm: Int,
-                      var normObjective: String)
-  extends AbstractUnit(maxHp, attack, defense, evasion) with NormTrait {
+                      evasion: Int)
+  extends AbstractUnit(maxHp, attack, defense, evasion) {
 
   /** getters and setters for PlayerCharacter are implemented in abstractUnit */
 
   /** A instance of normaClass that will help checking player requirements to level up his norm */
-  val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
+  //val playerNorm = new NormaClass(defaultNorm, currentNorm, normObjective)
+  var norma:NormTrait = new Norma1(this)
+  var intNorm = 1
+  var normObjective: String = "stars"
+  var wins : Int = 0
 
   /* PANEL DEPENDENT METHODS */
   def regenerateHP(): Unit = {
@@ -70,11 +67,11 @@ class PlayerCharacter(val name: String,
 
   /** Increases the player's star count by the given amount. */
   def increaseStarsByPanel(): Unit = {
-    stars += min(rollDice() * currentNorm, rollDice() * 3)
+    stars += min(rollDice() * intNorm, rollDice() * 3)
   }
 
   def decreaseStarsByPanel(): Unit = {
-    stars -= rollDice() * currentNorm
+    stars -= rollDice() * intNorm
   }
 
   /* ROUND DEPENDENT METHODS, will be implemented properly later */
@@ -119,21 +116,6 @@ class PlayerCharacter(val name: String,
   //2. By defeating a player
   private def increaseVictoriesVsPlayer(): Unit = {
     wins += 2
-  }
-
-  /** Norm dependent methods */
-  var IntNormObjective: Int = currentNorm + 1
-  def normCheck(): Unit = {
-    playerNorm.getRequirements(IntNormObjective) match {
-      case Some((starsRequired, winsRequired)) =>
-        if (stars >= starsRequired || wins >= winsRequired) {
-          currentNorm += 1
-          IntNormObjective += 1
-          stars = 0
-          wins = 0
-        }
-      case None => ()
-    }
   }
 
 }

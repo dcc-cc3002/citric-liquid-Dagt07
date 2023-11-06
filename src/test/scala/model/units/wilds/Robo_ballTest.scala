@@ -222,8 +222,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("Increase Stars method: Vs PlayerCharacter") {
     robo_ball.stars = 4
-    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion,
-      0, 1, 1, "stars")
+    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(robo_ball.stars, opponent.stars)
     robo_ball.increaseStars(opponent)

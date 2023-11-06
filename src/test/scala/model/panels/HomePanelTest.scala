@@ -4,6 +4,9 @@ package model.panels
 import model.units.classes.PlayerCharacter
 import model.panels.classes.{DropPanel, HomePanel}
 import model.panels.traits.Panel
+import model.norm.traits.NormTrait
+
+import cl.uchile.dcc.citric.model.norm.classes.Norma1
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -21,9 +24,7 @@ class HomePanelTest extends munit.FunSuite{
   private var stars = 0
   private var wins = 0
   private var currentHP = maxHp
-  private val defaultNorm = 1
-  private var currentNorm = 1
-  private var normObjective = "stars"
+
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -44,12 +45,9 @@ class HomePanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
 
     val characters: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter](player1, player2, player3)
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
@@ -109,4 +107,41 @@ class HomePanelTest extends munit.FunSuite{
     homePanel.apply(player1)
     assertEquals(player1.currentHP, healthPoints + 10)
   }
+
+  test("normaCheck method can increase the player norma level checking his stars") {
+    player1.stars = 10
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 2)
+    player1.stars = 30
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 3)
+    player1.stars = 70
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 4)
+    player1.stars = 120
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 5)
+    player1.stars = 200
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 6)
+  }
+
+  test("normaCheck method can increase the player norma level checking his wins"){
+    player1.wins = 1
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 2)
+    player1.wins = 3
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 3)
+    player1.wins = 6
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 4)
+    player1.wins = 10
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 5)
+    player1.wins = 14
+    homePanel.normaCheck(player1)
+    assertEquals(player1.intNorm, 6)
+  }
+
 }

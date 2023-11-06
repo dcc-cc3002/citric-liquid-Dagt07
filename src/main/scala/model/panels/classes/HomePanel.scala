@@ -42,17 +42,22 @@ class HomePanel(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffe
     }
   }
 
-  /** Check if the specified player meets the requirements to level up his currentNorm level
+  /** Check if the specified player meets the requirements to level up his current norma level
    *
    *  Those requirements are in the following table:
-   *  Norm Estrellas Victorias
-   *   1      10         1
-   *   2      30         3
-   *   3      70         6
-   *   4     120        10
-   *   5     200        14
+   *  Norma  Stars Victories
+   *   1      10       1
+   *   2      30       3
+   *   3      70       6
+   *   4     120      10
+   *   5     200      14
    *
    * @param player the player to check
    */
+  def normaCheck(player: PlayerCharacter): Unit = {
+    if (characters.contains(player)){
+      player.norma.upgrade()
+    }
+  }
 
 }

@@ -1,3 +1,4 @@
+/*
 package cl.uchile.dcc.citric
 package model.norm.classes
 
@@ -30,3 +31,4 @@ class NormaClass(val defaultNorm: Int = 1, var currentNorm: Int, var normObjecti
     norms.get(level)
   }
 }
+*/

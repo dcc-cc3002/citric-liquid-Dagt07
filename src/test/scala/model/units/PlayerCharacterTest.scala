@@ -20,9 +20,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   private val stars = 0
   private val wins = 0
   private val currentHP = maxHp
-  private val defaultNorm = 1
-  private var currentNorm = 1
-  private var normObjective = "stars"
+
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -39,11 +37,7 @@ class PlayerCharacterTest extends munit.FunSuite {
       maxHp,
       attack,
       defense,
-      evasion,
-      wins,
-      defaultNorm,
-      currentNorm,
-      normObjective
+      evasion
     )
   }
 
@@ -56,9 +50,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, stars)
     assertEquals(character.wins, wins)
     assertEquals(character.currentHP, currentHP)
-    assertEquals(character.defaultNorm, defaultNorm)
-    assertEquals(character.currentNorm, currentNorm)
-    assertEquals(character.normObjective, normObjective)
+    assertEquals(character.normObjective, "stars")
   }
 
   // Two ways to test randomness (you can use any of them):
@@ -75,8 +67,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   // are always the same for the same seed.
   test("A character should be able to roll a dice with a fixed seed") {
     val other =
-      new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                          wins, defaultNorm, currentNorm, normObjective)
+      new PlayerCharacter(name, maxHp, attack, defense, evasion)
     for (_ <- 1 to 10) {
       assertEquals(character.rollDice(11), other.rollDice(11))
     }
@@ -102,19 +93,14 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should be able to increase their stars by landing in a BonusPanel"){
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(character.stars,other.stars)
     character.increaseStarsByPanel()
-    //println(character.stars,other.stars)
-    //character.stars +=1
-    //println(character.stars,other.stars)
     assert(character.stars > other.stars)
   }
 
   test("A character should be able to decrease their stars by landing in a DropPanel") {
-    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val other = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(character.stars, other.stars)
     character.decreaseStarsByPanel()
     assert(character.stars < other.stars)
@@ -132,15 +118,13 @@ class PlayerCharacterTest extends munit.FunSuite {
     // in this case, character attack is -1, so the maximum attack depends on the rollDice() getting a 6 ---> dmg = 6+(-1) = 5
     assert(damageToDeal == 0 || damageToDeal <= (attack + 6))
     assert(damageToDeal > ref) // it can be (0 to 5) > -1
-    val lazyPlayerCharacter = new PlayerCharacter(name, maxHp, -1000, defense, evasion,
-                                                wins, defaultNorm, currentNorm, normObjective) // a Unit with no attack
+    val lazyPlayerCharacter = new PlayerCharacter(name, maxHp, -1000, defense, evasion) // a Unit with no attack
     val damage = lazyPlayerCharacter.attackCalculator(lazyPlayerCharacter)
     assertEquals(damage, 0) // for a negative attack, it should return damage = 0
   }
 
   test("AttackCalculator for a KO unit should return 0") {
-    val otherUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                wins, defaultNorm, currentNorm, normObjective)
+    val otherUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     otherUnit.currentHP = 0
     otherUnit.isKO = true
     val damage = otherUnit.attackCalculator(otherUnit)
@@ -149,8 +133,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Defense method") {
     val ref = character.currentHP
-    val opponent = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                      wins, defaultNorm, currentNorm, normObjective)
+    val opponent = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) //we already test this method
     assertEquals(opponent.currentHP, ref)
     character.defendMove(damageToReceive,opponent)
@@ -160,8 +143,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Defense method vs a OverPowered unit") {
     val ref = character.currentHP
-    val megaPlayerCharacter = new PlayerCharacter(name, maxHp, 1000, defense, evasion,
-                                          wins, defaultNorm, currentNorm, normObjective)
+    val megaPlayerCharacter = new PlayerCharacter(name, maxHp, 1000, defense, evasion)
     val damageToReceive = megaPlayerCharacter.attackCalculator(megaPlayerCharacter) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
     character.defendMove(damageToReceive,megaPlayerCharacter)
@@ -172,8 +154,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Evade method") {
     val ref = character.currentHP
-    val opponent = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                wins, defaultNorm, currentNorm, normObjective)
+    val opponent = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) // Minimum damage = 1, Max damage = 5
     assertEquals(opponent.currentHP, ref)
     val damageReceived = character.evadeMove(damageToReceive,opponent)
@@ -186,8 +167,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Evade method vs a non dangerous Unit") {
     val ref = character.currentHP
-    val lazyPlayerCharacter = new PlayerCharacter(name, maxHp, -1000, defense, evasion,
-                                wins, defaultNorm, currentNorm, normObjective) // a Unit with no attack
+    val lazyPlayerCharacter = new PlayerCharacter(name, maxHp, -1000, defense, evasion) // a Unit with no attack
     val damageToReceive = lazyPlayerCharacter.attackCalculator(lazyPlayerCharacter)
     assertEquals(damageToReceive, 0) // for a negative attack, it should return damage = 0
     character.evadeMove(damageToReceive,lazyPlayerCharacter)
@@ -197,8 +177,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   test("Evade method vs a OverPowered unit") {
     // By the evade idea, it always take all damage or nothing, then this will have the same effect as test("Evade method")
     val ref = character.currentHP
-    val megaPlayerCharacter = new PlayerCharacter(name, maxHp, 1000, defense, evasion,
-                                          wins, defaultNorm, currentNorm, normObjective)
+    val megaPlayerCharacter = new PlayerCharacter(name, maxHp, 1000, defense, evasion)
     val damageToReceive = megaPlayerCharacter.attackCalculator(megaPlayerCharacter) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
     val damageReceived = character.evadeMove(damageToReceive,megaPlayerCharacter)
@@ -210,8 +189,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("ReceiveAttack method: First test, a character not in KO state and with 'defense' tactic") {
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(character.isKO, false)
     assertEquals(character.decision, "defense")
     // First, test a character not in KO state and with defense tactic
@@ -222,8 +200,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Second test, a character not in KO state and with 'evade' tactic") {
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, 1, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective) // With attack equal to 1 we can test both scenarios
+    val attackingUnit = new PlayerCharacter(name, maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
     assertEquals(character.isKO, false)
     character.decision = "evade"
     assertEquals(character.decision, "evade")
@@ -235,8 +212,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Third test, a character in KO state with any tactic") {
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     character.isKO = true
     assertEquals(character.isKO, true)
     val damageReceived = character.receiveAttack(attackingUnit)
@@ -246,8 +222,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Fourth test, a character with an invalid tactic") {
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective) // With attack equal to 1 we can test both scenarios
+    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion) // With attack equal to 1 we can test both scenarios
     character.decision = "something"
     assertEquals(character.decision, "something")
     val damageReceived = character.receiveAttack(attackingUnit)
@@ -258,8 +233,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   test("Attack Method, with 'defense' tactic") {
     //our character will defend, his opponent will attack
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(character.isKO, false)
     assertEquals(character.decision, "defense")
     attackingUnit.attackMove(character)
@@ -270,8 +244,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   test("Attack Method, with 'evade' tactic") {
     //our character will defend, his opponent will attack
     val ref = character.currentHP
-    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                    wins, defaultNorm, currentNorm, normObjective)
+    val attackingUnit = new PlayerCharacter(name, maxHp, attack, defense, evasion)
     assertEquals(character.isKO, false)
     character.decision = "evade"
     assertEquals(character.decision, "evade")
@@ -283,8 +256,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Increase Stars method: Vs PlayerCharacter") {
     character.stars = 4
-    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion,
-      0, 1, 1, "stars")
+    val opponent = new PlayerCharacter("john", maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
     character.increaseStars(opponent)
@@ -355,8 +327,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.attackMove(opponent3)
     assertEquals(character.stars, 15 + 2)
     assertEquals(opponent3.stars, 0)
-    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, evasion,
-      0, 1, 1, "stars")
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, evasion)
     opponent4.stars = 4
     character.attackMove(opponent4)
     assertEquals(character.stars, 19)
@@ -384,8 +355,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.attackMove(opponent3)
     assertEquals(character.stars, 15 + 2)
     assertEquals(opponent3.stars, 0)
-    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100,
-      0, 1, 1, "stars")
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100)
     opponent4.stars = 4
     opponent4.decision = "evade"
     character.attackMove(opponent4)
@@ -394,8 +364,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   }
 
   test("A character should increase their victories by winning a combat against a PlayerCharacter") {
-    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100,
-                                0, 1, 1, "stars")
+    val opponent4 = new PlayerCharacter("john", maxHp, attack, defense, -100)
     assertEquals(character.wins, 0)
     character.attackMove(opponent4)
     assertEquals(character.wins, 2)
@@ -418,69 +387,6 @@ class PlayerCharacterTest extends munit.FunSuite {
     assertEquals(character.stars, stars)
     character.increaseStarsByRound(2)
     assertEquals(character.stars, stars + 2)
-  }
-
-  test("A character should increase their norm if they meet the stars requirements") {
-    assertEquals(character.currentNorm, defaultNorm)
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm)
-    character.stars = 10
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 1)
-    character.stars = 30
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 2)
-    character.stars = 70
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 3)
-    character.stars = 120
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 4)
-    character.stars = 200
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 5)
-  }
-
-  test("A character should increase their norm if they meet the victories requirements"){
-    assertEquals(character.currentNorm, defaultNorm)
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm)
-    character.wins = 1
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 1)
-    character.wins = 3
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 2)
-    character.wins = 6
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 3)
-    character.wins = 10
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 4)
-    character.wins = 15
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 5)
-  }
-
-  test("A character cant increase their norm if it doesnt meet the requirements"){
-    assertEquals(character.currentNorm, defaultNorm)
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm)
-    character.stars = 9
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm)
-    character.stars = 29
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 1)
-    character.stars = 69
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 2)
-    character.stars = 119
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 3)
-    character.stars = 199
-    character.normCheck()
-    assertEquals(character.currentNorm, defaultNorm + 4)
   }
 
 }

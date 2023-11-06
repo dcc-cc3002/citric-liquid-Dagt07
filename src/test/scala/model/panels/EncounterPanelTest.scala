@@ -23,9 +23,7 @@ class EncounterPanelTest extends munit.FunSuite{
   private var stars = 0
   private var wins = 0
   private var currentHP = maxHp
-  private val defaultNorm = 1
-  private var currentNorm = 1
-  private var normObjective = "stars"
+
   /*
   This is the object under test.
   We initialize it in the beforeEach method so we can reuse it in all the tests.
@@ -48,12 +46,9 @@ class EncounterPanelTest extends munit.FunSuite{
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
-    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
-    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion,
-                                  wins, defaultNorm, currentNorm, normObjective)
+    player1 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player2 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
+    player3 = new PlayerCharacter(name, maxHp, attack, defense, evasion)
 
     var wildUnit: UnitTrait = new Chicken (maxHp, attack, defense, evasion)
 
@@ -123,5 +118,11 @@ class EncounterPanelTest extends munit.FunSuite{
     encounterPanel2.removePanel(otherPanel)
     assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel]())
   }
-  
+
+  test("apply method doesnt do anything") {
+    val healthPoints = player1.currentHP
+    encounterPanel.apply()
+    assertEquals(player1.currentHP, healthPoints)
+  }
+
 }
