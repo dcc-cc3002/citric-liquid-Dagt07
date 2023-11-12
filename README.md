@@ -15,7 +15,7 @@ The remainder of this README is yours to complete. Take this opportunity to desc
 contributions, the design decisions you've made, and any other information you deem necessary.
 
 ### UML Diagram
-![UML Diagram](/imagenes/UML99OrangeJuiceDiagram.png  "UML Diagram")
+![UML Diagram](/imagenes/UML99OrangeUiceDiagram.png  "UML Diagram")
 
 ### Tarea 1
 
@@ -26,11 +26,19 @@ contributions, the design decisions you've made, and any other information you d
 <hr>
 
 
-
 ### Changelog
 
 **Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
+- Version 3.6.0 EP5: Added documentation and an update for UMLDiagram
+- Version 2.5.9 CHORE norma level system changed. Splitted in various classes
+- Version 2.5.8 Refactor specific panel methods to an apply() method
+- Version 2.5.7 Refactor increaseVictories methods, inside the combat system
+- Version 2.5.6 Refactor increaseStars and decreaseStars methods, inside the combat system
+- Version 2.5.5 Added more tests for the combat system
+- Version 2.5.4 Added Double Dispatch for the combat system, and respective tests cases
+- Version 2.5.3 Added more tests for the panels
+- Version 2.5.2 Added feature, panels now can add or remove other panels from the board, and tests for this feature
 - Version 2.5.1 UML diagram of the project added to the repository
 - Version 2.5.0 Feedback taken into account, 1) refactor all the NormaClass to various classes, one for each Norma level. 2) Style refactor for packages and classes names. 3) Added WildUnit trait(interface) to the overall design of the project
 - Version 2.4.3 Moved away attacking calculus from inside the defend and evade method, to the attack method itself
