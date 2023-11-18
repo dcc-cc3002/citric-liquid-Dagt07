@@ -17,6 +17,9 @@ contributions, the design decisions you've made, and any other information you d
 ### UML Diagram
 ![UML Diagram](/imagenes/UML99OrangeUiceDiagram.png  "UML Diagram")
 
+### State Diagram
+![Diagrama de estados](/imagenes/diagrama_estados2.png)
+
 ### Tarea 1
 
 - Tarea 1 EP1: Design of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type associations and methods.
