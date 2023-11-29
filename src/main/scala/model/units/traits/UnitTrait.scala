@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.units.traits
 
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 import model.units.classes.PlayerCharacter
 
 trait UnitTrait {
@@ -34,7 +34,7 @@ trait UnitTrait {
   def increaseStars(unit: UnitTrait): Unit
   def increaseStarsPlayer(unit: PlayerCharacter): Unit
   def increaseStarsChicken(unit: Chicken): Unit
-  def increaseStarsRobo_ball(unit: Robo_ball): Unit
+  def increaseStarsRoboBall(unit: RoboBall): Unit
   def increaseStarsSeagull(unit: Seagull): Unit
 
 }

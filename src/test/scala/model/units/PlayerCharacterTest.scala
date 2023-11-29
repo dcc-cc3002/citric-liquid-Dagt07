@@ -3,7 +3,7 @@ package model.units
 
 import model.units.classes.PlayerCharacter
 import model.units.traits.UnitTrait
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 
 class PlayerCharacterTest extends munit.FunSuite {
   /*
@@ -281,7 +281,7 @@ class PlayerCharacterTest extends munit.FunSuite {
 
   test("Increase Stars method: Vs Robo_ball") {
     character.stars = 4
-    val opponent = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent = new RoboBall(maxHp, attack, defense, evasion)
     opponent.stars = 4
     assertEquals(character.stars, opponent.stars)
     character.increaseStars(opponent)
@@ -322,7 +322,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.attackMove(opponent2)
     assertEquals(character.stars, 10 + 3) //Chicken bonus = 3
     assertEquals(opponent2.stars, 0)
-    val opponent3 = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent3 = new RoboBall(maxHp, attack, defense, evasion)
     opponent3.stars = 2
     character.attackMove(opponent3)
     assertEquals(character.stars, 15 + 2)
@@ -349,7 +349,7 @@ class PlayerCharacterTest extends munit.FunSuite {
     character.attackMove(opponent2)
     assertEquals(character.stars, 10 + 3) //Chicken bonus = 3
     assertEquals(opponent2.stars, 0)
-    val opponent3 = new Robo_ball(maxHp, attack, defense, -100)
+    val opponent3 = new RoboBall(maxHp, attack, defense, -100)
     opponent3.stars = 2
     opponent.decision = "evade"
     character.attackMove(opponent3)
@@ -373,7 +373,7 @@ class PlayerCharacterTest extends munit.FunSuite {
   test("A character should increase their victories by winning a combat against a wildUnit"){
     val opponent = new Seagull(maxHp, attack, defense, evasion)
     val opponent2 = new Chicken(maxHp, attack, defense, evasion)
-    val opponent3 = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent3 = new RoboBall(maxHp, attack, defense, evasion)
     assertEquals(character.wins, 0) //initial wins
     character.attackMove(opponent)
     assertEquals(character.wins, 1)

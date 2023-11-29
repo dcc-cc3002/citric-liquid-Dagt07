@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.units.wilds
 
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 import model.units.classes.PlayerCharacter
 class Robo_ballTest extends munit.FunSuite {
   /*
@@ -22,12 +22,12 @@ class Robo_ballTest extends munit.FunSuite {
   This is a good practice because it will reset the object before each test, so you don't have
   to worry about the state of the object between tests.
   */
-  private var robo_ball: Robo_ball = _  // <- x = _ is the same as x = null
+  private var robo_ball: RoboBall = _  // <- x = _ is the same as x = null
   /* Add any other variables you need here... */
 
   // This method is executed before each `test(...)` method.
   override def beforeEach(context: BeforeEach): Unit = {
-    robo_ball = new Robo_ball(maxHp, attack, defense, evasion)
+    robo_ball = new RoboBall(maxHp, attack, defense, evasion)
   }
 
   test("A Robo_ball should have correctly set their attributes") {
@@ -66,7 +66,7 @@ class Robo_ballTest extends munit.FunSuite {
   // are always the same for the same seed.
   test("A Robo_ball should be able to roll a dice with a fixed seed") {
     val other =
-      new Robo_ball(maxHp, attack, defense, evasion)
+      new RoboBall(maxHp, attack, defense, evasion)
     for (_ <- 1 to 10) {
       assertEquals(robo_ball.rollDice(11), other.rollDice(11))
     }
@@ -84,13 +84,13 @@ class Robo_ballTest extends munit.FunSuite {
     // in this case, robo_ball attack is -1, so the maximum attack depends on the rollDice() getting a 6 ---> dmg = 6+(-1) = 5
     assert(damageToDeal == 0 || damageToDeal <= (attack + 6))
     assert(damageToDeal > ref) // it can be (0 to 5) > -1
-    val lazyRobo_ball = new Robo_ball(maxHp, -1000, defense, evasion) // a Unit with no attack
+    val lazyRobo_ball = new RoboBall(maxHp, -1000, defense, evasion) // a Unit with no attack
     val damage = lazyRobo_ball.attackCalculator(lazyRobo_ball)
     assertEquals(damage, 0) // for a negative attack, it should return damage = 0
   }
 
   test("AttackCalculator for a KO unit should return 0") {
-    val otherUnit = new Robo_ball(maxHp, attack, defense, evasion)
+    val otherUnit = new RoboBall(maxHp, attack, defense, evasion)
     otherUnit.currentHP = 0
     otherUnit.isKO = true
     val damage = otherUnit.attackCalculator(otherUnit)
@@ -99,7 +99,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("Defense method") {
     val ref = robo_ball.currentHP
-    val opponent = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent = new RoboBall(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) //we already test this method
     assertEquals(opponent.currentHP, ref)
     robo_ball.defendMove(damageToReceive,opponent)
@@ -109,7 +109,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("Defense method vs a OverPowered unit") {
     val ref = robo_ball.currentHP
-    val megaRobo_ball = new Robo_ball(maxHp, 1000, defense, evasion)
+    val megaRobo_ball = new RoboBall(maxHp, 1000, defense, evasion)
     val damageToReceive = megaRobo_ball.attackCalculator(megaRobo_ball) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
     robo_ball.defendMove(damageToReceive,megaRobo_ball)
@@ -120,7 +120,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("Evade method") {
     val ref = robo_ball.currentHP
-    val opponent = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent = new RoboBall(maxHp, attack, defense, evasion)
     val damageToReceive = opponent.attackCalculator(opponent) // Minimum damage = 1, Max damage = 5
     assertEquals(opponent.currentHP, ref)
     val damageReceived = robo_ball.evadeMove(damageToReceive,opponent)
@@ -133,7 +133,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("Evade method vs a non dangerous Unit") {
     val ref = robo_ball.currentHP
-    val lazyRobo_ball = new Robo_ball(maxHp, -1000, defense, evasion) // a Unit with no attack
+    val lazyRobo_ball = new RoboBall(maxHp, -1000, defense, evasion) // a Unit with no attack
     val damageToReceive = lazyRobo_ball.attackCalculator(lazyRobo_ball)
     assertEquals(damageToReceive, 0) // for a negative attack, it should return damage = 0
     robo_ball.evadeMove(damageToReceive,lazyRobo_ball)
@@ -143,7 +143,7 @@ class Robo_ballTest extends munit.FunSuite {
   test("Evade method vs a OverPowered unit") {
     // By the evade idea, it always take all damage or nothing, then this will have the same effect as test("Evade method")
     val ref = robo_ball.currentHP
-    val megaRobo_ball = new Robo_ball(maxHp, 1000, defense, evasion)
+    val megaRobo_ball = new RoboBall(maxHp, 1000, defense, evasion)
     val damageToReceive = megaRobo_ball.attackCalculator(megaRobo_ball) //we already test this method, could be 1001 to 1006
     assert(1000 < damageToReceive && damageToReceive <= 1006)
     val damageReceived = robo_ball.evadeMove(damageToReceive,megaRobo_ball)
@@ -155,7 +155,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("ReceiveAttack method: First test, a robo_ball not in KO state and with 'defense' tactic") {
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, attack, defense, evasion)
+    val attackingUnit = new RoboBall(maxHp, attack, defense, evasion)
     assertEquals(robo_ball.isKO, false)
     assertEquals(robo_ball.decision, "defense")
     // First, test a robo_ball not in KO state and with defense tactic
@@ -166,7 +166,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Second test, a robo_ball not in KO state and with 'evade' tactic") {
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
+    val attackingUnit = new RoboBall(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
     assertEquals(robo_ball.isKO, false)
     robo_ball.decision = "evade"
     assertEquals(robo_ball.decision, "evade")
@@ -178,7 +178,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Third test, a robo_ball in KO state with any tactic") {
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, 1, defense, evasion)
+    val attackingUnit = new RoboBall(maxHp, 1, defense, evasion)
     robo_ball.isKO = true
     assertEquals(robo_ball.isKO, true)
     val damageReceived = robo_ball.receiveAttack(attackingUnit)
@@ -188,7 +188,7 @@ class Robo_ballTest extends munit.FunSuite {
 
   test("ReceiveAttack method: Fourth test, a robo_ball with an invalid tactic") {
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
+    val attackingUnit = new RoboBall(maxHp, 1, defense, evasion) // With attack equal to 1 we can test both scenarios
     robo_ball.decision = "something"
     assertEquals(robo_ball.decision, "something")
     val damageReceived = robo_ball.receiveAttack(attackingUnit)
@@ -199,7 +199,7 @@ class Robo_ballTest extends munit.FunSuite {
   test("Attack method, with 'defense' tactic") {
     //our robo_ball will defend, his opponent will attack
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, attack, defense, evasion)
+    val attackingUnit = new RoboBall(maxHp, attack, defense, evasion)
     assertEquals(robo_ball.isKO, false)
     assertEquals(robo_ball.decision, "defense")
     val damageReceived = attackingUnit.attackMove(robo_ball)
@@ -210,7 +210,7 @@ class Robo_ballTest extends munit.FunSuite {
   test("Attack method, with 'evade' tactic") {
     //our robo_ball will defend, his opponent will attack
     val ref = robo_ball.currentHP
-    val attackingUnit = new Robo_ball(maxHp, 1, defense, evasion)
+    val attackingUnit = new RoboBall(maxHp, 1, defense, evasion)
     assertEquals(robo_ball.isKO, false)
     robo_ball.decision = "evade"
     assertEquals(robo_ball.decision, "evade")
@@ -233,7 +233,7 @@ class Robo_ballTest extends munit.FunSuite {
   test("Increase Stars method: Vs any WildUnit type should not increase stars") {
     robo_ball.stars = 4
     val opponent = new Chicken(maxHp, attack, defense, evasion)
-    val opponent2 = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent2 = new RoboBall(maxHp, attack, defense, evasion)
     val opponent3 = new Seagull(maxHp, attack, defense, evasion)
     opponent.stars = 4
     opponent2.stars = 4

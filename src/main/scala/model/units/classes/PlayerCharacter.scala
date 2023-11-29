@@ -6,7 +6,7 @@ import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
 import model.norm.classes.Norma1
 
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 
 import scala.math.{floorDiv, min}
 
@@ -111,7 +111,7 @@ class PlayerCharacter(val name: String,
   /** Increases the stars of a Robo_ball after defeating a PlayerCharacter.
    * @param unit The robo_ball who defeated the PlayerCharacter.
    */
-  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {
+  def increaseStarsRoboBall(unit: RoboBall): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
   }

@@ -4,7 +4,7 @@ package model.units.classes.wilds
 import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
 import model.units.classes.PlayerCharacter
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 
 /**
  * Class that represents the Robo_ball wild unit.
@@ -15,7 +15,7 @@ import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
  *
  * @author [[https://github.com/Dagt07/ David García T.]]
  */
-class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion) with WildUnit{
+class RoboBall(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends AbstractUnit(maxHp, attack, defense, evasion) with WildUnit{
 
   /** Double dispatch methods, related to the combat */
 
@@ -23,7 +23,7 @@ class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abs
    * @param unit The unit that defeated the Robo_ball.
    */
   def increaseStars(unit: UnitTrait): Unit = {
-    unit.increaseStarsRobo_ball(this)
+    unit.increaseStarsRoboBall(this)
   }
 
   /** Increases the stars of a player character after defeating a Robo_ball wild unit.
@@ -41,7 +41,7 @@ class Robo_ball(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abs
 
   /** No stars are increased when a Robo_ball wild unit defeats another Robo_ball wild unit (assumed to be disallowed).
    * @param unit The Robo_ball unit defeated by the Robo_ball wild unit. */
-  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {}
+  def increaseStarsRoboBall(unit: RoboBall): Unit = {}
 
   /** No stars are increased when a Robo_ball wild unit defeats a Seagull wild unit (assumed to be disallowed).
    * @param unit The Seagull unit defeated by the Robo_ball wild unit. */

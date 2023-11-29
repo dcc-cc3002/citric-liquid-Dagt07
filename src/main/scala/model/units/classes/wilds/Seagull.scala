@@ -4,7 +4,7 @@ package model.units.classes.wilds
 import model.units.traits.{UnitTrait, WildUnit}
 import model.units.abstractc.AbstractUnit
 import model.units.classes.PlayerCharacter
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 
 /**
  * Class that represents the Seagull wild unit.
@@ -42,7 +42,7 @@ class Seagull(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abstr
 
   /** No stars are increased when a Seagull wild unit defeats a Robo_ball wild unit (assumed to be disallowed).
    * @param unit The Robo_ball unit defeated by the Seagull wild unit. */
-  def increaseStarsRobo_ball(unit: Robo_ball): Unit = {}
+  def increaseStarsRoboBall(unit: RoboBall): Unit = {}
 
   /** No stars are increased when a Seagull wild unit defeats another Seagull wild unit (assumed to be disallowed).
    * @param unit The Seagull unit defeated by the Seagull wild unit. */

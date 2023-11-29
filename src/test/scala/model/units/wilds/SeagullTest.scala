@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
 package model.units.wilds
 
-import model.units.classes.wilds.{Chicken, Robo_ball, Seagull}
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 import model.units.classes.PlayerCharacter
 class SeagullTest extends munit.FunSuite {
   /*
@@ -233,7 +233,7 @@ class SeagullTest extends munit.FunSuite {
   test("Increase Stars method: Vs any WildUnit type should not increase stars") {
     seagull.stars = 4
     val opponent = new Chicken(maxHp, attack, defense, evasion)
-    val opponent2 = new Robo_ball(maxHp, attack, defense, evasion)
+    val opponent2 = new RoboBall(maxHp, attack, defense, evasion)
     val opponent3 = new Seagull(maxHp, attack, defense, evasion)
     opponent.stars = 4
     opponent2.stars = 4
