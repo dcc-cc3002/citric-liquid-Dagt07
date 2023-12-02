@@ -2,6 +2,7 @@ package cl.uchile.dcc.citric
 package model.units.abstractc
 
 import model.units.traits.UnitTrait
+import model.units.classes.wilds.{Chicken, RoboBall, Seagull}
 
 import scala.util.Random
 import scala.math.max
@@ -193,5 +194,15 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     }
     0 // returns 0 damage taken
   }
+
+  /** Methods needed for stars Double Dispatch  */
+  /* Some of them are empty because they will be override if necessary, other cases like WildUnit vs WildUnit its not allowed */
+  /** @example No stars are increased when a Chicken wild unit defeats a Seagull wild unit */
+  def increaseStarsChicken(unit: Chicken): Unit = {}
+  /** @example No stars are increased when a RoboBall wild unit defeats another RoboBall wild unit */
+  def increaseStarsRoboBall(unit: RoboBall): Unit = {}
+  /** @example No stars are increased when a Seagull wild unit defeats another Seagull wild unit */
+  def increaseStarsSeagull(unit: Seagull): Unit = {}
+
 
 }

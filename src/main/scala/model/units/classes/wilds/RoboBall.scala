@@ -35,16 +35,4 @@ class RoboBall(maxHp: Int, attack: Int, defense: Int, evasion: Int) extends Abst
     unit.increaseVictoriesVsWildUnit()
   }
 
-  /** No stars are increased when a Robo_ball wild unit defeats another wild unit (assumed to be disallowed).
-   * @param unit The Chicken unit defeated by the Robo_ball wild unit. */
-  def increaseStarsChicken(unit: Chicken): Unit = {}
-
-  /** No stars are increased when a Robo_ball wild unit defeats another Robo_ball wild unit (assumed to be disallowed).
-   * @param unit The Robo_ball unit defeated by the Robo_ball wild unit. */
-  def increaseStarsRoboBall(unit: RoboBall): Unit = {}
-
-  /** No stars are increased when a Robo_ball wild unit defeats a Seagull wild unit (assumed to be disallowed).
-   * @param unit The Seagull unit defeated by the Robo_ball wild unit. */
-  def increaseStarsSeagull(unit: Seagull): Unit = {}
-
 }

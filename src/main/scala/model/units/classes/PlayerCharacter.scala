@@ -103,7 +103,7 @@ class PlayerCharacter(val name: String,
   /** Increases the stars of a Chicken after defeating a PlayerCharacter.
    * @param unit The chicken who defeated the PlayerCharacter.
    */
-  def increaseStarsChicken(unit: Chicken): Unit = {
+  override def increaseStarsChicken(unit: Chicken): Unit = {
     unit.stars += this.stars/2 //losing as a Player vs any WildUnit will drop our stars by half
     this.stars = floorDiv(this.stars, 2)
   }
@@ -111,7 +111,7 @@ class PlayerCharacter(val name: String,
   /** Increases the stars of a Robo_ball after defeating a PlayerCharacter.
    * @param unit The robo_ball who defeated the PlayerCharacter.
    */
-  def increaseStarsRoboBall(unit: RoboBall): Unit = {
+  override def increaseStarsRoboBall(unit: RoboBall): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
   }
@@ -119,7 +119,7 @@ class PlayerCharacter(val name: String,
   /** Increases the stars of a Seagull after defeating a PlayerCharacter.
    * @param unit The seagull who defeated the PlayerCharacter.
    */
-  def increaseStarsSeagull(unit: Seagull): Unit = {
+  override def increaseStarsSeagull(unit: Seagull): Unit = {
     unit.stars += this.stars/2
     this.stars = floorDiv(this.stars, 2)
   }
