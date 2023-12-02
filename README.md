@@ -50,10 +50,10 @@ contributions, the design decisions you've made, and any other information you d
 
 **Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
-- Version 3.6.3 Readme updates 
-- Version 3.6.2 Refactor of double dispatch stars methods to a cleaner code 
-- Version 3.6.1 EP6: Added State pattern Diagram
-- Version 3.6.0 EP5: Added documentation and an update for UMLDiagram
+- Version 3.7.1 Readme updates 
+- Version 3.7.0 Refactor of double dispatch stars methods to a cleaner code 
+- Version 3.6.0 EP6: Added State pattern Diagram
+- Version 3.5.0 EP5: Added documentation and an update for UMLDiagram
 - Version 2.5.9 CHORE norma level system changed. Splitted in various classes
 - Version 2.5.8 Refactor specific panel methods to an apply() method
 - Version 2.5.7 Refactor increaseVictories methods, inside the combat system
