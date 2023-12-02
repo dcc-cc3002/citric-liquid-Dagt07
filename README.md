@@ -22,10 +22,27 @@ contributions, the design decisions you've made, and any other information you d
 
 ### Tarea 1
 
-- Tarea 1 EP1: Design of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type associations and methods.
+- Tarea 1 EP1 : Design of UML diagrams for the project sections 2.1 , 2.2 and 2.3 with the corresponding data type associations and methods.
 
-- Tarea 1 EP2: Test driven development and Implementation of the trait, abstractClass and classes necessary to build the section 2.3 _Board_. And some additional implementations for the section 2.1 _Units_ and section 2.2 _Norm_.
+- Tarea 1 EP2 : Test driven development and Implementation of the trait, abstractClass and classes necessary to build the section 2.3 _Board_. And some additional implementations for the section 2.1 _Units_ and section 2.2 _Norm_.
 
+- Tarea 1 EF : Final implementation of sections 2.1 Units, 2.2 Norm with the corresponding tests (finishing EP1 and 2). 
+
+### Tarea 2
+
+- Tarea 2 EP3 : Implementation of getters and setters for the attributes of the classes, and their corresponding tests. Added some privacy to methods and attributes.
+
+- Tarea 2 EP4 : Basic implementation of the combat system, with the corresponding tests.
+
+- Tarea 2 EF : Final implementation of the combat system using Double Dispatch pattern, with the corresponding tests (finishing EP3 and 4).
+
+### Tarea 3
+
+- Tarea 3 EP5 : Added State design pattern Diagram.
+
+- Tarea 3 EP6 : Basic implementation of the State and Controller design pattern.
+
+- Tarea 3 EF : Final implementation of the game, with a basic GUI, using the State, Controller and Observer design pattern (finishing EP5 and 6) for modelling the game flow.
 <hr>
 
 
@@ -33,6 +50,9 @@ contributions, the design decisions you've made, and any other information you d
 
 **Version i.j.k :** i: Tarea number, j: EP number, k: EP version number
 
+- Version 3.6.3 Readme updates 
+- Version 3.6.2 Refactor of double dispatch stars methods to a cleaner code 
+- Version 3.6.1 EP6: Added State pattern Diagram
 - Version 3.6.0 EP5: Added documentation and an update for UMLDiagram
 - Version 2.5.9 CHORE norma level system changed. Splitted in various classes
 - Version 2.5.8 Refactor specific panel methods to an apply() method
