@@ -7,6 +7,7 @@ class InitialState extends AbstractGameState {
 
   override def doAction(): Unit = {
     controller.promptStart()
+    // agregar set de turnos random
     controller.changeState(new ChapterState)
   }
 

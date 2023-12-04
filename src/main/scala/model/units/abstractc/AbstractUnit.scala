@@ -78,7 +78,9 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
    * @param newAmount an Int amount for update the healthPoints of the player
    * @return the new HP value of the player
    */
-  def currentHP_=(newAmount: Int): Unit = _currentHP = newAmount
+  def currentHP_=(newAmount: Int): Unit = {
+    if (newAmount>0) _currentHP = newAmount else _currentHP = 0
+  }
 
   /** Setter for stars
    * @param newAmount an Int amount for update the star count of the player
@@ -166,7 +168,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
   def defendMove(damageToReceive: Int, attackingUnit: UnitTrait): Int = {
     val damage_taken = max(1, damageToReceive - (rollDice() + defense))
     currentHP -= damage_taken
-    if (currentHP < 0) {
+    if (currentHP <= 0) {
       currentHP = 0
       isKO = true
       attackingUnit.increaseStars(this)
@@ -185,7 +187,7 @@ abstract class AbstractUnit(val CMaxHp: Int, val CAttack: Int, val CDefense: Int
     if (selfLuck <= damageToReceive){
       //case when it will take damage
       currentHP -= damageToReceive
-      if (currentHP < 0) {
+      if (currentHP <= 0) {
         isKO = true
         currentHP = 0
         attackingUnit.increaseStars(this)
