@@ -15,7 +15,6 @@ class NormaTest extends munit.FunSuite{
   private val attack = 1
   private val defense = 1
   private val evasion = 1
-  //private var randomNumberGenerator: Random = _
   /* Add any other constants you need here... */
   private var stars = 0
   private var wins = 0

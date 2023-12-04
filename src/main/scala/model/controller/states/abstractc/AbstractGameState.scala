@@ -21,7 +21,5 @@ abstract class AbstractGameState extends GameState{
     _controller = Some(cont)
   }
 
-  def error() = throw new AssertionError("Wrong State")
-
-  def doAction(): Unit = error()
+  def doAction(): Unit = throw new AssertionError("Wrong State")
 }
