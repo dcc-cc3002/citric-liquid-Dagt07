@@ -4,7 +4,7 @@ package model.panels
 import model.panels.classes.{DropPanel, EncounterPanel}
 import model.panels.traits.Panel
 import model.units.classes.PlayerCharacter
-import model.units.traits.UnitTrait
+import model.units.traits.{UnitTrait, WildUnit}
 import model.units.classes.wilds.Chicken
 
 import scala.collection.mutable.ArrayBuffer
@@ -56,7 +56,7 @@ class EncounterPanelTest extends munit.FunSuite{
     val nextPanels: ArrayBuffer[Panel] = ArrayBuffer[Panel](panel1, panel2, panel3)
 
     //Init the panel
-    encounterPanel = new EncounterPanel(characters, nextPanels, wildUnit) {
+    encounterPanel = new EncounterPanel(characters, nextPanels) {
     }
   }
 
@@ -65,6 +65,11 @@ class EncounterPanelTest extends munit.FunSuite{
     //val other_chicken = new Chicken(maxHp, attack, defense, evasion)
     assertEquals(encounterPanel.characters, ArrayBuffer[PlayerCharacter](player1, player2, player3))
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
+  }
+
+  test("An EncounterPanel should spawn a random WildUnit") {
+    encounterPanel.spawnWildUnit()
+    assert(encounterPanel.wildUnit.isInstanceOf[UnitTrait])
   }
 
   // 2. Test methods
@@ -81,7 +86,7 @@ class EncounterPanelTest extends munit.FunSuite{
 
   test("A EncounterPanel should add a panel to the list of NextPanels if necessary to build/modify the board") {
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
-    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
     encounterPanel.addPanel(panel4)
     assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3, panel4))
@@ -94,17 +99,17 @@ class EncounterPanelTest extends munit.FunSuite{
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2, panel3))
     //remove a panel that doesn't exist in the list of nextPanels of the panel itself
-    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    val panel4: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](panel1, panel2))
     encounterPanel.removePanel(panel4)
     assertEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1, panel2))
     assertNotEquals(encounterPanel.nextPanels, ArrayBuffer[Panel](panel1))
   }
 
   test("Not more than one same type panel removed") {
-    val panel5: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel](), wildUnit)
+    val panel5: Panel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
     val panel6: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
     val panel7: Panel = new DropPanel(ArrayBuffer[PlayerCharacter](player1, player2), ArrayBuffer[Panel]())
-    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2, player3), ArrayBuffer[Panel](panel5, panel6, panel7), wildUnit)
+    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1, player2, player3), ArrayBuffer[Panel](panel5, panel6, panel7))
     assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6, panel7))
     encounterPanel2.removePanel(panel7)
     assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel](panel5, panel6))
@@ -113,8 +118,8 @@ class EncounterPanelTest extends munit.FunSuite{
   test("Cant remove a panel from a isolated Panel(empty nextPanels list)") {
     //This case its included in the test above, when trying to remove a panel that doesn't exist in the list of nextPanels
     //but for a more sensitive test, its being tested
-    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](), wildUnit)
-    val otherPanel: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](panel1, panel2), wildUnit)
+    val encounterPanel2: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel]())
+    val otherPanel: EncounterPanel = new EncounterPanel(ArrayBuffer[PlayerCharacter](player1), ArrayBuffer[Panel](panel1, panel2))
     encounterPanel2.removePanel(otherPanel)
     assertEquals(encounterPanel2.nextPanels, ArrayBuffer[Panel]())
   }

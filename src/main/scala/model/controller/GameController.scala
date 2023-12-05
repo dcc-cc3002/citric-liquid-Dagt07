@@ -20,7 +20,7 @@ class GameController {
   private var _selected: Option[UnitTrait] = None
   private var _selectedPlayer: Option[PlayerCharacter] = None
   private var _target: Option[UnitTrait] = None
-  val shiftList : ArrayBuffer[Int] = ArrayBuffer.empty[Int]
+  //val shiftList : ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var chapter: Int = 1
   var turn: Int = 0
   /** ----------------------- General controller methods ----------------------- */
@@ -111,11 +111,6 @@ class GameController {
     _selectedPlayer = Some(players(turn))
   }
 
-  /** Adds a player to the game, per default there will be 4 players*/
-  def addPlayer(player: PlayerCharacter): Unit = {
-    players += player
-  }
-
   /*
   def selectAlly(id: Int) = {
     _selected = Some(allies(id))
@@ -133,6 +128,11 @@ class GameController {
     _target = Some(allies(id))
   }
   */
+
+  /** Adds a player to the game, per default there will be 4 players */
+  def addPlayer(player: PlayerCharacter): Unit = {
+    players += player
+  }
 
   /** Removes a player from the game */
   def removePlayer(player: PlayerCharacter): Unit = {

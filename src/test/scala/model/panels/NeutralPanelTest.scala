@@ -4,6 +4,7 @@ package model.panels
 import model.panels.traits.Panel
 import model.panels.classes.{DropPanel, NeutralPanel}
 import model.units.classes.PlayerCharacter
+import model.panels.Board
 
 import scala.collection.mutable.ArrayBuffer
 
