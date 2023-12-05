@@ -15,9 +15,10 @@ class GameController {
   /** ---------------------- Attributes ----------------------- */
   private var _state: GameState = _
   private var observers = ArrayBuffer.empty[Observer]
-  private val players = ArrayBuffer.empty[PlayerCharacter]
+  val players: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter]
   private var _selected: Option[UnitTrait] = None
-
+  val shiftList : ArrayBuffer[Int] = ArrayBuffer.empty[Int]
+  var chapter: Int = 1
   /** ----------------------- General controller methods ----------------------- */
 
   /** getter for state
@@ -54,7 +55,17 @@ class GameController {
   }
 
   def rollDice(): Unit = {
-    changeState(new MovingState())
+
+  }
+
+  /** Set the random turns for the available players
+   * starting from the player with the given value
+   * */
+  def setTurns(value: Int): Unit = {
+    val length: Int = players.length
+    for(i <- 0 to (length-1)){
+      shiftList += (value+i)%length
+    }
   }
 
   def selected(): UnitTrait = {
@@ -81,7 +92,7 @@ class GameController {
   }
 
   def doAttack(target: UnitTrait): Unit  = {
-    val attacker = selected()
+    val attacker = selected() //revisar si esto tiene sentido ya que en combatState se hace un selected pa quien defiende
     attacker.attackMove(target)
     notifyAttack(attacker, target)
   }
@@ -91,8 +102,9 @@ class GameController {
 
   }
 
-  def playsTurn(): Unit = {
-
+  def playsTurn(): Int = {
+    this.players(shiftList(i)).increaseStarsByRound(chapter/5 + 1) //increase stars by round, integer division
+    this.players(shiftList(i)).rollDice() //return roll dice
   }
 
   def stayAtPanel(): Unit = {
@@ -103,16 +115,19 @@ class GameController {
 
   }
 
-  def isKO(): Unit = {
-
-  }
 
   def norma6Reached(): Unit = {
 
   }
 
-  def enoughRoll(): Unit = {
-
+  def recovery(player: PlayerCharacter): Boolean = {
+    val luck = player.rollDice()
+    var necessaryToRecover = 6 - chapter
+    if (necessaryToRecover <= 0) necessaryToRecover = 0
+    if (luck >= necessaryToRecover){
+      return true //Enough luck to recover
+    }
+    false //not Enough luck to recover
   }
 
   def fightAnotherPlayer(): Unit = {
@@ -124,6 +139,10 @@ class GameController {
   }
 
   def combatEnded(): Unit = {
+
+  }
+
+  def panelEffect(): Unit = {
 
   }
 

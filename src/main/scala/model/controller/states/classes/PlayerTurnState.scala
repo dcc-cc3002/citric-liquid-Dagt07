@@ -5,5 +5,7 @@ import model.controller.states.abstractc.AbstractGameState
 
 class PlayerTurnState extends AbstractGameState{
   override def doAction(): Unit = {
+    val roll = controller.playsTurn()
+    controller.changeState(new MovingState(roll))
   }
 }
