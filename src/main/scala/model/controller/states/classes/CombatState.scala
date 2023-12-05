@@ -10,7 +10,7 @@ class CombatState extends AbstractGameState{
     /* pensar caso en que no hace nada como decia el Aux por implementación sencilla */
 
     //controller.selected() //seleccionar enemigo
-    controller.doAttack() //atacar
+    //controller.doAttack(selectedEnemy) //atacar
   }
 
 }

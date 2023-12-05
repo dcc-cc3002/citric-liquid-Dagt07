@@ -9,16 +9,20 @@ import model.units.classes.PlayerCharacter
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
+import scala.util.Random
 
 class GameController {
 
   /** ---------------------- Attributes ----------------------- */
   private var _state: GameState = _
   private var observers = ArrayBuffer.empty[Observer]
-  val players: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter]
+  var players: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter] // hacerle getter
   private var _selected: Option[UnitTrait] = None
+  private var _selectedPlayer: Option[PlayerCharacter] = None
+  private var _target: Option[UnitTrait] = None
   val shiftList : ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var chapter: Int = 1
+  var turn: Int = 0
   /** ----------------------- General controller methods ----------------------- */
 
   /** getter for state
@@ -61,25 +65,74 @@ class GameController {
   /** Set the random turns for the available players
    * starting from the player with the given value
    * */
+  /*
   def setTurns(value: Int): Unit = {
     val length: Int = players.length
     for(i <- 0 to (length-1)){
       shiftList += (value+i)%length
     }
+    selectedPlayer()
+  }
+  */
+  def setTurns(): Unit = {
+    players = Random.shuffle(players)
+    println(players)
   }
 
-  def selected(): UnitTrait = {
+  def unitSelected(): UnitTrait = {
     if (_selected.isDefined) {
       _selected.get
     } else {
+      throw new AssertionError("Unit not defined")
+    }
+  }
+
+  def playerSelected(): PlayerCharacter = {
+    if (_selectedPlayer.isDefined) {
+      _selectedPlayer.get
+    } else {
       throw new AssertionError("Player not defined")
     }
+  }
+
+  def target(): UnitTrait = {
+    if (_target.isDefined) {
+      _target.get
+    } else {
+      throw new AssertionError("Enemy not defined")
+    }
+  }
+
+  def selectUnit(u: UnitTrait): Unit = {
+    _selected = Some(u)
+  }
+
+  def selectPlayer(): Unit = {
+    _selectedPlayer = Some(players(turn))
   }
 
   /** Adds a player to the game, per default there will be 4 players*/
   def addPlayer(player: PlayerCharacter): Unit = {
     players += player
   }
+
+  /*
+  def selectAlly(id: Int) = {
+    _selected = Some(allies(id))
+  }
+
+  def selectAllyTarget(id: Int) = {
+    _target = Some(enemies(id))
+  }
+
+  def selectEnemy(id: Int) = {
+    _selected = Some(enemies(id))
+  }
+
+  def selectEnemyTarget(id: Int) = {
+    _target = Some(allies(id))
+  }
+  */
 
   /** Removes a player from the game */
   def removePlayer(player: PlayerCharacter): Unit = {
@@ -92,7 +145,7 @@ class GameController {
   }
 
   def doAttack(target: UnitTrait): Unit  = {
-    val attacker = selected() //revisar si esto tiene sentido ya que en combatState se hace un selected pa quien defiende
+    val attacker = unitSelected()
     attacker.attackMove(target)
     notifyAttack(attacker, target)
   }
@@ -103,8 +156,8 @@ class GameController {
   }
 
   def playsTurn(): Int = {
-    this.players(shiftList(i)).increaseStarsByRound(chapter/5 + 1) //increase stars by round, integer division
-    this.players(shiftList(i)).rollDice() //return roll dice
+    players(turn).increaseStarsByRound(chapter/5 + 1) //increase stars by round, integer division
+    players(turn).rollDice() //return roll dice
   }
 
   def stayAtPanel(): Unit = {

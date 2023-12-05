@@ -49,6 +49,22 @@ class GameControllerTest extends munit.FunSuite{
     assert(testController.observers.contains(observer1))
   }*/
 
+  test("Set random turns to play"){
+    println("player 1", testController.players(0))
+    println("player 2", testController.players(1))
+    println("player 3", testController.players(2))
+    println("player 4", testController.players(3))
+    testController.setTurns()
+    println("player turno 1", testController.players(0))
+    println("player turno 2", testController.players(1))
+    println("player turno 3", testController.players(2))
+    println("player turno 4", testController.players(3))
+    println("player a jugar con turno 0", testController.players(testController.turn))
+    testController.turn = 1
+    println("player a jugar con turno 0", testController.players(testController.turn))
+  }
+
+  /*
   test("set random turns to play"){
     testController.setTurns(2) //player 2 got the first turn, the rest will follow in order
     assert(testController.shiftList.length == 4)
@@ -59,6 +75,21 @@ class GameControllerTest extends munit.FunSuite{
     assert(testController.shiftList.length == 5)
     assert(testController.shiftList.containsSlice(ArrayBuffer(3,4,0,1,2)))
   }
+  */
+
+  /*
+  test("Selecting the corresponding player based on the current turn"){
+    //println("player 3, turno 0", testController.selected())
+    testController.turn = 1
+    testController.selectedPlayer()
+    //println("player de turno 1", testController.selected())
+    //println("player 5", testController.players(4))
+    testController.turn = 2
+    testController.selectedPlayer()
+    //println("player de turno 2", testController.selected())
+    //println("player 1", testController.players(0))
+  }
+  */
 
   /** Tests for the transition methods of the State Pattern */
   test("A InitialState only can change to ChapterState") {

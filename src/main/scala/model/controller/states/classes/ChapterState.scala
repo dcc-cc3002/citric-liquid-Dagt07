@@ -3,11 +3,14 @@ package model.controller.states.classes
 
 import model.controller.states.abstractc.AbstractGameState
 
-class ChapterState(val currentTurn: Int) extends AbstractGameState{
-  /* currentTurn es pa saber cuantas veces hacer playsTurn (hasta la cantidad de players)*/
-
+class ChapterState extends AbstractGameState{
 
   override def doAction(): Unit = {
+    /* si ya no hay jugadores con turno en este chapter, hacer new chapter para volver a partir */
+    if (controller.turn > controller.playersLength()-1){
+      controller.turn = 0
+      controller.chapter += 1
+    }
 
     /* ver si alguien ta con norma6 */
     if (controller.finish()) {
@@ -15,18 +18,14 @@ class ChapterState(val currentTurn: Int) extends AbstractGameState{
       controller.changeState(new GameOverState())
     }
     /*ver recovery */
-    if (player.isKO()) {
+    controller.selectPlayer()
+    if (controller.playerSelected().isKO) { /* si esta KO, hacer recovery */
       controller.changeState(new RecoveryState())
     }
-    else{ /* jugar turno, depende del recovery*/
+    else{ /* jugar turno, sino estaba KO*/
       //controller.canPlay() o controller.playsTurn()
       controller.changeState(new PlayerTurnState())
     }
 
-
-
-    //controller.players.foreach(player => player.playTurn()) sirve pero no tiene en cuenta turnos
-
-    /* si ya no hay jugadores con turno en este chapter, hacer new chapter para volver a partir */
   }
 }

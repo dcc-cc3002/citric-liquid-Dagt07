@@ -9,6 +9,6 @@ class LandingPanelState extends AbstractGameState{
 
     //se hace el efecto
     controller.panelEffect()
-    controller.changeState(new ChapterState(i))
+    controller.changeState(new ChapterState())
   }
 }

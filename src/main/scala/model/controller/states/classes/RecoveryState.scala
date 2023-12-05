@@ -7,11 +7,13 @@ import model.units.classes.PlayerCharacter
 class RecoveryState extends AbstractGameState{
 
   override def doAction(): Unit = {
-    if (controller.recovery(player: PlayerCharacter)){
+    controller.selectPlayer()
+    if (controller.recovery(controller.playerSelected())){ //Se logró recuperar
       controller.changeState(new PlayerTurnState())
     }
-    else{
-      controller.changeState(new ChapterState(i+1))
+    else{ //No se logró recuperar
+      controller.turn += 1
+      controller.changeState(new ChapterState())
     }
 
   }
