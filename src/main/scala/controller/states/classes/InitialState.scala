@@ -10,7 +10,6 @@ class InitialState extends AbstractGameState {
 
   override def doAction(): Unit = {
     controller.promptStart()
-    controller.setTurns()
     controller.changeState(new ChapterState())
   }
 

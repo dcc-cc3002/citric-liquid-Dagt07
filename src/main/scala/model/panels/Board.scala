@@ -11,17 +11,17 @@ import scala.collection.mutable.ArrayBuffer
 class Board(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Panel])
   extends AbstractPanel(characters, nextPanels) {
 
-  private val board: Array[Array[Panel]] = Array.ofDim[Panel](6, 6)
-  private val defaultNeutralPanel: Panel = new NeutralPanel(ArrayBuffer[PlayerCharacter](), ArrayBuffer[Panel]())
+  val board: Array[Array[Panel]] = Array.ofDim[Panel](6, 6)
+  val defaultNeutralPanel: Panel = new NeutralPanel(ArrayBuffer[PlayerCharacter](), ArrayBuffer[Panel]())
 
   // Función para obtener el panel en una posición específica
   def getPanelAt(x: Int, y: Int): Panel = board(x)(y)
 
   // Función para obtener el panel a la izquierda de una posición
-  def izq(x: Int, y: Int): Panel = board(x)((y - 1 + 6) % 6)
+  def prevPanel(x: Int, y: Int): Panel = board(x)(y).nextPanels(0)
 
   // Función para obtener el panel a la derecha de una posición
-  def der(x: Int, y: Int): Panel = board(x)((y + 1) % 6)
+  def followingPanel(x: Int, y: Int): Panel = board(x)(y).nextPanels(1)
 
   /** Lists of characters and nextPanels necessary for each Panel */
   val hc1: ArrayBuffer[PlayerCharacter] = ArrayBuffer[PlayerCharacter]();
@@ -149,16 +149,23 @@ class Board(characters: ArrayBuffer[PlayerCharacter], nextPanels: ArrayBuffer[Pa
   board(0)(2).nextPanels += bonusPanel4; board(0)(2).nextPanels += encounterPanel4
   board(0)(1).nextPanels += dropPanel4; board(0)(1).nextPanels += homePanel1
 
+  def getPanelSymbol(panel: Panel): String = panel match {
+    case _: HomePanel => "H "
+    case _: NeutralPanel => "N "
+    case _: BonusPanel => "B "
+    case _: DropPanel => "D "
+    case _: EncounterPanel => "E "
+  }
   def printBoard(board: Array[Array[Panel]]): Unit = {
     for (i <- 0 until 6) {
       for (j <- 0 until 6) {
-        print(board(i)(j).getClass.getSimpleName.substring(0, 2) + " ")
+        val symbol = getPanelSymbol(board(i)(j))
+        print(symbol)
       }
       println()
     }
   }
-
-  printBoard(board)
+  //printBoard(board)
 }
 
 

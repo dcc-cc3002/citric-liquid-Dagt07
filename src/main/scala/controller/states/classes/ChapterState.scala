@@ -16,6 +16,7 @@ class ChapterState extends AbstractGameState{
     if (controller.finish()) {
       //controller.promptWin()
       controller.changeState(new GameOverState())
+      return
     }
     /*ver recovery */
     controller.selectPlayer()

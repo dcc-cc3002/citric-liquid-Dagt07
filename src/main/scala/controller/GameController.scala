@@ -6,6 +6,8 @@ import controller.states.traits.GameState
 import model.units.classes.PlayerCharacter
 import model.units.traits.UnitTrait
 import controller.observers.Observer
+import model.panels.Board
+import model.panels.traits.Panel
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -14,14 +16,16 @@ class GameController {
 
   /** ---------------------- Attributes ----------------------- */
   private var _state: GameState = _
-  private var observers = ArrayBuffer.empty[Observer]
+  var observers: ArrayBuffer[Observer] = ArrayBuffer.empty[Observer]
   var players: ArrayBuffer[PlayerCharacter] = ArrayBuffer.empty[PlayerCharacter] // hacerle getter
   private var _selected: Option[UnitTrait] = None
   private var _selectedPlayer: Option[PlayerCharacter] = None
   private var _target: Option[UnitTrait] = None
-  //val shiftList : ArrayBuffer[Int] = ArrayBuffer.empty[Int]
   var chapter: Int = 1
   var turn: Int = 0
+  var board: Board = _
+  var roll: Int = _
+
   /** ----------------------- General controller methods ----------------------- */
 
   /** getter for state
@@ -54,25 +58,20 @@ class GameController {
     addPlayer(new PlayerCharacter("Player2",10,1,1,1))
     addPlayer(new PlayerCharacter("Player3",10,1,1,1))
     addPlayer(new PlayerCharacter("Player4",10,1,1,1))
+    this.setTurns()
+    board = new Board(players, ArrayBuffer.empty[Panel])
     changeState(new InitialState())
   }
 
-  def rollDice(): Unit = {
-
+  /** Uses any UnitTrait rollDice method and returns it */
+  def rollDice(u:UnitTrait): Int = {
+    selectUnit(u)
+    unitSelected().rollDice()
   }
 
   /** Set the random turns for the available players
-   * starting from the player with the given value
+   * doing a shuffle of the list of players
    * */
-  /*
-  def setTurns(value: Int): Unit = {
-    val length: Int = players.length
-    for(i <- 0 to (length-1)){
-      shiftList += (value+i)%length
-    }
-    selectedPlayer()
-  }
-  */
   def setTurns(): Unit = {
     players = Random.shuffle(players)
     println(players)
@@ -110,23 +109,19 @@ class GameController {
     _selectedPlayer = Some(players(turn))
   }
 
-  /*
-  def selectAlly(id: Int) = {
-    _selected = Some(allies(id))
+
+  def selectAllyTarget(u: UnitTrait): Unit = {
+    _target = Some(u)
   }
 
-  def selectAllyTarget(id: Int) = {
-    _target = Some(enemies(id))
+  def selectEnemy(u: UnitTrait): Unit = {
+    _selected = Some(u)
   }
 
-  def selectEnemy(id: Int) = {
-    _selected = Some(enemies(id))
+  def selectEnemyTarget(u: UnitTrait): Unit = {
+    _target = Some(u)
   }
 
-  def selectEnemyTarget(id: Int) = {
-    _target = Some(allies(id))
-  }
-  */
 
   /** Adds a player to the game, per default there will be 4 players */
   def addPlayer(player: PlayerCharacter): Unit = {
@@ -149,6 +144,8 @@ class GameController {
     notifyAttack(attacker, target)
   }
 
+  def getPanel: Panel = board.board(0)(0) //for quick testing
+
   /** ---------------------- States transition methods ----------------------- */
   def chapterState(): Unit = {
 
@@ -159,6 +156,19 @@ class GameController {
     players(turn).rollDice() //return roll dice
   }
 
+  def choosePath(dir: Int): Unit = {
+    //panel 0,0 for quick testing
+    selectPlayer()
+    if (dir == 0) { //left or previousPanel
+      board.prevPanel(0,0).characters += playerSelected() //add player to previous panel
+      board.board(0)(0).characters -= playerSelected() //remove player from current panel
+    } else { //right or followingPanel
+      board.followingPanel(0,0).characters += playerSelected() //add player to following panel
+      board.board(0)(0).characters -= playerSelected() //remove player from current panel
+    }
+  }
+
+  /*
   def stayAtPanel(): Unit = {
 
   }
@@ -171,6 +181,8 @@ class GameController {
   def norma6Reached(): Unit = {
 
   }
+  */
+
 
   def recovery(player: PlayerCharacter): Boolean = {
     val luck = player.rollDice()
@@ -182,9 +194,6 @@ class GameController {
     false //not Enough luck to recover
   }
 
-  def fightAnotherPlayer(): Unit = {
-
-  }
 
   def tryEncounterPanel(): Unit = {
 
@@ -195,7 +204,7 @@ class GameController {
   }
 
   def panelEffect(): Unit = {
-
+    getPanel.apply()
   }
 
   /** -------------------- Observer pattern methods -------------------- */
