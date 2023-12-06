@@ -1,7 +1,6 @@
 package cl.uchile.dcc.citric
-package model.controller.observers.classes
+package controller.observers
 
-import model.controller.observers.traits.Observer
 import model.units.traits.UnitTrait
 
 class InfoObserver extends Observer {

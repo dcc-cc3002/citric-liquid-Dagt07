@@ -1,17 +1,8 @@
 package cl.uchile.dcc.citric
-package model.controller
+package controller
 
-import model.controller.GameController
-import model.controller.states.traits.GameState
-import model.controller.states.classes._
-import model.controller.observers.traits.Observer
-import model.controller.observers.classes._
+import controller.states.classes._
 import model.units.classes.PlayerCharacter
-
-import com.sun.tools.javac.util.Assert
-import org.junit.Assert.assertThrows
-
-import scala.collection.mutable.ArrayBuffer
 
 class GameControllerTest extends munit.FunSuite{
 

@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model.controller.states.abstractc
+package controller.states.abstractc
 
-import model.controller.GameController
-import model.controller.states.traits.GameState
+import controller.states.traits.GameState
+import controller.GameController
 
 abstract class AbstractGameState extends GameState{
   private var _controller: Option[GameController] = None

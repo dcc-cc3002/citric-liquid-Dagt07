@@ -1,5 +1,5 @@
 package cl.uchile.dcc.citric
-package model.controller.observers.traits
+package controller.observers
 
 import model.units.traits.UnitTrait
 

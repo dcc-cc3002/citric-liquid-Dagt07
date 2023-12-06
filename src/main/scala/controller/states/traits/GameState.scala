@@ -1,7 +1,7 @@
 package cl.uchile.dcc.citric
-package model.controller.states.traits
+package controller.states.traits
 
-import model.controller.GameController
+import controller.GameController
 
 trait GameState {
   var controller: GameController

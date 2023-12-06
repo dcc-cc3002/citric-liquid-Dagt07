@@ -1,8 +1,8 @@
 package cl.uchile.dcc.citric
-package model.controller.states.classes
+package controller.states.classes
 
-import model.controller.states.abstractc.AbstractGameState
-import model.controller.GameController
+import controller.states.abstractc.AbstractGameState
+import controller.GameController
 
 import scala.util.Random
 

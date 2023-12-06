@@ -1,14 +1,13 @@
 package cl.uchile.dcc.citric
-package model.controller
+package controller
 
-import model.controller.states.traits.GameState
-import model.controller.states.classes._
-import model.controller.observers.traits.Observer
-import model.units.traits.UnitTrait
+import controller.states.classes._
+import controller.states.traits.GameState
 import model.units.classes.PlayerCharacter
+import model.units.traits.UnitTrait
+import controller.observers.Observer
 
 import scala.collection.mutable.ArrayBuffer
-import scala.io.StdIn
 import scala.util.Random
 
 class GameController {
