@@ -14,11 +14,11 @@ package exceptions
  * 2. Implement a validation method in the new case class. This method should either return the
  *    valid value or raise an exception for invalid cases.
  *
+ * @author [[https://github.com/Dagt07/ David García T.]]
  * @author [[https://github.com/danielRamirezL/ Daniel Ramírez L.]]
  * @author [[https://github.com/joelriquelme/ Joel Riquelme P.]]
  * @author [[https://github.com/r8vnhill/ Ignacio Slater M.]]
  * @author [[https://github.com/Seivier/ Vicente González B.]]
- * @author [[https://github.com/~Your github account~/ ~Your Name~]]
  */
 object Require {
 
